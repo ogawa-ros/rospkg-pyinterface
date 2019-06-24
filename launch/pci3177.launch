@@ -5,14 +5,14 @@
     <param name="~all_ch_num" value="8" />
     <param name="~ch_num_li" value="[1,2,3,4,5,6,7,8]" />
     <param name="~single_diff" value="DIFF" />
-    <param param="~ch1" value="{'ch':1,'range':'5V'}" />
-    <param param="~ch2" value="{'ch':2,'range':'5V'}" />
-    <param param="~ch3" value="{'ch':3,'range':'5V'}" />
-    <param param="~ch4" value="{'ch':4,'range':'5V'}" />
-    <param param="~ch5" value="{'ch':5,'range':'5V'}" />
-    <param param="~ch6" value="{'ch':6,'range':'5V'}" />
-    <param param="~ch7" value="{'ch':7,'range':'5V'}" />
-    <param param="~ch8" value="{'ch':8,'range':'5V'}" />
+    <param name="~ch1" value="{'ch':1,'range':'5V'}" />
+    <param name="~ch2" value="{'ch':2,'range':'5V'}" />
+    <param name="~ch3" value="{'ch':3,'range':'5V'}" />
+    <param name="~ch4" value="{'ch':4,'range':'5V'}" />
+    <param name="~ch5" value="{'ch':5,'range':'5V'}" />
+    <param name="~ch6" value="{'ch':6,'range':'5V'}" />
+    <param name="~ch7" value="{'ch':7,'range':'5V'}" />
+    <param name="~ch8" value="{'ch':8,'range':'5V'}" />
 
 
 
