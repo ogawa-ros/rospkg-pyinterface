@@ -10,7 +10,7 @@ import rospy
 from std_msgs.msg import Float64
 
 
-class pci3177(self):
+class pci3177(object):
     def __init__(self):
 
         self.ad = pyinterface.open(3177, rsw_id)
