@@ -37,7 +37,7 @@ class pci3177(self):
             ave_data_li.append(d)
         return ave_data_li
 
-    def pub_data(self)
+    def pub_data(self):
         while not rospy.is_shutdown():
             data = self.get_data()
             for i in all_ch_num:
