@@ -46,7 +46,7 @@ class pci3177(self):
 
 
 if __name__ == '__main__':
-    rospy.init_node('cpz3177')
+    rospy.init_node('pci3177')
 
     rate = rospy.get_param('~rate')
     rsw_id = rospy.get_param('~rsw_id')
