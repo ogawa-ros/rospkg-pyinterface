@@ -61,5 +61,4 @@ if __name__ == '__main__':
     for i in ch_list:
         smpl_ch_req.append(eval(i))
 
-    node_name = 'pci3177'
     ad = pci3177()
