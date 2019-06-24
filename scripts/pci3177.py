@@ -18,7 +18,7 @@ class pci3177(self):
         self.ad.set_sampling_config(smpl_ch_req=smpl_ch_req,
                                smpl_num=1000,
                                smpl_freq=100,
-                               single_diff=single_diff
+                               single_diff=single_diff,
                                trig_mode='ETERNITY'
                                )
 
