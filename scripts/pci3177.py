@@ -44,6 +44,7 @@ class pci3177(self):
                 self.pub_list[i].publish(data[i])
             continue
 
+
 if __name__ == '__main__':
     rospy.init_node('cpz3177')
 
