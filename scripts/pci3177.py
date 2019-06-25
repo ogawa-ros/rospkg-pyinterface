@@ -39,7 +39,7 @@ class pci3177(object):
     def pub_data(self):
         while not rospy.is_shutdown():
             data = self.get_data()
-            for i in all_ch_num:
+            for i in range(all_ch_num):
                 self.pub_list[i].publish(data[i])
             continue
 
