@@ -64,6 +64,7 @@ if __name__ == '__main__':
     smpl_ch_req = []
     for i in ch_list:
         smpl_ch_req.append(eval(i))
+    print(smpl_ch_req)
 
     ctrl = pci3177()
     ctrl.start_thread()
