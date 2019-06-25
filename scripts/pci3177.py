@@ -22,13 +22,13 @@ class pci3177(object):
                                )
 
         self.pub_list = [rospy.Publisher("/dev/pci3177/rsw/ch%d"%(ch), Float64, queue_size=1)
-                               for ch in all_ch_num]
+                               for ch in range(all_ch_num)]
         pass
 
     def get_data(self):
         self.ad.start_sampling('ASYNC')
         data = ad.read_sampling_buffer(ave_num, ad.get_status()['smpl_count']-ave_num)
-        data_li = [data[:][i] for i in all_ch_num]
+        data_li = [data[:][i] for i in range(all_ch_num)]
         ave_data_li = []
         for data in data_li:
             d = sum(data)/ave_num
