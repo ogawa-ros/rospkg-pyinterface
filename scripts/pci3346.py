@@ -19,7 +19,7 @@ class pci3346(object):
         topic_li = []
 
         for ch in ch_num_li:
-            rospy.Subscriber(name = "/dev/pci3346/rsw%s/ch%d"%(rsw_id,ch),
+            rospy.Subscriber(name = "/dev/pci3346/rsw%d/ch%d"%(rsw_id,ch),
                             data_class = Float64,
                             callback = self.callback,
                             callback_args = ch,
@@ -54,7 +54,7 @@ if __name__ == '__main__':
     rospy.init_node('pci3346')
     rsw_id = rospy.get_param('~rsw_id')
     all_ch_num = rospy.get_param("~all_ch_num")
-    ch_num_li = rospy.get_param("~ch_num_li")
+    ch_num_li = eval(rospy.get_param("~ch_num_li"))
     _ch_name_li = [ "~ch%s"%(i) for i in ch_num_li]
 
     ctrl = pci3346()
