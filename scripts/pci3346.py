@@ -19,7 +19,7 @@ class pci3346(object):
         topic_li = []
 
         for ch in ch_num_li:
-            rospy.Subscriber(name = "/dev/pci3346/rsw%d/ch%d"%(rsw_id,ch),
+            rospy.Subscriber(name = "/dev/pci3346/rsw%s/ch%d"%(rsw_id,ch),
                             data_class = Float64,
                             callback = self.callback,
                             callback_args = ch,
