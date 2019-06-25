@@ -24,7 +24,6 @@ class pci3177(object):
 
         self.pub_list = [rospy.Publisher("/dev/pci3177/rsw/ch", Float64, queue_size=1)
                                for ch in ch_num]
-
         pass
 
     def get_data(self):
@@ -59,7 +58,8 @@ if __name__ == '__main__':
     single_diff = rospy.get_param('~single_diff')
 
     ave_num = rospy.get_param('~ave_num')
-    ch_list = [rospy.get_param("~ch%s"%(i)) for i in ch_num_li]
+    _ch_name_li = [ "~ch%s"%(i) for i in ch_num_li]
+    ch_list = [rospy.get_param(i) for i in _ch_name_li]
 
     smpl_ch_req = []
     for i in ch_list:
