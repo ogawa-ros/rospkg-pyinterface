@@ -35,7 +35,7 @@ class pci3346(object):
         self.data_dic[arg] = q.data
         pass
 
-    def pub_vol(self):
+    def output_vol(self):
         while not rospy.is_shutdown():
             data_dic_list = list(self.data_dic)
             self.data_li = []
@@ -46,7 +46,7 @@ class pci3346(object):
             continue
 
     def start_thread(self):
-        th = threading.Thread(target=self.output_voltage)
+        th = threading.Thread(target=self.output_vol)
         th.setDaemon(True)
         th.start()
 
