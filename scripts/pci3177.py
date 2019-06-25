@@ -64,6 +64,6 @@ if __name__ == '__main__':
     for i in ch_list:
         smpl_ch_req.append(eval(i))
 
-    ad = pci3177()
-    ad.start_thread()
+    ctrl = pci3177()
+    ctrl.start_thread()
     rospy.spin()
