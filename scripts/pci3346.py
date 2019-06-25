@@ -36,7 +36,7 @@ class pci3346(object):
         pass
 
     def pub_vol(self):
-        while not rospy
+        while not rospy.is_shutdown():
             data_dic_list = list(self.data_dic)
             self.data_li = []
             for tp in data_dic_list:
