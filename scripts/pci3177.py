@@ -20,16 +20,17 @@ class pci3177(object):
                                single_diff=single_diff,
                                trig_mode='ETERNITY'
                                )
-
+        self.ad.start_sampling('ASYNC')
+        time.sleep(5)
         self.pub_list = [rospy.Publisher("/dev/pci3177/rsw%d/ch%d"%(rsw_id,ch), Float64, queue_size=1)
                                for ch in range(1,all_ch_num+1)]
         pass
 
     def get_data(self):
-        self.ad.start_sampling('ASYNC')
         offset = self.ad.get_status()['smpl_count']-ave_num
         data = self.ad.read_sampling_buffer(ave_num, offset)
         print(len(data))
+        print(data)
         print(len(data[3]))
         data_li = [data[:][i] for i in range(all_ch_num)]
         ave_data_li = []
