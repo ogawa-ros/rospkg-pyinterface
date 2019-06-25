@@ -14,8 +14,8 @@ from std_msgs.msg import Float64
 class pci3346(object):
 
     def __init__(self):
-        da = pyinterface.open(3346,rsw_id)
-        da.initialize()
+        self.da = pyinterface.open(3346,rsw_id)
+        self.da.initialize()
         topic_li = []
 
         for ch in ch_num_li:
