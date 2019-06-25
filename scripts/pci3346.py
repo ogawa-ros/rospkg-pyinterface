@@ -17,15 +17,22 @@ class pci3346(object):
         da = pyinterface.open(3346,rsw_id)
         da.initialize()
         topic_li = []
-        for tp in topic_li:
-            rospy.Subscriber(tp,Float64,self.callback) callback_args=
 
+        for ch in ch_num_li:
+            rospy.Subscriber(name = "/dev/pci3346/rsw%d/ch%d"%(rsw_id,ch)",
+                            data_class = Float64,
+                            callback = self.callback,
+                            callback_args = ch,
+                            queue_size = 1
+                            )
+
+        self.ch_list = [eval(rospy.get_param(i)) for i in _ch_name_li]
         self.data_li = []
         self.data_dic = {}
         pass
 
-    def callback(self,q,args):
-        self.data_dic[args] = q.data
+    def callback(self,q,arg):
+        self.data_dic[arg] = q.data
         pass
 
     da.output_da([{'ch_no': 1, 'range': '5V'},
@@ -35,10 +42,12 @@ class pci3346(object):
                  	[1, 1, 1,1])
 
 
-
     def pub_vol(self):
         while not rospy
-            for data in data_dic:
+            data_dic_list = list(self.data_dic)
+            self.data_li = []
+            for tp in data_dic_list:
+                data = self.data_dic[tp]
                 self.data_li.append(data)
             self.da.output_da(self.ch_list, self.data_li)
             continue
@@ -50,13 +59,10 @@ class pci3346(object):
 
 if __name__ == '__main__':
     rospy.init_node('pci3346')
-    rospy.get_param("all_ch_num")
-    rospy.get_param("ch_num_li")
+    all_ch_num = rospy.get_param("all_ch_num")
+    ch_num_li = rospy.get_param("ch_num_li")
+    _ch_name_li = [ "~ch%s"%(i) for i in ch_num_li]
 
     ctrl = pci3346()
-
-    _ch_name_li = [ "~ch%s"%(i) for i in ch_num_li]
-    ch_list = [eval(rospy.get_param(i)) for i in _ch_name_li]
-
     ctrl.start_thread()
     rospy.spin()
