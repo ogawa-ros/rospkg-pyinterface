@@ -27,7 +27,7 @@ class pci3177(object):
         pass
 
     def get_data(self):
-        offset = self.ad.get_status()['smpl_count']-ave_num
+        offset = self.ad.get_status()['smpl_count']
         data = self.ad.read_sampling_buffer(ave_num, offset)
         print(len(data))
         print(data)
