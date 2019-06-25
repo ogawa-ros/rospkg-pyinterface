@@ -59,7 +59,7 @@ if __name__ == '__main__':
 
     ave_num = rospy.get_param('~ave_num')
     _ch_name_li = [ "~ch%s"%(i) for i in ch_num_li]
-    ch_list = [eval(rospy.get_param(i)) for i in _ch_name_li]
+    ch_list = [rospy.get_param(i) for i in _ch_name_li]
 
     smpl_ch_req = []
     for i in ch_list:
