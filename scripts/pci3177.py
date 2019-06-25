@@ -29,6 +29,8 @@ class pci3177(object):
         self.ad.start_sampling('ASYNC')
         offset = self.ad.get_status()['smpl_count']-ave_num
         data = self.ad.read_sampling_buffer(ave_num, offset)
+        print(len(data))
+        print(len(data[3]))
         data_li = [data[:][i] for i in range(all_ch_num)]
         ave_data_li = []
         for data in data_li:
@@ -64,7 +66,7 @@ if __name__ == '__main__':
     smpl_ch_req = []
     for i in ch_list:
         smpl_ch_req.append(eval(i))
-    print(smpl_ch_req)
+    #print(smpl_ch_req)
 
     ctrl = pci3177()
     ctrl.start_thread()
