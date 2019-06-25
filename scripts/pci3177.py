@@ -54,7 +54,7 @@ if __name__ == '__main__':
     rate = rospy.get_param('~rate')
     rsw_id = rospy.get_param('~rsw_id')
     all_ch_num = rospy.get_param('~all_ch_num')
-    ch_num_li = rospy.get_param('~ch_num_li')
+    ch_num_li = eval(rospy.get_param('~ch_num_li'))
     single_diff = rospy.get_param('~single_diff')
 
     ave_num = rospy.get_param('~ave_num')
