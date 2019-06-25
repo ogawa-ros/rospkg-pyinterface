@@ -44,6 +44,10 @@ class pci3177(object):
                 self.pub_list[i].publish(data[i])
             continue
 
+    def start_thread(self):
+        th = threading.Thread(target=self.pub_data)
+        th.setDaemon(True)
+        th.start()
 
 if __name__ == '__main__':
     rospy.init_node('pci3177')
@@ -62,3 +66,5 @@ if __name__ == '__main__':
         smpl_ch_req.append(eval(i))
 
     ad = pci3177()
+    ad.start_thread()
+    rospy.spin()
