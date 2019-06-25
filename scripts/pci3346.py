@@ -52,6 +52,7 @@ class pci3346(object):
 
 if __name__ == '__main__':
     rospy.init_node('pci3346')
+    rsw_id = rospy.get_param('~rsw_id')
     all_ch_num = rospy.get_param("~all_ch_num")
     ch_num_li = rospy.get_param("~ch_num_li")
     _ch_name_li = [ "~ch%s"%(i) for i in ch_num_li]
