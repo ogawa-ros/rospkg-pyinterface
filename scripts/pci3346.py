@@ -19,7 +19,7 @@ class pci3346(object):
         topic_li = []
 
         for ch in ch_num_li:
-            rospy.Subscriber(name = "/dev/pci3346/rsw%d/ch%d"%(rsw_id,ch)",
+            rospy.Subscriber(name = "/dev/pci3346/rsw%d/ch%d"%(rsw_id,ch),
                             data_class = Float64,
                             callback = self.callback,
                             callback_args = ch,
@@ -34,13 +34,6 @@ class pci3346(object):
     def callback(self,q,arg):
         self.data_dic[arg] = q.data
         pass
-
-    da.output_da([{'ch_no': 1, 'range': '5V'},
-                  	{'ch_no': 2, 'range': '5V'},
-                  	{'ch_no': 3, 'range': '5V'},
-                  	{'ch_no': 4, 'range': '5V'}],
-                 	[1, 1, 1,1])
-
 
     def pub_vol(self):
         while not rospy
