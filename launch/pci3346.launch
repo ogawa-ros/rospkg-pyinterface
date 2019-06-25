@@ -1,0 +1,15 @@
+<launch>
+  <node pkg="rospkg-pyinterface" name="pci3346" type="pci3346.py" required="true" output="screen">
+    <param name="~rate" value="0.1" />
+    <param name="~rsw_id" value="0" />
+
+    <param name="~ch1" value="{'ch_no':1,'range':'5V'}" />
+    <param name="~ch2" value="{'ch_no':2,'range':'5V'}" />
+    <param name="~ch3" value="{'ch_no':3,'range':'5V'}" />
+    <param name="~ch4" value="{'ch_no':4,'range':'5V'}" />
+    <param name="~ch5" value="{'ch_no':5,'range':'5V'}" />
+    <param name="~ch6" value="{'ch_no':6,'range':'5V'}" />
+    <param name="~ch7" value="{'ch_no':7,'range':'5V'}" />
+    <param name="~ch8" value="{'ch_no':8,'range':'5V'}" />
+  </node>
+</launch>
