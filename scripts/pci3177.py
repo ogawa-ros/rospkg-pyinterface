@@ -27,7 +27,8 @@ class pci3177(object):
 
     def get_data(self):
         self.ad.start_sampling('ASYNC')
-        data = self.ad.read_sampling_buffer(ave_num, self.ad.get_status()['smpl_count']-ave_num)
+        offset = self.ad.get_status()['smpl_count']-ave_num
+        data = self.ad.read_sampling_buffer(ave_num, offset)
         data_li = [data[:][i] for i in range(all_ch_num)]
         ave_data_li = []
         for data in data_li:
