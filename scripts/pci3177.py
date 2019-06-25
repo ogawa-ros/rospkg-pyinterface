@@ -21,8 +21,8 @@ class pci3177(object):
                                trig_mode='ETERNITY'
                                )
 
-        self.pub_list = [rospy.Publisher("/dev/pci3177/rsw/ch", Float64, queue_size=1)
-                               for ch in ch_num]
+        self.pub_list = [rospy.Publisher("/dev/pci3177/rsw/ch%d"%(ch), Float64, queue_size=1)
+                               for ch in all_ch_num]
         pass
 
     def get_data(self):
