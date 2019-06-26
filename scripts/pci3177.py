@@ -12,20 +12,22 @@ from std_msgs.msg import Float64
 class pci3177(object):
     def __init__(self):
 
+        self.pub_rate = rospy.get_param("~pub_rate")
+        self.ave_num = rospy.get_param('~ave_num')
+        self.smpl_freq = rospy.get_param("~smpl_freq")
+
         self.ad = pyinterface.open(3177, rsw_id)
         self.ad.initialize()
         self.ad.set_sampling_config(smpl_ch_req=smpl_ch_req,
                                smpl_num=1000,
-                               smpl_freq=smpl_freq,
+                               smpl_freq=self.smpl_freq,
                                single_diff=single_diff,
                                trig_mode='ETERNITY'
                                )
         self.ad.start_sampling('ASYNC')
         self.pub_list = [rospy.Publisher("/dev/pci3177/rsw%d/ch%d"%(rsw_id,ch), Float64, queue_size=1)
                                for ch in range(1,all_ch_num+1)]
-        self.pub_rate = rospy.get_param("~pub_rate")
-        self.ave_num = rospy.get_param('~ave_num')
-        self.smpl_freq = rospy.get_param("~smpl_freq")
+
         rospy.Subscriber("/dev/pci3177/rsw%d/pub_rate"%(rsw_id),Float64, self.pub_rate_set)
         pass
 
