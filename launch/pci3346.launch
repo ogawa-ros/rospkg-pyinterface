@@ -12,6 +12,7 @@
     <param name="~ch6" value="{'ch_no':6,'range':'5V'}" />
     <param name="~ch7" value="{'ch_no':7,'range':'5V'}" />
     <param name="~ch8" value="{'ch_no':8,'range':'5V'}" />
+    <!--
     <param name="~ch9" value="{'ch_no':9,'range':'5V'}" />
     <param name="~ch10" value="{'ch_no':10,'range':'5V'}" />
     <param name="~ch11" value="{'ch_no':11,'range':'5V'}" />
@@ -20,5 +21,6 @@
     <param name="~ch14" value="{'ch_no':14,'range':'5V'}" />
     <param name="~ch15" value="{'ch_no':15,'range':'5V'}" />
     <param name="~ch16" value="{'ch_no':16,'range':'5V'}" />
+    -->
   </node>
 </launch>
