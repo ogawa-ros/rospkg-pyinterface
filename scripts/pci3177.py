@@ -23,6 +23,7 @@ class pci3177(object):
         self.ad.start_sampling('ASYNC')
         self.pub_list = [rospy.Publisher("/dev/pci3177/rsw%d/ch%d"%(rsw_id,ch), Float64, queue_size=1)
                                for ch in range(1,all_ch_num+1)]
+        self.pub_rate = rospy.Subsciber("/dev/pci3177/rsw%d/pub_rate"%(rsw/id),Float64, self.pub_rate)
         pass
 
     def get_data(self):
@@ -37,11 +38,14 @@ class pci3177(object):
 
     def pub_data(self):
         while not rospy.is_shutdown():
-            time.sleep(pub_rate)
+            time.sleep(self.pub_rate)
             data = self.get_data()
             for i in range(all_ch_num):
                 self.pub_list[i].publish(data[i])
             continue
+
+    def pub_rate(self,q):
+        self.pub_rate = q.data
 
     def start_thread(self):
         th = threading.Thread(target=self.pub_data)
