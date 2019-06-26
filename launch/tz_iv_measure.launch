@@ -1,0 +1,7 @@
+<launch>
+  <node pkg="rospkg-pyinterface" name="iv_measure" type="tz_iv_measure.py" required="true" output="screen">
+
+    <param name="~rate" value="0.001" />
+
+  </node>
+</launch>
