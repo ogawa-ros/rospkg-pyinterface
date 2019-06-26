@@ -48,7 +48,7 @@ class pci3177(object):
 
     def pub_rate_set(self,q):
         self.pub_rate = q.data
-        self.ave_num = smpl_freq*self.pub_rate
+        self.ave_num = int(smpl_freq*self.pub_rate)
 
     def start_thread(self):
         th = threading.Thread(target=self.pub_data)
