@@ -58,7 +58,7 @@ if __name__ == "__main__" :
     last_vgap = int(input("finish_vgap = ? [mV]"))
     interval_vgap = float(input("interval_voltage = ? [mV]"))
 
-    repeat = int((lastv-initv)/interval)
+    #repeat = int((lastv-initv)/interval)
     repeat_vgap = int((last_vgap-init_vgap)/interval_vgap)
     sys.exit(iv.measure2(initv_vgap,interval_vgap,repeat_vgap))
 
