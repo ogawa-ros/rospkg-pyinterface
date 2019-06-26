@@ -23,7 +23,7 @@ class pci3177(object):
         self.ad.start_sampling('ASYNC')
         self.pub_list = [rospy.Publisher("/dev/pci3177/rsw%d/ch%d"%(rsw_id,ch), Float64, queue_size=1)
                                for ch in range(1,all_ch_num+1)]
-        self.pub_rate = rospy.Subsciber("/dev/pci3177/rsw%d/pub_rate"%(rsw/id),Float64, self.pub_rate)
+        self.pub_rate = rospy.Subscriber("/dev/pci3177/rsw%d/pub_rate"%(rsw/id),Float64, self.pub_rate)
         pass
 
     def get_data(self):
