@@ -48,7 +48,6 @@ class sis_iv(object):
 
 if __name__ == "__main__" :
     rospy.init_node("iv_measure")
-    reader = tz_reader.reader()
     iv = sis_iv()
     """
     initv = int(input("start_voltage = ? [mV]"))
