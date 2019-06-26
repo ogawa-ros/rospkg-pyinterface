@@ -21,7 +21,6 @@ class pci3177(object):
                                trig_mode='ETERNITY'
                                )
         self.ad.start_sampling('ASYNC')
-        time.sleep(5)
         self.pub_list = [rospy.Publisher("/dev/pci3177/rsw%d/ch%d"%(rsw_id,ch), Float64, queue_size=1)
                                for ch in range(1,all_ch_num+1)]
         pass
@@ -38,6 +37,7 @@ class pci3177(object):
 
     def pub_data(self):
         while not rospy.is_shutdown():
+            time.sleep(pub_rate)
             data = self.get_data()
             for i in range(all_ch_num):
                 self.pub_list[i].publish(data[i])
@@ -56,6 +56,7 @@ if __name__ == '__main__':
     all_ch_num = rospy.get_param('~all_ch_num')
     ch_num_li = eval(rospy.get_param('~ch_num_li'))
     single_diff = rospy.get_param('~single_diff')
+    pub_rate = rospy.get_param("~pub_rate")
 
     ave_num = rospy.get_param('~ave_num')
     _ch_name_li = [ "~ch%s"%(i) for i in ch_num_li]
