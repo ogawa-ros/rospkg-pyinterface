@@ -60,7 +60,7 @@ if __name__ == "__main__" :
 
     #repeat = int((lastv-initv)/interval)
     repeat_vgap = int((last_vgap-init_vgap)/interval_vgap)
-    sys.exit(iv.measure2(initv_vgap,interval_vgap,repeat_vgap))
+    sys.exit(iv.measure2(init_vgap,interval_vgap,repeat_vgap))
 
 #20181204
 #change for tz
