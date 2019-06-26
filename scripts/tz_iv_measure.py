@@ -55,9 +55,9 @@ if __name__ == "__main__" :
     lastv = int(input("finish_voltage = ? [mV]"))
     interval = float(input("interval_voltage = ? [mV]"))
     """
-    init_vgap = float(input("start_vgap = ? [mV]"))
-    last_vgap = float(input("finish_vgap = ? [mV]"))
-    interval_vgap = float(input("interval_voltage = ? [mV]"))
+    init_vgap = float(input("start_Vgap = ? [Vgap]"))
+    last_vgap = float(input("finish_Vgap = ? [Vgap]"))
+    interval_vgap = float(input("interval_Vgap = ? [Vgap]"))
 
     #repeat = int((lastv-initv)/interval)
     repeat_vgap = int(abs((last_vgap-init_vgap)/interval_vgap))
