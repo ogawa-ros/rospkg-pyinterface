@@ -25,6 +25,7 @@ class pci3177(object):
                                for ch in range(1,all_ch_num+1)]
         self.pub_rate = rospy.get_param("~pub_rate")
         self.ave_num = rospy.get_param('~ave_num')
+        self.smpl_freq = rospy.get_param("~smpl_freq")
         rospy.Subscriber("/dev/pci3177/rsw%d/pub_rate"%(rsw_id),Float64, self.pub_rate_set)
         pass
 
@@ -48,7 +49,7 @@ class pci3177(object):
 
     def pub_rate_set(self,q):
         self.pub_rate = q.data
-        self.ave_num = int(smpl_freq*self.pub_rate)
+        self.ave_num = int(self.smpl_freq * self.pub_rate)
 
     def start_thread(self):
         th = threading.Thread(target=self.pub_data)
@@ -63,7 +64,7 @@ if __name__ == '__main__':
     all_ch_num = rospy.get_param('~all_ch_num')
     ch_num_li = eval(rospy.get_param('~ch_num_li'))
     single_diff = rospy.get_param('~single_diff')
-    smpl_freq = rospy.get_param("~smpl_freq")
+
 
     _ch_name_li = [ "~ch%s"%(i) for i in ch_num_li]
     ch_list = [rospy.get_param(i) for i in _ch_name_li]
