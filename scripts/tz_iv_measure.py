@@ -10,8 +10,8 @@ from std_msgs.msg import Int32
 class sis_iv(object):
     def __init__(self):
 
-        #self.pub_vol_ch_all = rospy.Publisher("/necst/rx_sis2sb/vgap_cmd", Float64, queue_size=1)
-        self.pub_vol_ch_all = rospy.Publisher("/tz2019/sis_v1/vgap_cmd", Float64, queue_size=1)
+        self.pub_vol_ch_all = rospy.Publisher("/necst/rx_sis2sb/vgap_cmd", Float64, queue_size=1)
+        self.pub_vol_ch = rospy.Publisher("/tz2019/sis_v1/vgap_cmd", Float64, queue_size=1)
 
         #self.pub_path = rospy.Publisher("/logger_path", String, queue_size=1)
         #self.pub_rate = rospy.Publisher("/dev/pci3177/rsw0/pub_rate", Float64, queue_size=1)
@@ -20,16 +20,17 @@ class sis_iv(object):
     def measure(self, initv, interval, repeat):
         #self.pub_rate.publish(0.1)
         #self.pub_path.publish("/home/exito/data/logger/test/20190627/%s"%(save_name))
+        elf.pub_vol_ch_all.publish(0)
         da_all = []
-        self.pub_vol_ch_all.publish(initv)
+        self.pub_vol_ch.publish(initv)
         time.sleep(0.3)
         for i in range(repeat+1):
-            time.sleep(1)
+            time.sleep(0.5)
             da = []
             vol = initv+interval*i
             msg = Float64()
             msg.data = vol
-            self.pub_vol_ch_all.publish(msg)
+            self.pub_vol_ch.publish(msg)
         #self.pub_path.publish("''")
 
 
