@@ -1,6 +1,5 @@
 #! /usr/bin/env python3
 
-
 import sys
 import time
 import pyinterface
@@ -18,6 +17,7 @@ class pci3177(object):
 
         self.ad = pyinterface.open(3177, rsw_id)
         self.ad.initialize()
+        self.ad.stop_sampling()
         self.ad.set_sampling_config(smpl_ch_req=smpl_ch_req,
                                smpl_num=1000,
                                smpl_freq=self.smpl_freq,
@@ -74,7 +74,6 @@ if __name__ == '__main__':
     smpl_ch_req = []
     for i in ch_list:
         smpl_ch_req.append(eval(i))
-    #print(smpl_ch_req)
 
     ctrl = pci3177()
     ctrl.start_thread()
