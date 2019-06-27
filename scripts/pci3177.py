@@ -37,7 +37,7 @@ class pci3177(object):
         data_li_2 = []
         for i in range(all_ch_num):
             data_li = []
-            for k in range(ave_num):
+            for k in range(self.ave_num):
                 data_li.append(data[k][i])
             data_li_2.append(data_li)
 
