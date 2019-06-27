@@ -20,7 +20,7 @@ class sis_iv(object):
     def measure(self, initv, interval, repeat):
         #self.pub_rate.publish(0.1)
         #self.pub_path.publish("/home/exito/data/logger/test/20190627/%s"%(save_name))
-        elf.pub_vol_ch_all.publish(0)
+        self.pub_vol_ch_all.publish(0)
         da_all = []
         self.pub_vol_ch.publish(initv)
         time.sleep(0.3)
