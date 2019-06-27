@@ -11,33 +11,26 @@ class sis_iv(object):
     def __init__(self):
 
         self.pub_vol_ch_all = rospy.Publisher("/necst/rx_sis2sb/vgap_cmd", Float64, queue_size=1)
-        self.pub_vol_ch = rospy.Publisher("/tz2019/sis_v1/vgap_cmd", Float64, queue_size=1)
+        #self.pub_vol_ch_all = rospy.Publisher("/tz2019/sis_v1/vgap_cmd", Float64, queue_size=1)
 
-        self.pub_path = rospy.Publisher("/logger_path", String, queue_size=1)
-        self.pub_rate = rospy.Publisher("/dev/pci3177/rsw0/pub_rate", Float64, queue_size=1)
+        #self.pub_path = rospy.Publisher("/logger_path", String, queue_size=1)
+        #self.pub_rate = rospy.Publisher("/dev/pci3177/rsw0/pub_rate", Float64, queue_size=1)
 
 
     def measure(self, initv, interval, repeat):
-        path = String()
-        path.data = "/home/exito/data/logger/test/20190627/%s"%(save_name)
-        rate = Float64()
-        rate.data = 0.1
-        self.pub_rate.publish(rate)
-        self.pub_path.publish(path)
-        all = Float64()
-        all.data = 0
-        self.pub_vol_ch_all.publish(all)
+        #self.pub_rate.publish(0.1)
+        #self.pub_path.publish("/home/exito/data/logger/test/20190627/%s"%(save_name))
         da_all = []
-        self.pub_vol_ch.publish(initv)
+        self.pub_vol_ch_all.publish(initv)
         time.sleep(0.3)
         for i in range(repeat+1):
-            time.sleep(0.5)
+            time.sleep(1)
             da = []
             vol = initv+interval*i
             msg = Float64()
             msg.data = vol
-            self.pub_vol_ch.publish(msg)
-        self.pub_path.publish("")
+            self.pub_vol_ch_all.publish(msg)
+        #self.pub_path.publish("''")
 
 
 
