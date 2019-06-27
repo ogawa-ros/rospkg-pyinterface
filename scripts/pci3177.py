@@ -30,7 +30,7 @@ class pci3177(object):
 
         rospy.Subscriber("/dev/pci3177/rsw%d/pub_rate"%(rsw_id),Float64, self.pub_rate_set)
         pass
-"""
+        """
     def get_data(self):
         offset = self.ad.get_status()['smpl_count']-self.ave_num
         data = self.ad.read_sampling_buffer(self.ave_num, offset)
@@ -40,7 +40,7 @@ class pci3177(object):
             d = sum(data)/self.ave_num
             ave_data_li.append(d)
         return ave_data_li
-"""
+    """
     def get_data(self):
         offset = self.ad.get_status()['smpl_count']-self.ave_num
         data = self.ad.read_sampling_buffer(self.ave_num, offset)
@@ -50,7 +50,7 @@ class pci3177(object):
             d = sum(data_li[i])/self.ave_num
             ave_data_dic["ch%d"%(i)] = d
         return ave_data_dic
-"""
+    """
     def pub_data(self):
         while not rospy.is_shutdown():
             time.sleep(self.pub_rate)
@@ -58,7 +58,7 @@ class pci3177(object):
             for i in range(all_ch_num):
                 self.pub_list[i].publish(data["ch%d"%(i)])
             continue
-"""
+    """
     def pub_data(self):
         while not rospy.is_shutdown():
             time.sleep(self.pub_rate)
