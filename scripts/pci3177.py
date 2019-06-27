@@ -35,9 +35,9 @@ class pci3177(object):
         offset = self.ad.get_status()['smpl_count']-self.ave_num
         data = self.ad.read_sampling_buffer(self.ave_num, offset)
         data_li_2 = []
-        for i in range(all_ch_num)
+        for i in range(all_ch_num):
             data_li = []
-            for k in range(ave_num)
+            for k in range(ave_num):
                 data_li.append(data[k][i])
             data_li_2.append(data_li)
 
