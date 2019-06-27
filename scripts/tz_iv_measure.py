@@ -13,15 +13,20 @@ class sis_iv(object):
         self.pub_vol_ch_all = rospy.Publisher("/necst/rx_sis2sb/vgap_cmd", Float64, queue_size=1)
         self.pub_vol_ch = rospy.Publisher("/tz2019/sis_v1/vgap_cmd", Float64, queue_size=1)
 
-        #self.pub_path = rospy.Publisher("/logger_path", String, queue_size=1)
-        #self.pub_rate = rospy.Publisher("/dev/pci3177/rsw0/pub_rate", Float64, queue_size=1)
+        self.pub_path = rospy.Publisher("/logger_path", String, queue_size=1)
+        self.pub_rate = rospy.Publisher("/dev/pci3177/rsw0/pub_rate", Float64, queue_size=1)
 
 
     def measure(self, initv, interval, repeat):
-        #self.pub_rate.publish(0.1)
-        #self.pub_path.publish("/home/exito/data/logger/test/20190627/%s"%(save_name))
-        data = 0
-        self.pub_vol_ch_all.publish(data)
+        path = String()
+        path.data = "/home/exito/data/logger/test/20190627/%s"%(save_name)
+        rate = Float64()
+        rate.data = 0
+        self.pub_rate.publish(rate)
+        self.pub_path.publish(path)
+        msg2 = Float64()
+        msg2.data = 0
+        self.pub_vol_ch_all.publish(msg2)
         da_all = []
         self.pub_vol_ch.publish(initv)
         time.sleep(0.3)
