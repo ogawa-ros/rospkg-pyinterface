@@ -33,7 +33,7 @@ class sis_iv(object):
 
 if __name__ == "__main__" :
     rospy.init_node("iv_measure")
-    iv = sis_iv()
+
     """
     initv = int(input("start_voltage = ? [mV]"))
     lastv = int(input("finish_voltage = ? [mV]"))
@@ -43,7 +43,7 @@ if __name__ == "__main__" :
     last_vgap = float(input("finish_Vgap = ? [Vgap]"))
     interval_vgap = float(input("interval_Vgap = ? [Vgap]"))
     save_name = str(input("savename = ? "))
-
+    iv = sis_iv()
     #repeat = int((lastv-initv)/interval)
     repeat_vgap = int(abs((last_vgap-init_vgap)/interval_vgap))
     sys.exit(iv.measure(init_vgap,interval_vgap,repeat_vgap))
