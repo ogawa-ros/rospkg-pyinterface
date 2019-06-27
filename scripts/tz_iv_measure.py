@@ -10,7 +10,9 @@ from std_msgs.msg import Int32
 class sis_iv(object):
     def __init__(self):
 
-        self.pub_vol_ch_all = rospy.Publisher("/necst/rx_sis2sb/vgap_cmd", Float64, queue_size=1)
+        #self.pub_vol_ch_all = rospy.Publisher("/necst/rx_sis2sb/vgap_cmd", Float64, queue_size=1)
+        self.pub_vol_ch_all = rospy.Publisher("/tz2019/sis_v1/vgap_cmd", Float64, queue_size=1)
+
         #self.pub_path = rospy.Publisher("/logger_path", String, queue_size=1)
         #self.pub_rate = rospy.Publisher("/dev/pci3177/rsw0/pub_rate", Float64, queue_size=1)
 
