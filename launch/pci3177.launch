@@ -9,7 +9,7 @@
     <param name="~ch_num_li" value="[1]" />
     <param name="~single_diff" value="DIFF" />
     <param name="~ch1" value="{'ch_no':1,'range':'5V'}" />
-<!--
+
     <param name="~ch2" value="{'ch_no':2,'range':'5V'}" />
     <param name="~ch3" value="{'ch_no':3,'range':'5V'}" />
     <param name="~ch4" value="{'ch_no':4,'range':'5V'}" />
@@ -17,7 +17,7 @@
     <param name="~ch6" value="{'ch_no':6,'range':'5V'}" />
     <param name="~ch7" value="{'ch_no':7,'range':'5V'}" />
     <param name="~ch8" value="{'ch_no':8,'range':'5V'}" />
--->
+
 
 
   </node>
