@@ -30,7 +30,7 @@ class sis_iv(object):
             msg = Float64()
             msg.data = vol
             self.pub_vol_ch_all.publish(msg)
-        #self.pub_path.publish("''")
+        #self.pub_path.publish("")
 
 
 
