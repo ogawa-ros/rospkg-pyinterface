@@ -50,7 +50,7 @@ class pci3177(object):
             d = sum(data_li[i])/self.ave_num
             ave_data_dic["ch%d"%(i)] = d
         return ave_data_dic
-    """
+
     def pub_data(self):
         while not rospy.is_shutdown():
             time.sleep(self.pub_rate)
@@ -66,6 +66,7 @@ class pci3177(object):
             for i in range(all_ch_num):
                 self.pub_list[i].publish(data[i])
             continue
+    """
 
     def pub_rate_set(self,q):
         self.pub_rate = q.data
