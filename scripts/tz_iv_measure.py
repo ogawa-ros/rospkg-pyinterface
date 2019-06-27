@@ -21,12 +21,12 @@ class sis_iv(object):
         path = String()
         path.data = "/home/exito/data/logger/test/20190627/%s"%(save_name)
         rate = Float64()
-        rate.data = 0
+        rate.data = 0.1
         self.pub_rate.publish(rate)
         self.pub_path.publish(path)
-        msg2 = Float64()
-        msg2.data = 0
-        self.pub_vol_ch_all.publish(msg2)
+        all = Float64()
+        all.data = 0
+        self.pub_vol_ch_all.publish(all)
         da_all = []
         self.pub_vol_ch.publish(initv)
         time.sleep(0.3)
@@ -37,7 +37,7 @@ class sis_iv(object):
             msg = Float64()
             msg.data = vol
             self.pub_vol_ch.publish(msg)
-        #self.pub_path.publish("''")
+        self.pub_path.publish("")
 
 
 
