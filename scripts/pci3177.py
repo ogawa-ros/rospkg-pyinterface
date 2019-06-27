@@ -16,8 +16,8 @@ class pci3177(object):
         self.smpl_freq = rospy.get_param("~smpl_freq")
 
         self.ad = pyinterface.open(3177, rsw_id)
-        self.ad.initialize()
         self.ad.stop_sampling()
+        self.ad.initialize()
         self.ad.set_sampling_config(smpl_ch_req=smpl_ch_req,
                                smpl_num=1000,
                                smpl_freq=self.smpl_freq,
