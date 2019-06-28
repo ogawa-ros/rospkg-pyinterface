@@ -19,6 +19,7 @@ class sis_iv(object):
     def set(self):
         self.pub_rate.publish(0.1)
         self.pub_path.publish("/home/exito/data/logger/test/20190628/%s"%(save_name))
+        print("/home/exito/data/logger/test/20190628/%s"%(save_name))
         pass
 
     def measure(self, initv, interval, repeat):
