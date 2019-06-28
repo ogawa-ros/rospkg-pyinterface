@@ -17,12 +17,10 @@ class sis_iv(object):
         self.pub_rate = rospy.Publisher("/dev/pci3177/rsw0/pub_rate", Float64, queue_size=1)
 
     def set(self):
-        rate = Float64()
-        rate.data = 0.1
-        path = String()
-        path.data = "/home/exito/data/logger/test/20190628/%s"%(save_name)
-        self.pub_rate.publish(rate)
-        self.pub_path.publish(path)
+        self.pub_rate.publish(0.1)
+        time.sleep(1)
+        self.pub_path.publish('/home/exito/data/logger/test/20190628/%s'%(save_name))
+        time.sleep(1)
         print("/home/exito/data/logger/test/20190628/%s"%(save_name))
         pass
 
