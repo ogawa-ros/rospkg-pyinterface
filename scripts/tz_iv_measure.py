@@ -17,8 +17,8 @@ class sis_iv(object):
         self.pub_rate = rospy.Publisher("/dev/pci3177/rsw0/pub_rate", Float64, queue_size=1)
 
     def set(self):
-        self.pub_path.publish(0.1)
-        self.pub_rate.publish("/home/exito/data/logger/test/20190627/%s"%(save_name))
+        self.pub_rate.publish(0.1)
+        self.pub_path.publish("/home/exito/data/logger/test/20190628/%s"%(save_name))
         pass
 
     def measure(self, initv, interval, repeat):
