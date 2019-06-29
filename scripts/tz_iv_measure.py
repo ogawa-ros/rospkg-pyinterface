@@ -27,7 +27,7 @@ class sis_iv(object):
         self.pub_vol_ch_all.publish(initv)
         time.sleep(0.3)
         for i in range(repeat+1):
-            time.sleep(0.1)
+            time.sleep(0.7)
             vol = initv+interval*i
             msg = Float64()
             msg.data = vol
