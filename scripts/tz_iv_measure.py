@@ -10,8 +10,8 @@ from std_msgs.msg import Int32
 class sis_iv(object):
     def __init__(self):
 
-        #self.pub_vol_ch_all = rospy.Publisher("/necst/rx_sis2sb/vgap_cmd", Float64, queue_size=1)
-        self.pub_vol_ch_all = rospy.Publisher("/tz2019/sis_v1/vgap_cmd", Float64, queue_size=1)
+        self.pub_vol_ch_all = rospy.Publisher("/necst/rx_sis2sb/vgap_cmd", Float64, queue_size=1)
+        #self.pub_vol_ch_all = rospy.Publisher("/tz2019/sis_v1/vgap_cmd", Float64, queue_size=1)
 
         self.pub_path = rospy.Publisher("/logger_path", String, queue_size=1)
         self.pub_rate = rospy.Publisher("/dev/pci3177/rsw0/pub_rate", Float64, queue_size=1)
@@ -19,7 +19,7 @@ class sis_iv(object):
     def set(self):
         self.pub_rate.publish(0.1)
         self.pub_path.publish('/home/exito/data/logger/test/20190628/%s'%(save_name))
-        print("/home/exito/data/logger/test/20190628/%s"%(save_name))
+        print("/home/exito/data/logger/test/20190629/%s"%(save_name))
 
 
     def measure(self, initv, interval, repeat):
@@ -49,7 +49,7 @@ if __name__ == "__main__" :
     interval_vgap = float(input("interval_Vgap = ? [Vgap]"))
     save_name = str(input("savename = ? "))
     iv = sis_iv()
-    iv.set()
+    #iv.set()
     #repeat = int((lastv-initv)/interval)
     repeat_vgap = int(abs((last_vgap-init_vgap)/interval_vgap))
     sys.exit(iv.measure(init_vgap,interval_vgap,repeat_vgap))
