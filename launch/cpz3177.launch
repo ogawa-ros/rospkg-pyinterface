@@ -1,5 +1,5 @@
 <launch>
-  <node pkg="rospkg-pyinterface" name="pci3177" type="pci3177.py" required="true" output="screen">
+  <node pkg="rospkg-pyinterface" name="cpz3177" type="cpz3177.py" required="true" output="screen">
     <param name="~rate" value="0.001" />
     <param name="~rsw_id" value="0" />
     <param name="~all_ch_num" value="16" />
