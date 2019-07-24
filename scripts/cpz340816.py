@@ -15,7 +15,7 @@ class cpz340816(object):
 
     def __init__(self):
         self.da = pyinterface.open(3408,rsw_id)
-        self.da.initialize()
+        #self.da.initialize()
         topic_li = []
 
         for ch in ch_num_li:
