@@ -64,7 +64,7 @@ class cpz340816(object):
                 voltage = list(param.values())[0]
 
                 if self.lock == 0:
-                    self.da.output_voltage(ch, voltage)
+                    self.da.output_da(ch, voltage)
 
                 elif self.lock == 1:
                     while not(self.lock == 0):
