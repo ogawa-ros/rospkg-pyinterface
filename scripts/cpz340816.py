@@ -56,7 +56,6 @@ class cpz340816(object):
 
                 self.da.output_da(ch, voltage)
 
-                self.pub_list[ch-1].publish(voltage)
                 continue
 
     def start_thread_ROS(self):
