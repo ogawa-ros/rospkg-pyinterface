@@ -28,7 +28,7 @@ class cpz340816(object):
                          format(self.node_name, self.rsw_id))
             sys.exit()
 
-        self.topic_list = [('/dev/cpz340816/rsw{0}/{1}'.format(self.rsw_id, _))
+        self.topic_list = [('/dev/cpz340816/rsw{0}/ch{1}'.format(self.rsw_id, _))
                            for _ in range(1, self.ch_number + 1)]
 
         self.sub_list = [rospy.Subscriber(topic, Float64, self.set_param, callback_args=ch)
