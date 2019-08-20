@@ -37,6 +37,7 @@ class pci3346(object):
 
     def output_vol(self):
         while not rospy.is_shutdown():
+            time.sleep(0.001)
             data_dic_list = list(self.data_dic)
             self.data_li = []
             for tp in data_dic_list:
