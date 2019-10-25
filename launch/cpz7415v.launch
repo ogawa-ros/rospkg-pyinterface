@@ -5,10 +5,10 @@
     <param name="~rsw_id" value="0" />
     <param name="~node_name" value="cpz7415v" />
 
-    <param name="~use_axes" value="'x'" />
-    <param name="~x_mode" value="'ptp'" />
+    <param name="~use_axis" value="x" />
+    <param name="~x_mode" value="ptp" />
     <param name="~x_clock" value="299" />
-    <param name="~x_acc_mode" value="'acc_normal'" />
+    <param name="~x_acc_mode" value="acc_normal" />
     <param name="~x_low_speed" value="200" />
     <param name="~x_speed" value="50000" />
     <param name="~x_acc" value="5000" />

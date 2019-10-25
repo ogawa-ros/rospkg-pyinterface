@@ -9,7 +9,7 @@ import std_msgs.msg
 name = 'cpz7415'
 
 default_rsw_id = '0'
-default_use_axes = 'xyzu'
+default_use_axis = 'xyzu'
 default_mode = 'ptp'
 default_clock = 299
 default_acc_mode = 'acc_normal'
@@ -22,7 +22,7 @@ default_step = 0
 
 class cpz7415v_controller(object):
     rsw_id = ''
-    use_axes = ''
+    use_axis = ''
     params = {}
     execute_params = []
     execute_params_lock = False
@@ -31,7 +31,7 @@ class cpz7415v_controller(object):
 
     def __init__(self, rsw_id, params):
         self.rsw_id = rsw_id
-        self.use_axes = ''.join([p['axis'] for p in params])
+        self.use_axis = ''.join([p['axis'] for p in params])
 
         self.params = {}
         for p in params:
@@ -46,14 +46,14 @@ class cpz7415v_controller(object):
         # create publishers
         base = '/cpz7415_rsw{rsw_id}'.format(**locals())
         self.pub = {}
-        for ax in self.use_axes:
+        for ax in self.use_axis:
             b = '{base}_{ax}_'.format(**locals())
             self.pub[ax+'_step'] = rospy.Publisher(b+'_step', std_msgs.msg.Int64, queue_size=1)
             self.pub[ax+'_speed'] = rospy.Publisher(b+'_speed', std_msgs.msg.Int64, queue_size=1)
             continue
 
         # create subscrivers
-        for ax in self.use_axes:
+        for ax in self.use_axis:
             b = '{base}_{ax}_'.format(**locals())
             rospy.Subscriber(b+'_mode_cmd', std_msgs.msg.Int64, self.regist, callback_args=ax+'_mode')
             rospy.Subscriber(b+'_step_cmd', std_msgs.msg.Int64, self.regist, callback_args=ax+'_step')
@@ -207,7 +207,7 @@ class cpz7415v_controller(object):
         pass
 
     def get_status(self):
-        for ax in self.use_axes:
+        for ax in self.use_axis:
             step, speed = self._get_status_axis(ax)
             self.status[ax+'_step'] = step
             self.status[ax+'_speed'] = speed
@@ -272,10 +272,10 @@ if __name__ == '__main__':
     rospy.init_node(name)
 
     rsw_id = rospy.get_param('~rsw_id', default_rsw_id)
-    use_axes = rospy.get_param('~use_axes', default_use_axes) # ex. 'xyzu', 'xy', or 'yu'
+    use_axis = rospy.get_param('~use_axis', default_use_axis) # ex. 'xyzu', 'xy', or 'yu'
 
     params = []
-    for ax in use_axes:
+    for ax in use_axis:
         p = {}
         p['axis'] = ax
         p['mode'] = rospy.get_param('~{ax}_mode'.format(**locals()), default_mode)
