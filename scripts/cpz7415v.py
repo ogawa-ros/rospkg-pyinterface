@@ -3,6 +3,7 @@
 import pyinterface
 import threading
 
+import rospy
 import std_msgs.msg
 
 name = 'cpz7415'
