@@ -149,7 +149,7 @@ class cpz7415v_controller(object):
                 stop_move(axis)
                 continue
 
-            if self.params[axis]['mode'] = 'ptp':
+            if self.params[axis]['mode'] == 'ptp':
                 # absolute value of 'speed' ros-topic will be used for PTP mode
                 if is_moving(axis):
                     self.mot.change_speed(axis=axis, mode='accdec_change', speed=abs(param))
@@ -158,7 +158,7 @@ class cpz7415v_controller(object):
                     set_start(axis)
                     pass
 
-            elif self.params[axis]['mode'] = 'jog':
+            elif self.params[axis]['mode'] == 'jog':
                 last_direction = self.mot.motion_conf['jog'][axis]['step']
                 if (last_direction * param > 0) & (is_moving(axis)):
                     self.mot.change_speed(axis=axis, mode='accdec_change', speed=abs(param))
@@ -175,7 +175,7 @@ class cpz7415v_controller(object):
                 pass
 
         elif type_ == 'step':
-            if self.params[axis]['mode'] = 'ptp':
+            if self.params[axis]['mode'] == 'ptp':
                 if is_moving(axis):
                     self.mot.change_step(axis=axis, step=param)
                 else:
@@ -183,7 +183,7 @@ class cpz7415v_controller(object):
                     set_start(axis)
                     pass
 
-            elif self.params[axis]['mode'] = 'jog':
+            elif self.params[axis]['mode'] == 'jog':
                 # IGNORE 'step' ros-topic if moving as JOG mode
                 pass
 
