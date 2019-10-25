@@ -163,7 +163,7 @@ class cpz7415v_controller(object):
         '''
         JOGの場合
         '''
-        if self.param[axis]['mode'] = 'jog':
+        if self.param[axis]['mode'] == 'jog':
             if self.mot.read_speed(axis)[0] == 0:
                 self.params[axis]['motion']['is_moving'] = False
             else:
