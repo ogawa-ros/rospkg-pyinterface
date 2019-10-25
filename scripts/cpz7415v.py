@@ -159,7 +159,7 @@ class cpz7415v_controller(object):
                 if is_moving(axis):
                     self.mot.change_speed(axis=axis, mode='accdec_change', speed=abs(param))
                 else:
-                    self.params[axis]['motion']['speed'] = abs(param)
+                    self.params[axis]['motion'][axis]['speed'] = abs(param)
                     set_start(axis)
                     pass
 
@@ -174,7 +174,7 @@ class cpz7415v_controller(object):
                     else:
                         self.paprams[axis]['motion']['step'] = -1
                         pass
-                    self.params[axis]['motion']['speed'] = abs(param)
+                    self.params[axis]['motion'][axis]['speed'] = abs(param)
                     set_start(axis)
                     pass
                 pass
@@ -184,7 +184,7 @@ class cpz7415v_controller(object):
                 if is_moving(axis):
                     self.mot.change_step(axis=axis, step=param)
                 else:
-                    self.params[axis]['motion']['step'] = param
+                    self.params[axis]['motion'][axis]['step'] = param
                     set_start(axis)
                     pass
 
