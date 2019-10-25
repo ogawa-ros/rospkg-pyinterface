@@ -138,7 +138,7 @@ class cpz7415v_controller(object):
             '''
             stop_move(axis)
             self.params[axis]['mode'] = param
-            continue
+            pass
 
         elif type_ == 'speed':
             if abs(param) < self.mot.motion_conf['jog'][axis]['low_speed']:
@@ -147,7 +147,7 @@ class cpz7415v_controller(object):
 
             if param == 0:
                 stop_move(axis)
-                continue
+                pass
 
             if self.params[axis]['mode'] == 'ptp':
                 # absolute value of 'speed' ros-topic will be used for PTP mode
