@@ -127,7 +127,7 @@ class cpz7415v_controller(object):
             return
 
         def set_start(axis):
-            print(self.params[axis]['motion'])
+            print(self.params[axis]['motion'], self.params[axis]['mode'])
             self.mot.set_motion(axis=axis, mode=self.params[axis]['mode'], motion=self.params[axis]['motion'])
             self.mot.start_motion(axis=axis, start_mode='acc', move_mode=self.params[axis]['mode'])
             return
