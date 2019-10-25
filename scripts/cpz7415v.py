@@ -7,7 +7,7 @@ import std_msgs.msg
 
 name = 'cpz7415'
 
-default_rsw_id = '1'
+default_rsw_id = '0'
 default_use_axes = 'xyzu'
 default_mode = 'ptp'
 default_clock = 299
@@ -135,7 +135,7 @@ class cpz7415v_controller(object):
         '''
         PTPの場合
         '''
-        if self.param[axis]['mode'] = 'ptp':
+        if self.param[axis]['mode'] == 'ptp':
             if self.mot.read_speed(axis)[0] == 0:
                 self.params[axis]['motion']['is_moving'] = False
             else:
