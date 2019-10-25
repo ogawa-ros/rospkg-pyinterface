@@ -240,6 +240,7 @@ class cpz7415v_controller(object):
         return
 
     def loop_publish_status(self):
+        self.last_status = {}
         while not rospy.is_shutdown():
             for name, value in self.status.items():
                 if self.last_status[name] == value:
