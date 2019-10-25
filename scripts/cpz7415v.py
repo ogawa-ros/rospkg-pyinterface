@@ -42,6 +42,7 @@ class cpz7415v_controller(object):
 
         # initialize motion controller
         self.mot = pyinterface.open(7415, rsw_id)
+        self.mot.initialize()
         [self.mot.set_motion(p['axis'], p['mode'], p['motion']) for p in params]
 
         # create publishers
