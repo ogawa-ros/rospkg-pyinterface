@@ -21,13 +21,13 @@ default_step = 0
 
 
 class cpz7415v_controller(object):
-    self.rsw_id = ''
-    self.use_axes = ''
-    self.params = {}
-    self.execute_params = []
-    self.execute_params_lock = False
-    self.last_mode = {}
-    self.status = {}
+    rsw_id = ''
+    use_axes = ''
+    params = {}
+    execute_params = []
+    execute_params_lock = False
+    last_mode = {}
+    status = {}
 
     def __init__(self, rsw_id, params):
         self.rsw_id = rsw_id
