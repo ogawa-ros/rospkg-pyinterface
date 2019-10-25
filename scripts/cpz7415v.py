@@ -243,11 +243,16 @@ class cpz7415v_controller(object):
         self.last_status = {}
         while not rospy.is_shutdown():
             for name, value in self.status.items():
+                if not name in self.last_status.keys():
+                    self.pub[name].publish(value)
+                    self.last_status[name] = value
+
                 if self.last_status[name] == value:
                     continue
 
-                self.pub[name].publish(value)
-                self.last_status[name] = value
+                else:
+                    self.pub[name].publish(value)
+                    self.last_status[name] = value
                 continue
 
             time.sleep(0.001) # あとでよう調整
