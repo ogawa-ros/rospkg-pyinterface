@@ -285,6 +285,8 @@ if __name__ == '__main__':
         p['axis'] = ax
         p['mode'] = rospy.get_param('~{ax}_mode'.format(**locals()), default_mode)
         p['pulse_conf'] = [eval(rospy.get_param('~{ax}_pulse_conf'.format(**locals()), default_pulse_conf))]
+        print(type(p['pulse_conf'][0]))
+        print(p['pulse_conf']
 
         mp = {}
         mp[ax] = {}
