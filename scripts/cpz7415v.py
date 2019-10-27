@@ -173,8 +173,12 @@ class cpz7415v_controller(object):
                 else:
                     stop_move(axis)
                     if param > 0:
+                        print('+')
+                        print(param)
                         self.params[axis]['motion']['step'] = +1
                     else:
+                        print('-')
+                        print(param)
                         self.params[axis]['motion']['step'] = -1
                         pass
                     self.params[axis]['motion'][axis]['speed'] = abs(param)
