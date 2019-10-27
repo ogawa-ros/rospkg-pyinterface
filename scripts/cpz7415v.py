@@ -126,7 +126,6 @@ class cpz7415v_controller(object):
         def stop_move(axis):
             self.mot.stop_motion(axis=axis, stop_mode='dec_stop')
             while is_moving(axis):
-                print('---------')
                 time.sleep(1e-5)
                 continue
             return
@@ -174,13 +173,9 @@ class cpz7415v_controller(object):
                 else:
                     stop_move(axis)
                     if param > 0:
-                        print('+')
-                        print(param)
-                        self.params[axis]['motion']['step'] = +1
+                        self.params[axis]['motion'][axis]['step'] = +1
                     else:
-                        print('-')
-                        print(param)
-                        self.params[axis]['motion']['step'] = -1
+                        self.params[axis]['motion'][axis]['step'] = -1
                         pass
                     self.params[axis]['motion'][axis]['speed'] = abs(param)
                     set_start(axis)
