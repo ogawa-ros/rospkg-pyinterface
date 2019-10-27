@@ -142,9 +142,6 @@ class cpz7415v_controller(object):
         axis, type_ = category.split('_')
 
         if type_ == 'mode':
-            '''
-            の場合
-            '''
             stop_move(axis)
             self.params[axis]['mode'] = param
             pass
