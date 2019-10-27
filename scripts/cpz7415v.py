@@ -169,7 +169,7 @@ class cpz7415v_controller(object):
             elif self.params[axis]['mode'] == 'jog':
                 last_direction = self.params[axis]['motion'][axis]['step']
                 if (last_direction * param > 0) & (is_moving(axis)):
-                    self.mot.change_speed(axis=axis, mode='accdec_change', speed=abs(param))
+                    self.mot.change_speed(axis=axis, mode='accdec_change', speed=[abs(param)])
                 else:
                     stop_move(axis)
                     if param > 0:
