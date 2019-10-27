@@ -12,7 +12,7 @@ name = 'cpz7415'
 
 default_rsw_id = '0'
 default_use_axis = 'xyzu'
-default_pulse_conf = {'PULSE': '0', 'OUT': '0', 'DIR': '0', 'WAIT': '0', 'DUTY': '0'}
+default_pulse_conf = "{'PULSE': '0', 'OUT': '0', 'DIR': '0', 'WAIT': '0', 'DUTY': '0'}"
 default_mode = 'ptp'
 default_clock = 299
 default_acc_mode = 'acc_normal'
@@ -45,7 +45,7 @@ class cpz7415v_controller(object):
         self.mot = pyinterface.open(7415, rsw_id)
         self.mot.initialize()
         self.mot.output_do(0x01)
-        [self.mot.set_pulse_out(p['axis'], 'method', p['pulse_conf'])]
+        [self.mot.set_pulse_out(p['axis'], 'method', p['pulse_conf']) for p in params]
         [self.mot.set_motion(p['axis'], p['mode'], p['motion']) for p in params]
 
         # create publishers
@@ -285,8 +285,6 @@ if __name__ == '__main__':
         p['axis'] = ax
         p['mode'] = rospy.get_param('~{ax}_mode'.format(**locals()), default_mode)
         p['pulse_conf'] = [eval(rospy.get_param('~{ax}_pulse_conf'.format(**locals()), default_pulse_conf))]
-        print(type(p['pulse_conf'][0]))
-        print(p['pulse_conf'])
 
         mp = {}
         mp[ax] = {}
