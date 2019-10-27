@@ -149,7 +149,7 @@ class cpz7415v_controller(object):
             pass
 
         elif type_ == 'speed':
-            if abs(param) < self.params[axis]['motion']['axis']['low_speed']:
+            if abs(param) < self.params[axis]['motion'][axis]['low_speed']:
                 param = 0
                 pass
 
