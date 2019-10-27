@@ -156,7 +156,7 @@ class cpz7415v_controller(object):
 
             if param == 0:
                 stop_move(axis)
-                continue
+                return
 
             if self.params[axis]['mode'] == 'ptp':
                 # absolute value of 'speed' ros-topic will be used for PTP mode
