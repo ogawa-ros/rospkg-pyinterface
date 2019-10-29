@@ -50,17 +50,17 @@ class cpz7415v_controller(object):
         [self.mot.set_motion(p['axis'], p['mode'], p['motion']) for p in params]
 
         # create publishers
-        base = '/cpz7415_rsw{rsw_id}'.format(**locals())
+        base = '/cpz7415/rsw{rsw_id}'.format(**locals())
         self.pub = {}
         for ax in self.use_axis:
-            b = '{base}_{ax}_'.format(**locals())
+            b = '{base}/{ax}/'.format(**locals())
             self.pub[ax+'_step'] = rospy.Publisher('/dev'+b+'step', std_msgs.msg.Int64, queue_size=1)
             self.pub[ax+'_speed'] = rospy.Publisher('/dev'+b+'speed', std_msgs.msg.Int64, queue_size=1)
             continue
 
         # create subscrivers
         for ax in self.use_axis:
-            b = '{base}_{ax}_'.format(**locals())
+            b = '{base}/{ax}/'.format(**locals())
             rospy.Subscriber('/dev'+b+'mode_cmd', std_msgs.msg.String, self.regist, callback_args=ax+'_mode')
             rospy.Subscriber('/dev'+b+'step_cmd', std_msgs.msg.Int64, self.regist, callback_args=ax+'_step')
             rospy.Subscriber('/dev'+b+'speed_cmd', std_msgs.msg.Int64, self.regist, callback_args=ax+'_speed')
