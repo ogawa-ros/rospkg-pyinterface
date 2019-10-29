@@ -220,8 +220,8 @@ class cpz7415v_controller(object):
         - pub は別スレ (loop_publish_status)
         - なんかの変数使って渡す
         '''
-        step = self.mot.read_counter(axis=axis, cnt_mode='counter')
-        speed = self.mot.read_speed(axis)
+        step = self.mot.read_counter(axis=axis, cnt_mode='counter')[0]
+        speed = self.mot.read_speed(axis)[0]
         return step, speed
 
     def regist(self, req, type_):
