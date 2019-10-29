@@ -13,8 +13,8 @@
     <param name="~x_acc_mode" value="acc_normal" />
     <param name="~x_low_speed" value="5000" />
     <param name="~x_speed" value="50000" />
-    <param name="~x_acc" value="100000" />
-    <param name="~x_dec" value="100000" />
+    <param name="~x_acc" value="100" />
+    <param name="~x_dec" value="100" />
     <param name="~x_step" value="1" />
 
     <param name="~y_pulse_conf" value="{'PULSE': '0', 'OUT': '0', 'DIR': '1', 'WAIT': '0', 'DUTY': '0'}" />
