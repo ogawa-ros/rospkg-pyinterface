@@ -45,7 +45,7 @@ class cpz7415v_controller(object):
         # initialize motion controller
         self.mot = pyinterface.open(7415, rsw_id)
         self.mot.initialize()
-        self.mot.output_do(0x01)
+        self.mot.output_do(0x0F)
         [self.mot.set_pulse_out(p['axis'], 'method', p['pulse_conf']) for p in params]
         [self.mot.set_motion(p['axis'], p['mode'], p['motion']) for p in params]
 
