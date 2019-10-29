@@ -68,7 +68,7 @@ class cpz7415v_controller(object):
 
         # create DIO pub/sub
         #self.pub['di'] = rospy.Publisher(base+'_di', std_msgs.msg.Int64, queue_size=1)
-        rospy.Subscriber(base+'_do_cmd', std_msgs.msg.Int64, self.regist, callback_args='do')
+        rospy.Subscriber('/dev'+base+'/do_cmd', std_msgs.msg.Int64, self.regist, callback_args='do')
 
         # start threads
         time.sleep(0.5)
