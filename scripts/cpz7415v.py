@@ -67,7 +67,7 @@ class cpz7415v_controller(object):
             continue
 
         # create DIO pub/sub
-        self.pub['di'] = rospy.Publisher(base+'_di', std_msgs.msg.Int64, queue_size=1)
+        #self.pub['di'] = rospy.Publisher(base+'_di', std_msgs.msg.Int64, queue_size=1)
         rospy.Subscriber(base+'_do_cmd', std_msgs.msg.Int64, self.regist, callback_args='do')
 
         # start threads
@@ -210,8 +210,8 @@ class cpz7415v_controller(object):
             self.status[ax+'_speed'] = speed
             continue
 
-        di = self.mot.input_di()
-        self.status['di'] = di
+        #di = self.mot.input_di()
+        #self.status['di'] = di
         return
 
     def _get_status_axis(self, axis):
