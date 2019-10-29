@@ -61,7 +61,7 @@ class cpz7415v_controller(object):
         # create subscrivers
         for ax in self.use_axis:
             b = '{base}_{ax}_'.format(**locals())
-            rospy.Subscriber(b+'_mode_cmd', std_msgs.msg.Int64, self.regist, callback_args=ax+'_mode')
+            rospy.Subscriber(b+'_mode_cmd', std_msgs.msg.String, self.regist, callback_args=ax+'_mode')
             rospy.Subscriber(b+'_step_cmd', std_msgs.msg.Int64, self.regist, callback_args=ax+'_step')
             rospy.Subscriber(b+'_speed_cmd', std_msgs.msg.Int64, self.regist, callback_args=ax+'_speed')
             continue
