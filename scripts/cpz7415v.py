@@ -158,7 +158,7 @@ class cpz7415v_controller(object):
             if self.params[axis]['mode'] == 'ptp':
                 # absolute value of 'speed' ros-topic will be used for PTP mode
                 if is_moving(axis):
-                    self.mot.change_speed(axis=axis, mode='accdec_change', speed=abs(param))
+                    self.mot.change_speed(axis=axis, mode='accdec_change', speed=[abs(param]))
                 else:
                     self.params[axis]['motion'][axis]['speed'] = abs(param)
                     set_start(axis)
@@ -183,7 +183,7 @@ class cpz7415v_controller(object):
         elif type_ == 'step':
             if self.params[axis]['mode'] == 'ptp':
                 if is_moving(axis):
-                    self.mot.change_step(axis=axis, step=param)
+                    self.mot.change_step(axis=axis, step=[param])
                 else:
                     self.params[axis]['motion'][axis]['step'] = param
                     set_start(axis)
