@@ -54,16 +54,16 @@ class cpz7415v_controller(object):
         self.pub = {}
         for ax in self.use_axis:
             b = '{base}_{ax}_'.format(**locals())
-            self.pub[ax+'_step'] = rospy.Publisher(b+'_step', std_msgs.msg.Int64, queue_size=1)
-            self.pub[ax+'_speed'] = rospy.Publisher(b+'_speed', std_msgs.msg.Int64, queue_size=1)
+            self.pub[ax+'_step'] = rospy.Publisher('/dev/'+b+'step', std_msgs.msg.Int64, queue_size=1)
+            self.pub[ax+'_speed'] = rospy.Publisher('/dev/'+b+'speed', std_msgs.msg.Int64, queue_size=1)
             continue
 
         # create subscrivers
         for ax in self.use_axis:
             b = '{base}_{ax}_'.format(**locals())
-            rospy.Subscriber(b+'_mode_cmd', std_msgs.msg.String, self.regist, callback_args=ax+'_mode')
-            rospy.Subscriber(b+'_step_cmd', std_msgs.msg.Int64, self.regist, callback_args=ax+'_step')
-            rospy.Subscriber(b+'_speed_cmd', std_msgs.msg.Int64, self.regist, callback_args=ax+'_speed')
+            rospy.Subscriber('/dev/'+b+'mode_cmd', std_msgs.msg.String, self.regist, callback_args=ax+'_mode')
+            rospy.Subscriber('/dev/'+b+'step_cmd', std_msgs.msg.Int64, self.regist, callback_args=ax+'_step')
+            rospy.Subscriber('/dev/'+b+'speed_cmd', std_msgs.msg.Int64, self.regist, callback_args=ax+'_speed')
             continue
 
         # create DIO pub/sub
