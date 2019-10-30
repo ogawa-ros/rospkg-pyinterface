@@ -11,7 +11,7 @@
     <param name="~x_mode" value="jog" />
     <param name="~x_clock" value="149" />
     <param name="~x_acc_mode" value="acc_normal" />
-    <param name="~x_low_speed" value="200" />
+    <param name="~x_low_speed" value="1000" />
     <param name="~x_speed" value="5000000" />
     <param name="~x_acc" value="100" />
     <param name="~x_dec" value="100" />
