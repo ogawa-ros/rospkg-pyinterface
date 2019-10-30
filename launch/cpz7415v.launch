@@ -4,10 +4,11 @@
   <node pkg="rospkg-pyinterface" name="cpz7415v" type="cpz7415v.py" required="true" output="screen">
     <param name="~rsw_id" value="0" />
     <param name="~node_name" value="cpz7415v" />
+    <param name="~do_conf" value="[1, 1, 1, 1]" />
 
     <param name="~use_axis" value="xy" />
 
-    <param name="~x_pulse_conf" value="{'PULSE': '0', 'OUT': '0', 'DIR': '1', 'WAIT': '0', 'DUTY': '0'}" />
+    <param name="~x_pulse_conf" value="{'PULSE': '1', 'OUT': '0', 'DIR': '0', 'WAIT': '0', 'DUTY': '0'}" />
     <param name="~x_mode" value="jog" />
     <param name="~x_clock" value="149" />
     <param name="~x_acc_mode" value="acc_normal" />
@@ -17,7 +18,7 @@
     <param name="~x_dec" value="100" />
     <param name="~x_step" value="1" />
 
-    <param name="~y_pulse_conf" value="{'PULSE': '0', 'OUT': '0', 'DIR': '1', 'WAIT': '0', 'DUTY': '0'}" />
+    <param name="~y_pulse_conf" value="{'PULSE': '1', 'OUT': '0', 'DIR': '0', 'WAIT': '0', 'DUTY': '0'}" />
     <param name="~y_mode" value="jog" />
     <param name="~y_clock" value="149" />
     <param name="~y_acc_mode" value="acc_normal" />

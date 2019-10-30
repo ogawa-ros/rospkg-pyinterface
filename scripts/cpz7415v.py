@@ -11,6 +11,7 @@ import std_msgs.msg
 name = 'cpz7415'
 
 default_rsw_id = '0'
+default_do_conf = "[0, 0, 0, 0]"
 default_use_axis = 'xyzu'
 default_pulse_conf = "{'PULSE': '0', 'OUT': '0', 'DIR': '0', 'WAIT': '0', 'DUTY': '0'}"
 default_mode = 'ptp'
@@ -45,7 +46,7 @@ class cpz7415v_controller(object):
         # initialize motion controller
         self.mot = pyinterface.open(7415, rsw_id)
         self.mot.initialize()
-        self.mot.output_do(0x0F)
+        self.mot.output_do(p['do_conf'])
         [self.mot.set_pulse_out(p['axis'], 'method', p['pulse_conf']) for p in params]
         [self.mot.set_motion(p['axis'], p['mode'], p['motion']) for p in params]
 
@@ -282,6 +283,7 @@ if __name__ == '__main__':
         p = {}
         p['axis'] = ax
         p['mode'] = rospy.get_param('~{ax}_mode'.format(**locals()), default_mode)
+        p['do_conf'] = eval(rospy.get_param('~do_conf', default_do_conf))
         p['pulse_conf'] = [eval(rospy.get_param('~{ax}_pulse_conf'.format(**locals()), default_pulse_conf))]
 
         mp = {}
