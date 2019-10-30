@@ -11,7 +11,7 @@
     <param name="~x_mode" value="jog" />
     <param name="~x_clock" value="149" />
     <param name="~x_acc_mode" value="acc_normal" />
-    <param name="~x_low_speed" value="5000" />
+    <param name="~x_low_speed" value="200" />
     <param name="~x_speed" value="5000000" />
     <param name="~x_acc" value="100" />
     <param name="~x_dec" value="100" />
@@ -19,7 +19,7 @@
 
     <param name="~y_pulse_conf" value="{'PULSE': '0', 'OUT': '0', 'DIR': '1', 'WAIT': '0', 'DUTY': '0'}" />
     <param name="~y_mode" value="jog" />
-    <param name="~y_clock" value="299" />
+    <param name="~y_clock" value="149" />
     <param name="~y_acc_mode" value="acc_normal" />
     <param name="~y_low_speed" value="200" />
     <param name="~y_speed" value="50000" />
