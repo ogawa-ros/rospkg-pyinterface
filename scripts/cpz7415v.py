@@ -32,7 +32,6 @@ class cpz7415v_controller(object):
     execute_params_lock = False
     last_mode = {}
     status = {}
-    last_direction = 0
 
     def __init__(self, rsw_id, params):
         self.rsw_id = rsw_id
@@ -166,9 +165,9 @@ class cpz7415v_controller(object):
                     pass
 
             elif self.params[axis]['mode'] == 'jog':
-                print('last_direction: {}'.format(self.last_direction) + ', ' + 'param: {}'.format(param) + ', ' + 'is_moving: {}'.format(is_moving(axis)) + ', ' + 'axis: {}'.format(axis))
+                #print('last_direction: {}'.format(self.last_direction) + ', ' + 'param: {}'.format(param) + ', ' + 'is_moving: {}'.format(is_moving(axis)) + ', ' + 'axis: {}'.format(axis))
 
-                if (self.last_direction * param > 0) & (is_moving(axis)):
+                if (self.last_direction_dict[axis] * param > 0) & (is_moving(axis)):
                     self.mot.change_speed(axis=axis, mode='accdec_change', speed=[abs(param)])
                 else:
                     stop_move(axis)
@@ -180,7 +179,7 @@ class cpz7415v_controller(object):
                     self.params[axis]['motion'][axis]['speed'] = abs(param)
                     set_start(axis)
                     pass
-                self.last_direction = self.params[axis]['motion'][axis]['step']
+                self.last_direction_dict[axis] = self.params[axis]['motion'][axis]['step']
                 pass
 
         elif type_ == 'step':
@@ -302,4 +301,5 @@ if __name__ == '__main__':
         continue
 
     ctrl = cpz7415v_controller(rsw_id, params)
+    ctrl.last_direction_dict = {i: 0 for i in use_axis}
     rospy.spin()
