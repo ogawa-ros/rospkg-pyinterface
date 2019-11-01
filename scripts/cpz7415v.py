@@ -166,10 +166,7 @@ class cpz7415v_controller(object):
                     pass
 
             elif self.params[axis]['mode'] == 'jog':
-                print('last_direction: {}'.format(self.last_direction))
-                print('param: {}'.format(param))
-                print('is_moving: {}'.format(is_moving(axis)))
-                print('axis: {}'.format(axis))                
+                print('last_direction: {}'.format(self.last_direction) + ', ' + 'param: {}'.format(param) + ', ' + 'is_moving: {}'.format(is_moving(axis)) + ', ' + 'axis: {}'.format(axis))
 
                 if (self.last_direction * param > 0) & (is_moving(axis)):
                     self.mot.change_speed(axis=axis, mode='accdec_change', speed=[abs(param)])
