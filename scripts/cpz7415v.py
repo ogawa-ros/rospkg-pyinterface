@@ -97,7 +97,6 @@ class cpz7415v_controller(object):
                 - _execute_do を呼ぶ
         '''
         if len(self.execute_params) == 0:
-            time.sleep(0.001)
             return
 
         self.execute_params_lock = True
