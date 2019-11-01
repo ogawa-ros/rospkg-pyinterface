@@ -48,6 +48,7 @@ class cpz7415v_controller(object):
         self.mot.output_do(p['do_conf'])
         [self.mot.set_pulse_out(p['axis'], 'method', p['pulse_conf']) for p in params]
         [self.mot.set_motion(p['axis'], p['mode'], p['motion']) for p in params]
+        self.last_direction_dict = {i: 0 for i in self.params[p['axis']]}
 
         # create publishers
         base = '/cpz7415/rsw{rsw_id}'.format(**locals())
@@ -301,5 +302,5 @@ if __name__ == '__main__':
         continue
 
     ctrl = cpz7415v_controller(rsw_id, params)
-    ctrl.last_direction_dict = {i: 0 for i in use_axis}
+    #ctrl.last_direction_dict = {i: 0 for i in use_axis}
     rospy.spin()
