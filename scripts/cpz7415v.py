@@ -48,7 +48,7 @@ class cpz7415v_controller(object):
         self.mot.output_do(p['do_conf'])
         [self.mot.set_pulse_out(p['axis'], 'method', p['pulse_conf']) for p in params]
         [self.mot.set_motion(p['axis'], p['mode'], p['motion']) for p in params]
-        self.last_direction_dict = {i: 0 for i in self.params[p['axis']]}
+        self.last_direction_dict = {p['axis']: 0 for p in params}
 
         # create publishers
         base = '/cpz7415/rsw{rsw_id}'.format(**locals())
@@ -166,7 +166,7 @@ class cpz7415v_controller(object):
                     pass
 
             elif self.params[axis]['mode'] == 'jog':
-                #print('last_direction: {}'.format(self.last_direction) + ', ' + 'param: {}'.format(param) + ', ' + 'is_moving: {}'.format(is_moving(axis)) + ', ' + 'axis: {}'.format(axis))
+                print('last_direction: {}'.format(self.last_direction_dict[axis]) + ', ' + 'param: {}'.format(param) + ', ' + 'is_moving: {}'.format(is_moving(axis)) + ', ' + 'axis: {}'.format(axis))
 
                 if (self.last_direction_dict[axis] * param > 0) & (is_moving(axis)):
                     self.mot.change_speed(axis=axis, mode='accdec_change', speed=[abs(param)])
