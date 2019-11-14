@@ -14,8 +14,8 @@
     <param name="~x_acc_mode" value="acc_normal" />
     <param name="~x_low_speed" value="30" />
     <param name="~x_speed" value="5000" />
-    <param name="~x_acc" value="10" />
-    <param name="~x_dec" value="10" />
+    <param name="~x_acc" value="100" />
+    <param name="~x_dec" value="100" />
     <param name="~x_step" value="1" />
 
     <param name="~y_pulse_conf" value="{'PULSE': 1, 'OUT': 0, 'DIR': 0, 'WAIT': 0, 'DUTY': 0}" />
@@ -24,8 +24,8 @@
     <param name="~y_acc_mode" value="acc_normal" />
     <param name="~y_low_speed" value="30" />
     <param name="~y_speed" value="50000" />
-    <param name="~y_acc" value="10" />
-    <param name="~y_dec" value="10" />
+    <param name="~y_acc" value="100" />
+    <param name="~y_dec" value="100" />
     <param name="~y_step" value="1" />
 
   </node>
