@@ -59,7 +59,7 @@ class pci7415_driver(object):
                 self.pub[ax+'_speed'].publish(speed[i])
                 self.pub[ax+'_step'].publish(step[i])
                 continue
-
+            # 所要時間を測る
             t2 = time.time()
             print('dt1: {.6f:0}, dt2: {.6f:1}'.format(t1-t0, t2-t1))
 
@@ -69,7 +69,7 @@ class pci7415_driver(object):
             else:
                 pass
 
-            time.sleep(1e-5)
+            time.sleep(1e-5)　#要検討
             continue
 
     #regist_function(callback)
