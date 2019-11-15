@@ -30,11 +30,11 @@ class pci7415_driver(object):
         base = '/pci7415/rsw{rsw_id}'.format(**locals())
         for ax in self.use_axis:
             b = '{base}/{ax}/'.format(**locals())
-            rospy.Subscriber('/dev'+b+'internal/stop_motion', std.msgs.msg.Int64, self.callback_stop, callback_args=ax)
-            rospy.Subscriber('/dev'+b+'internal/start_motion', std.msgs.msg.Int64, self.callback_start, callback_args=ax)
-            rospy.Subscriber('/dev'+b+'internal/change_speed', std.msgs.msg.Int64, self.callback_change_speed, callback_args=ax)
-            rospy.Subscriber('/dev'+b+'internal/set_speed', std.msgs.msg.Int64, self.set_speed, callback_args=ax)
-            rospy.Subscriber('/dev'+b+'internal/set_step', std.msgs.msg.Int64, self.set_step, callback_args=ax)
+            rospy.Subscriber('/dev'+b+'internal/set_speed', std.msgs.msg.Int64, self.regist_set_speed, callback_args=ax)
+            rospy.Subscriber('/dev'+b+'internal/set_step', std.msgs.msg.Int64, self.regist_set_step, callback_args=ax)
+            rospy.Subscriber('/dev'+b+'internal/start_motion', std.msgs.msg.Int64, self.regist_start, callback_args=ax)
+            rospy.Subscriber('/dev'+b+'internal/stop_motion', std.msgs.msg.Int64, self.regist_stop, callback_args=ax)
+            rospy.Subscriber('/dev'+b+'internal/change_speed', std.msgs.msg.Int64, self.regist_change_speed, callback_args=ax)
             self.pub[ax+'_speed'] = rospy.Publisher('/dev'+b+'internal/speed', std.msgs.msg.Float64, queue_size=1)
             self.pub[ax+'_step'] = rospy.Publisher('/dev'+b+'internal/step', std.msgs.msg.Float64, queue_size=1)
 
@@ -60,7 +60,34 @@ class pci7415_driver(object):
             time.sleep(1e-5)
             continue
 
-    #callback_function
+    #regist_function(callback)
+    def regist_set_speed(self, req, axis):
+        self.func_dict_li.append({'func': self.set_speed ,'data': req.data 'axis': axis})
+        pass
+
+    def regist_set_step(self, req, axis):
+        self.func_dict_li.append({'func': self.set_step ,'data': req.data 'axis': axis})
+        pass
+
+    def regist_start(self, req, axis):
+        self.func_dict_li.append({'func': self.start_motion ,'data': req.data 'axis': axis})
+        pass
+
+    def regist_stop(self, req, axis):
+        self.func_dict_li.append({'func': self.stop_motion ,'data': req.data 'axis': axis})
+        pass
+
+    def regist_change_speed(self, req, axis):
+        self.func_dict_li.append({'func': self.change_speed ,'data': req.data 'axis': axis})
+        pass
+
+    def regist_change_step(self, req, axis):
+        self.func_dict_li.append({'func': self.change_step ,'data': req.data 'axis': axis})
+        pass
+
+    #func_dict = {'func': ,'data': 'axis': }
+
+    #function
     def set_speed(self, req, axis):
         self.params[axis]['motion'][axis]['speed'] = abs(req.data)
         pass
@@ -69,25 +96,6 @@ class pci7415_driver(object):
         self.params[axis]['motion'][axis]['step'] = req.data
         pass
 
-    def callback_start(self, req, axis):
-        self.func_dict_li.append({'func': self.start_motion ,'data': req.data 'axis': axis})
-        pass
-
-    def callback_stop_(self, req, axis):
-        self.func_dict_li.append({'func': self.stop_motion ,'data': req.data 'axis': axis})
-        pass
-
-    def callback_change_speed(self, req, axis):
-        self.func_dict_li.append({'func': self.change_speed ,'data': req.data 'axis': axis})
-        pass
-
-    def callback_change_step(self, req, axis):
-        self.func_dict_li.append({'func': self.change_step ,'data': req.data 'axis': axis})
-        pass
-
-    #func_dict = {'func': ,'data': 'axis': }
-
-    #function
     def start_motion(self, req, axis):
         self.mot.set_motion(axis=axis, mode=self.params[axis]['mode'], motion=self.params[axis]['motion'])
         self.mot.start_motion(axis=axis, start_mode='acc', move_mode=self.params[axis]['mode'])
