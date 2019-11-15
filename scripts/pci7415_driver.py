@@ -30,13 +30,13 @@ class pci7415_driver(object):
         base = '/pci7415/rsw{rsw_id}'.format(**locals())
         for ax in self.use_axis:
             b = '{base}/{ax}/'.format(**locals())
-            rospy.Subscriber('/dev'+b+'internal/set_speed', std.msgs.msg.Int64, self.regist_set_speed, callback_args=ax)
-            rospy.Subscriber('/dev'+b+'internal/set_step', std.msgs.msg.Int64, self.regist_set_step, callback_args=ax)
-            rospy.Subscriber('/dev'+b+'internal/start_motion', std.msgs.msg.Int64, self.regist_start, callback_args=ax)
-            rospy.Subscriber('/dev'+b+'internal/stop_motion', std.msgs.msg.Int64, self.regist_stop, callback_args=ax)
-            rospy.Subscriber('/dev'+b+'internal/change_speed', std.msgs.msg.Int64, self.regist_change_speed, callback_args=ax)
-            self.pub[ax+'_speed'] = rospy.Publisher('/dev'+b+'internal/speed', std.msgs.msg.Float64, queue_size=1)
-            self.pub[ax+'_step'] = rospy.Publisher('/dev'+b+'internal/step', std.msgs.msg.Float64, queue_size=1)
+            rospy.Subscriber('/dev'+b+'internal/set_speed', std_msgs.msg.Int64, self.regist_set_speed, callback_args=ax)
+            rospy.Subscriber('/dev'+b+'internal/set_step', std_msgs.msg.Int64, self.regist_set_step, callback_args=ax)
+            rospy.Subscriber('/dev'+b+'internal/start_motion', std_msgs.msg.Int64, self.regist_start, callback_args=ax)
+            rospy.Subscriber('/dev'+b+'internal/stop_motion', std_msgs.msg.Int64, self.regist_stop, callback_args=ax)
+            rospy.Subscriber('/dev'+b+'internal/change_speed', std_msgs.msg.Int64, self.regist_change_speed, callback_args=ax)
+            self.pub[ax+'_speed'] = rospy.Publisher('/dev'+b+'internal/speed', std_msgs.msg.Float64, queue_size=1)
+            self.pub[ax+'_step'] = rospy.Publisher('/dev'+b+'internal/step', std_msgs.msg.Float64, queue_size=1)
 
         time.sleep(0.5)
 
