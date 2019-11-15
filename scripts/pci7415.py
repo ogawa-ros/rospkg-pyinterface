@@ -30,21 +30,20 @@ if __name__ == '__main__':
     params = []
     for ax in use_axis:
         p = {}
-        p['axis'] = ax
-        p['mode'] = rospy.get_param('~{ax}_mode'.format(**locals()), default_mode)
-        p['do_conf'] = eval(rospy.get_param('~do_conf', default_do_conf))
-        p['pulse_conf'] = [eval(rospy.get_param('~{ax}_pulse_conf'.format(**locals()), default_pulse_conf))]
+        p[ax] = {}
+        p[ax]['mode'] = rospy.get_param('~{ax}_mode'.format(**locals()), default_mode)
+        #p['do_conf'] = eval(rospy.get_param('~do_conf', default_do_conf))
+        p[ax]['pulse_conf'] = [eval(rospy.get_param('~{ax}_pulse_conf'.format(**locals()), default_pulse_conf))]
 
         mp = {}
-        mp[ax] = {}
-        mp[ax]['clock'] = rospy.get_param('~{ax}_clock'.format(**locals()), default_clock)
-        mp[ax]['acc_mode'] = rospy.get_param('~{ax}_acc_mode'.format(**locals()), default_acc_mode)
-        mp[ax]['low_speed'] = rospy.get_param('~{ax}_low_speed'.format(**locals()), default_low_speed)
-        mp[ax]['speed'] = rospy.get_param('~{ax}_speed'.format(**locals()), default_speed)
-        mp[ax]['acc'] = rospy.get_param('~{ax}_acc'.format(**locals()), default_acc)
-        mp[ax]['dec'] = rospy.get_param('~{ax}_dec'.format(**locals()), default_dec)
-        mp[ax]['step'] = rospy.get_param('~{ax}_step'.format(**locals()), default_step)
-        p['motion'] = mp
+        mp['clock'] = rospy.get_param('~{ax}_clock'.format(**locals()), default_clock)
+        mp['acc_mode'] = rospy.get_param('~{ax}_acc_mode'.format(**locals()), default_acc_mode)
+        mp['low_speed'] = rospy.get_param('~{ax}_low_speed'.format(**locals()), default_low_speed)
+        mp['speed'] = rospy.get_param('~{ax}_speed'.format(**locals()), default_speed)
+        mp['acc'] = rospy.get_param('~{ax}_acc'.format(**locals()), default_acc)
+        mp['dec'] = rospy.get_param('~{ax}_dec'.format(**locals()), default_dec)
+        mp['step'] = rospy.get_param('~{ax}_step'.format(**locals()), default_step)
+        p[ax]['motion'] = mp
         params.append(p)
         continue
 
