@@ -1,6 +1,8 @@
 #! /usr/bin/env python3
 
 import time
+import numpy
+import queue
 import threading
 
 import rospy
@@ -9,7 +11,7 @@ import pyinterface
 class pci7415_driver(object):
 
     def __init__(self, rsw_id, params):
-        self.func_dict_li = []
+        self.func_queue = queue.Queue()
         self.pub = {}
         self.use_axis = ''.join([p['axis'] for p in params])
 
@@ -20,94 +22,102 @@ class pci7415_driver(object):
 
         # initialize motion controller
         self.mot = pyinterface.open(7415, rsw_id)
-        self.mot.initialize()
-        self.mot.output_do(params[0]['do_conf'])
         [self.mot.set_pulse_out(p['axis'], p['method'], p['pulse_conf']) for p in params]
         [self.mot.set_motion(p['axis'], p['mode'], p['motion']) for p in params]
-        self.last_direction_dict = {p['axis']: 0 for p in params}
 
         #Subscriber&Publisher
-        base = '/pci7415/rsw{rsw_id}'.format(**locals())
+        base = '/pyinterface/pci7415/rsw{rsw_id}'.format(**locals())
         for ax in self.use_axis:
             b = '{base}/{ax}/'.format(**locals())
-            rospy.Subscriber('/dev'+b+'internal/set_speed', std_msgs.msg.Int64, self.regist_set_speed, callback_args=ax)
-            rospy.Subscriber('/dev'+b+'internal/set_step', std_msgs.msg.Int64, self.regist_set_step, callback_args=ax)
-            rospy.Subscriber('/dev'+b+'internal/start_motion', std_msgs.msg.Int64, self.regist_start, callback_args=ax)
-            rospy.Subscriber('/dev'+b+'internal/stop_motion', std_msgs.msg.Int64, self.regist_stop, callback_args=ax)
-            rospy.Subscriber('/dev'+b+'internal/change_speed', std_msgs.msg.Int64, self.regist_change_speed, callback_args=ax)
-            self.pub[ax+'_speed'] = rospy.Publisher('/dev'+b+'internal/speed', std_msgs.msg.Float64, queue_size=1)
-            self.pub[ax+'_step'] = rospy.Publisher('/dev'+b+'internal/step', std_msgs.msg.Float64, queue_size=1)
+            rospy.Subscriber(b+'internal/start', std_msgs.msg.Int64, self.regist_start, callback_args=ax)
+            rospy.Subscriber(b+'internal/stop', std_msgs.msg.Int64, self.regist_stop, callback_args=ax)
+            rospy.Subscriber(b+'internal/set_speed', std_msgs.msg.Int64, self.regist_set_speed, callback_args=ax)
+            rospy.Subscriber(b+'internal/set_step', std_msgs.msg.Int64, self.regist_set_step, callback_args=ax)
+            rospy.Subscriber(b+'internal/set_speed', std_msgs.msg.Int64, self.regist_change_speed, callback_args=ax)
+            rospy.Subscriber(b+'internal/set_step', std_msgs.msg.Int64, self.regist_change_step, callback_args=ax)
+            self.pub[ax+'_speed'] = rospy.Publisher(b+'speed', std_msgs.msg.Float64, queue_size=1)
+            self.pub[ax+'_step'] = rospy.Publisher(b+'step', std_msgs.msg.Float64, queue_size=1)
+            continue
 
         time.sleep(0.5)
 
         # loop start
-        self.th = threading.Thread(target= self.loop)
+        self.th = threading.Thread(target=self.loop)
         self.th.setDaemon(True)
         self.th.start()
         return
 
     def loop(self):
         while not rospy.is_shutdown():
-            speed =self.mot.read_speed(self.use_axis)
-            step = self.mot.read_counter(self.use_axis, cnt_mode = 'counter')
+            t0 = time.time()
+            speed = self.mot.read_speed(self.use_axis)
+            step = self.mot.read_counter(self.use_axis, cnt_mode='counter')
+
+            t1 = time.time()
+
             for i, ax in enumerate(self.use_axis):
                 self.pub[ax+'_speed'].publish(speed[i])
                 self.pub[ax+'_step'].publish(step[i])
-            if self.func_dict_li != {}:
-                func = self.func_dict_li.pop(0)
-                func['func'](func['data'], func['axis'])
+                continue
+
+            t2 = time.time()
+            print('dt1: {.6f:0}, dt2: {.6f:1}'.format(t1-t0, t2-t1))
+
+            if not self.func_queue.empty():
+                f = self.func_queue.get()
+                f['func'](f['data'], f['axis'])
             else:
                 pass
+
             time.sleep(1e-5)
             continue
 
     #regist_function(callback)
-    def regist_set_speed(self, req, axis):
-        self.func_dict_li.append({'func': self.set_speed ,'data': req.data 'axis': axis})
-        pass
-
-    def regist_set_step(self, req, axis):
-        self.func_dict_li.append({'func': self.set_step ,'data': req.data 'axis': axis})
-        pass
 
     def regist_start(self, req, axis):
-        self.func_dict_li.append({'func': self.start_motion ,'data': req.data 'axis': axis})
+        self.func_queue.put({'func': self.start ,'data': req.data 'axis': axis})
         pass
 
     def regist_stop(self, req, axis):
-        self.func_dict_li.append({'func': self.stop_motion ,'data': req.data 'axis': axis})
+        self.func_queue.put({'func': self.stop ,'data': req.data 'axis': axis})
+        pass
+
+    def regist_set_speed(self, req, axis):
+        self.func_queue.put({'func': self.set_speed ,'data': req.data 'axis': axis})
+        pass
+
+    def regist_set_step(self, req, axis):
+        self.func_queue.put({'func': self.set_step ,'data': req.data 'axis': axis})
         pass
 
     def regist_change_speed(self, req, axis):
-        self.func_dict_li.append({'func': self.change_speed ,'data': req.data 'axis': axis})
+        self.func_queue.put({'func': self.change_speed ,'data': req.data 'axis': axis})
         pass
 
     def regist_change_step(self, req, axis):
-        self.func_dict_li.append({'func': self.change_step ,'data': req.data 'axis': axis})
+        self.func_queue.put({'func': self.change_step ,'data': req.data 'axis': axis})
         pass
-
-    #func_dict = {'func': ,'data': 'axis': }
 
     #function
-    def set_speed(self, req, axis):
-        self.params[axis]['motion'][axis]['speed'] = abs(req.data)
-        pass
-
-    def set_step(self, req, axis):
-        self.params[axis]['motion'][axis]['step'] = req.data
-        pass
-
-    def start_motion(self, req, axis):
-        self.mot.set_motion(axis=axis, mode=self.params[axis]['mode'], motion=self.params[axis]['motion'])
+    def start(self, req, axis):
         self.mot.start_motion(axis=axis, start_mode='acc', move_mode=self.params[axis]['mode'])
         pass
 
-    def stop_motion(self, req, axis):
+    def stop(self, req, axis):
         self.mot.stop_motion(axis=axis, stop_mode='dec_stop')
         pass
 
+    def set_speed(self, req, axis):
+        self.params[axis]['motion'][axis]['speed'] = abs(req.data)
+        self.mot.set_motion(axis=axis, mode=self.params[axis]['mode'], motion=self.params[axis]['motion'])
+
+    def set_step(self, req, axis):
+        self.params[axis]['motion'][axis]['step'] = req.data
+        self.mot.set_motion(axis=axis, mode=self.params[axis]['mode'], motion=self.params[axis]['motion'])
+
     def change_speed(self, req, axis):
         self.mot.change_speed(axis=axis, mode='accdec_change', speed=[abs(req.data)])
+        #self.params[axis]['motion'][axis]['speed'] = abs(req.data)
         pass
 
     def change_step(self, req, axis):
