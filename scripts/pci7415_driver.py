@@ -8,7 +8,7 @@ import pyinterface
 
 class pci7415_driver(object):
 
-    def __init__(self, rsw_id, use_axis, params):
+    def __init__(self, rsw_id, params):
         self.func_dict_li = []
         self.pub = {}
         self.use_axis = ''.join([p['axis'] for p in params])
@@ -42,6 +42,7 @@ class pci7415_driver(object):
 
         # loop start
         self.th = threading.Thread(target= self.loop)
+        self.th.setDaemon(True)
         self.th.start()
         return
 
