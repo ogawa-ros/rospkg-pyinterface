@@ -30,11 +30,11 @@ class pci7415_driver(object):
         base = '/pci7415/rsw{rsw_id}'.format(**locals())
         for ax in self.use_axis:
             b = '{base}/{ax}/'.format(**locals())
-            rospy.Subscriber('/dev'+b+'internal/stop_motion', std.msgs.msg.Float64, self.callback_stop, callback_args=ax)
-            rospy.Subscriber('/dev'+b+'internal/start_motion', std.msgs.msg.Float64, self.callback_start, callback_args=ax)
-            rospy.Subscriber('/dev'+b+'internal/change_speed', std.msgs.msg.Float64, self.callback_change_speed, callback_args=ax)
-            rospy.Subscriber('/dev'+b+'internal/set_speed', std.msgs.msg.Float64, self.set_speed, callback_args=ax)
-            rospy.Subscriber('/dev'+b+'internal/set_step', std.msgs.msg.Float64, self.set_step, callback_args=ax)
+            rospy.Subscriber('/dev'+b+'internal/stop_motion', std.msgs.msg.Int64, self.callback_stop, callback_args=ax)
+            rospy.Subscriber('/dev'+b+'internal/start_motion', std.msgs.msg.Int64, self.callback_start, callback_args=ax)
+            rospy.Subscriber('/dev'+b+'internal/change_speed', std.msgs.msg.Int64, self.callback_change_speed, callback_args=ax)
+            rospy.Subscriber('/dev'+b+'internal/set_speed', std.msgs.msg.Int64, self.set_speed, callback_args=ax)
+            rospy.Subscriber('/dev'+b+'internal/set_step', std.msgs.msg.Int64, self.set_step, callback_args=ax)
             self.pub[ax+'_speed'] = rospy.Publisher('/dev'+b+'internal/speed', std.msgs.msg.Float64, queue_size=1)
             self.pub[ax+'_step'] = rospy.Publisher('/dev'+b+'internal/step', std.msgs.msg.Float64, queue_size=1)
 
@@ -49,7 +49,7 @@ class pci7415_driver(object):
         while not rospy.is_shutdown():
             speed =self.mot.read_speed(self.use_axis)
             step = self.mot.read_counter(self.use_axis, cnt_mode = 'counter')
-            for ax in zip(self.use_axis, range(len(self.use_axis))):
+            for i, ax in enumerate(self.use_axis):
                 self.pub[ax+'_speed'].publish(speed[i])
                 self.pub[ax+'_step'].publish(step[i])
             if self.func_dict_li != {}:
