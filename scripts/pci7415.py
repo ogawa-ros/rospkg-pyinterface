@@ -27,13 +27,12 @@ if __name__ == '__main__':
     rsw_id = rospy.get_param('~rsw_id', default_rsw_id)
     use_axis = rospy.get_param('~use_axis', default_use_axis) # ex. 'xyzu', 'xy', or 'yu'
 
-    params = []
+    params = {}
     for ax in use_axis:
-        p = {}
-        p[ax] = {}
-        p[ax]['mode'] = rospy.get_param('~{ax}_mode'.format(**locals()), default_mode)
+        params[ax] = {}
+        params[ax]['mode'] = rospy.get_param('~{ax}_mode'.format(**locals()), default_mode)
         #p['do_conf'] = eval(rospy.get_param('~do_conf', default_do_conf))
-        p[ax]['pulse_conf'] = [eval(rospy.get_param('~{ax}_pulse_conf'.format(**locals()), default_pulse_conf))]
+        params[ax]['pulse_conf'] = [eval(rospy.get_param('~{ax}_pulse_conf'.format(**locals()), default_pulse_conf))]
 
         mp = {}
         mp['clock'] = rospy.get_param('~{ax}_clock'.format(**locals()), default_clock)
@@ -43,8 +42,7 @@ if __name__ == '__main__':
         mp['acc'] = rospy.get_param('~{ax}_acc'.format(**locals()), default_acc)
         mp['dec'] = rospy.get_param('~{ax}_dec'.format(**locals()), default_dec)
         mp['step'] = rospy.get_param('~{ax}_step'.format(**locals()), default_step)
-        p[ax]['motion'] = mp
-        params.append(p)
+        params[ax]['motion'] = mp
         continue
 
     handler = pci7415_handler(rsw_id, params)
