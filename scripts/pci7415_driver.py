@@ -13,17 +13,15 @@ class pci7415_driver(object):
     def __init__(self, rsw_id, params):
         self.func_queue = queue.Queue()
         self.pub = {}
-        self.use_axis = ''.join([p['axis'] for p in params])
+        self.use_axis = ''.join([ax for ax in params])
 
-        self.params = {}
-        for p in params:
-            self.params[p['axis']] = p
-            continue
+        self.params = params
+        self.motion = {ax: params[ax]['motion'] for ax in self.use_axis}
 
         # initialize motion controller
         self.mot = pyinterface.open(7415, rsw_id)
-        [self.mot.set_pulse_out(p['axis'], p['method'], p['pulse_conf']) for p in params]
-        [self.mot.set_motion(p['axis'], p['mode'], p['motion']) for p in params]
+        [self.mot.set_pulse_out(ax, 'method', params[ax]['pulse_conf']) for ax in self.use_axis]
+        self.mot.set_motion(self.use_axis, params[ax]['mode'], self.motion)
 
         #Subscriber&Publisher
         base = '/pyinterface/pci7415/rsw{rsw_id}'.format(**locals())
@@ -33,8 +31,9 @@ class pci7415_driver(object):
             rospy.Subscriber(b+'internal/stop', std_msgs.msg.Int64, self.regist_stop, callback_args=ax)
             rospy.Subscriber(b+'internal/set_speed', std_msgs.msg.Int64, self.regist_set_speed, callback_args=ax)
             rospy.Subscriber(b+'internal/set_step', std_msgs.msg.Int64, self.regist_set_step, callback_args=ax)
-            rospy.Subscriber(b+'internal/set_speed', std_msgs.msg.Int64, self.regist_change_speed, callback_args=ax)
-            rospy.Subscriber(b+'internal/set_step', std_msgs.msg.Int64, self.regist_change_step, callback_args=ax)
+            rospy.Subscriber(b+'internal/set_acc', std_msgs.msg.Int64, self.regist_set_acc, callback_args=ax)
+            rospy.Subscriber(b+'internal/change_speed', std_msgs.msg.Int64, self.regist_change_speed, callback_args=ax)
+            rospy.Subscriber(b+'internal/change_step', std_msgs.msg.Int64, self.regist_change_step, callback_args=ax)
             self.pub[ax+'_speed'] = rospy.Publisher(b+'speed', std_msgs.msg.Float64, queue_size=1)
             self.pub[ax+'_step'] = rospy.Publisher(b+'step', std_msgs.msg.Float64, queue_size=1)
             continue
@@ -73,7 +72,6 @@ class pci7415_driver(object):
             continue
 
     #regist_function(callback)
-
     def regist_start(self, req, axis):
         self.func_queue.put({'func': self.start ,'data': req.data 'axis': axis})
         pass
@@ -84,6 +82,10 @@ class pci7415_driver(object):
 
     def regist_set_speed(self, req, axis):
         self.func_queue.put({'func': self.set_speed ,'data': req.data 'axis': axis})
+        pass
+
+    def regist_set_step(self, req, axis):
+        self.func_queue.put({'func': self.set_step ,'data': req.data 'axis': axis})
         pass
 
     def regist_set_step(self, req, axis):
@@ -108,15 +110,22 @@ class pci7415_driver(object):
         pass
 
     def set_speed(self, req, axis):
-        self.params[axis]['motion'][axis]['speed'] = abs(req.data)
-        self.mot.set_motion(axis=axis, mode=self.params[axis]['mode'], motion=self.params[axis]['motion'])
+        self.motion[axis]['speed'] = req.data
+        self.mot.set_motion(axis=axis, mode=self.params[axis]['mode'], motion=self.motion)
+        pass
 
     def set_step(self, req, axis):
-        self.params[axis]['motion'][axis]['step'] = req.data
-        self.mot.set_motion(axis=axis, mode=self.params[axis]['mode'], motion=self.params[axis]['motion'])
+        self.motion[axis]['step'] = req.data
+        self.mot.set_motion(axis=axis, mode=self.params[axis]['mode'], motion=self.motion)
+        pass
+
+    def set_acc(self, req, axis):
+        self.params[axis]['acc'] = req.data
+        self.mot.set_motion(axis=axis, mode=self.params[axis]['mode'], motion=self.motion)
+        pass
 
     def change_speed(self, req, axis):
-        self.mot.change_speed(axis=axis, mode='accdec_change', speed=[abs(req.data)])
+        self.mot.change_speed(axis=axis, mode='accdec_change', speed=[req.data])
         #self.params[axis]['motion'][axis]['speed'] = abs(req.data)
         pass
 
