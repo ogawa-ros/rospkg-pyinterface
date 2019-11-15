@@ -32,6 +32,7 @@ class pci7415_driver(object):
             rospy.Subscriber(b+'internal/set_speed', std_msgs.msg.Int64, self.regist_set_speed, callback_args=ax)
             rospy.Subscriber(b+'internal/set_step', std_msgs.msg.Int64, self.regist_set_step, callback_args=ax)
             rospy.Subscriber(b+'internal/set_acc', std_msgs.msg.Int64, self.regist_set_acc, callback_args=ax)
+            rospy.Subscriber(b+'internal/set_dec', std_msgs.msg.Int64, self.regist_set_dec, callback_args=ax)
             rospy.Subscriber(b+'internal/change_speed', std_msgs.msg.Int64, self.regist_change_speed, callback_args=ax)
             rospy.Subscriber(b+'internal/change_step', std_msgs.msg.Int64, self.regist_change_step, callback_args=ax)
             self.pub[ax+'_speed'] = rospy.Publisher(b+'speed', std_msgs.msg.Float64, queue_size=1)
@@ -88,8 +89,12 @@ class pci7415_driver(object):
         self.func_queue.put({'func': self.set_step ,'data': req.data 'axis': axis})
         pass
 
-    def regist_set_step(self, req, axis):
-        self.func_queue.put({'func': self.set_step ,'data': req.data 'axis': axis})
+    def regist_set_acc(self, req, axis):
+        self.func_queue.put({'func': self.set_acc ,'data': req.data 'axis': axis})
+        pass
+
+    def regist_set_dec(self, req, axis):
+        self.func_queue.put({'func': self.set_dec ,'data': req.data 'axis': axis})
         pass
 
     def regist_change_speed(self, req, axis):
@@ -121,6 +126,11 @@ class pci7415_driver(object):
 
     def set_acc(self, req, axis):
         self.params[axis]['acc'] = req.data
+        self.mot.set_motion(axis=axis, mode=self.params[axis]['mode'], motion=self.motion)
+        pass
+
+    def set_dec(self, req, axis):
+        self.params[axis]['dec'] = req.data
         self.mot.set_motion(axis=axis, mode=self.params[axis]['mode'], motion=self.motion)
         pass
 
