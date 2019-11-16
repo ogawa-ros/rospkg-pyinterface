@@ -45,7 +45,7 @@ if __name__ == '__main__':
         params[ax]['motion'] = mp
         continue
 
-    handler = pci7415_handler(rsw_id, params)
+    #handler = pci7415_handler(rsw_id, params)
     driver = pci7415_driver(rsw_id, params)
 
     rospy.spin()
