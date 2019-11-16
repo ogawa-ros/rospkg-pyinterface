@@ -119,7 +119,7 @@ class pci7415_driver(object):
         pass
 
     #function
-    def oputput_do(self, data, axis):
+    def output_do(self, data, axis):
         self.mot.output_do(data)
         pass
 
