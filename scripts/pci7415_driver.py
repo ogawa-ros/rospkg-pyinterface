@@ -72,7 +72,7 @@ class pci7415_driver(object):
             t2 = time.time()
             self.pub_dt1.publish(t1-t0)
             self.pub_dt2.publish(t2-t1)
-            self.pub_qsize.publish(self.func_queue.qsize()))
+            self.pub_qsize.publish(self.func_queue.qsize())
             if not self.func_queue.empty():
                 f = self.func_queue.get()
                 f['func'](f['data'], f['axis'])
