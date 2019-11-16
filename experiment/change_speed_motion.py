@@ -77,7 +77,7 @@ time.sleep(4)
 pub[use_axis]['change_speed'].publish(float(change_speed))
 
 global rspeed
-while rspeed == float(change_speed):
+while rspeed != float(change_speed):
     time.sleep(1e-3)
     continue
 
