@@ -83,7 +83,7 @@ class pci7415_driver(object):
 
     #regist_function(callback)
     def regist_output_do(self, req):
-        self.func_queue.put({'func': self.output_do, 'data': req.data, 'axis': 0})
+        self.func_queue.put({'func': self.output_do, 'data': list(req.data), 'axis': 0})
         pass
 
     def regist_start(self, req, axis):
