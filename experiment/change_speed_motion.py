@@ -8,7 +8,7 @@ import numpy
 import math
 import os
 import datetime
-sys.path.append("/root/ros/src/necst-core/scripts")
+sys.path.append("/home/exito/ros/src/necst-core/scripts")
 import core_controller
 import rospy
 
