@@ -20,7 +20,7 @@ class pci7415_driver(object):
 
         self.params = params
         self.mode = [params[ax]['mode'] for ax in self.use_axis]
-        self.motion = [params[ax]['motion'] for ax in self.use_axis]
+        self.motion = {ax: params[ax]['motion'] for ax in self.use_axis}
 
         # initialize motion controller
         self.mot = pyinterface.open(7415, rsw_id)
