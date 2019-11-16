@@ -63,7 +63,7 @@ pub_outputdo.publish(conf)
 #speed = input("speed = ")
 speed = 100000
 #step = input("step = ")
-step = -1
+step = 1
 #acc = input("acc =")
 acc = 50
 #dec = input("dec =")
