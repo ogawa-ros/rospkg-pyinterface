@@ -63,7 +63,7 @@ pub_outputdo.publish(conf)
 #speed = input("speed = ")
 speed = 100000
 #step = input("step = ")
-step = 1
+step = -1
 #acc = input("acc =")
 acc = 50
 #dec = input("dec =")
@@ -75,6 +75,7 @@ pub[use_axis]['set_speed'].publish(float(speed))
 pub[use_axis]['set_step'].publish(int(step))
 pub[use_axis]['set_acc'].publish(int(acc))
 pub[use_axis]['set_dec'].publish(int(dec))
+time.sleep(0.1)
 pub[use_axis]['start'].publish(1)
 
 time.sleep(5)
