@@ -7,9 +7,8 @@ import threading
 
 import rospy
 
-sys.path.append('/root/ros/src/pyinterface')
-import pyinterface_
-print(pyinterface_.__version__)
+import pyinterface
+print(pyinterface.__version__)
 import std_msgs.msg
 
 class pci7415_driver(object):
