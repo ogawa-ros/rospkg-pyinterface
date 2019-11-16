@@ -2,8 +2,8 @@
 
 import rospy
 
-from .pci7415_handler import pci7415_handler
-from .pci7415_driver import pci7415_driver
+#from .pci7415_handler import pci7415_handler
+import pci7415_driver
 
 default_name = 'pci7415'
 default_rsw_id = '0'
