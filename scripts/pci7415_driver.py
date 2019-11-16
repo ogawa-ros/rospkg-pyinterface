@@ -71,8 +71,8 @@ class pci7415_driver(object):
             # 所要時間を測る
             t2 = time.time()
             print('dt1: {0:.6f}, dt2: {1:.6f}'.format(t1-t0, t2-t1))
-            self.pub_dt1.publish(dt1)
-            self.pub_dt2.publish(dt2)
+            self.pub_dt1.publish(t1-t0)
+            self.pub_dt2.publish(t2-t1)
             if not self.func_queue.empty():
                 f = self.func_queue.get()
                 f['func'](f['data'], f['axis'])
