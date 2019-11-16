@@ -15,12 +15,13 @@ class pci7415_driver(object):
         self.use_axis = ''.join([ax for ax in params])
 
         self.params = params
+        sef.mode = {ax: params[ax]['mode'] for ax in self.use_axis}
         self.motion = {ax: params[ax]['motion'] for ax in self.use_axis}
 
         # initialize motion controller
         self.mot = pyinterface.open(7415, rsw_id)
         [self.mot.set_pulse_out(ax, 'method', params[ax]['pulse_conf']) for ax in self.use_axis]
-        self.mot.set_motion(self.use_axis, params[ax]['mode'], self.motion)
+        self.mot.set_motion(self.use_axis, self.mode, self.motion)
 
         #Subscriber&Publisher
         base = '/pyinterface/pci7415/rsw{rsw_id}'.format(**locals())
@@ -106,6 +107,7 @@ class pci7415_driver(object):
 
     #function
     def start(self, req, axis):
+        self.mot.set_motion(axis=axis, mode=self.mode, motion=self.motion)
         self.mot.start_motion(axis=axis, start_mode='acc', move_mode=self.params[axis]['mode'])
         pass
 
@@ -115,22 +117,18 @@ class pci7415_driver(object):
 
     def set_speed(self, req, axis):
         self.motion[axis]['speed'] = req.data
-        self.mot.set_motion(axis=axis, mode=self.params[axis]['mode'], motion=self.motion)
         pass
 
     def set_step(self, req, axis):
         self.motion[axis]['step'] = req.data
-        self.mot.set_motion(axis=axis, mode=self.params[axis]['mode'], motion=self.motion)
         pass
 
     def set_acc(self, req, axis):
         self.params[axis]['acc'] = req.data
-        self.mot.set_motion(axis=axis, mode=self.params[axis]['mode'], motion=self.motion)
         pass
 
     def set_dec(self, req, axis):
         self.params[axis]['dec'] = req.data
-        self.mot.set_motion(axis=axis, mode=self.params[axis]['mode'], motion=self.motion)
         pass
 
     def change_speed(self, req, axis):
