@@ -79,39 +79,39 @@ class pci7415_driver(object):
 
     #regist_function(callback)
     def regist_output_do(self, req):
-        self.func_queue.put({'func': self.output_do ,'data': req.data 'axis': 0})
+        self.func_queue.put({'func': self.output_do, 'data': req.data, 'axis': 0})
         pass
 
     def regist_start(self, req, axis):
-        self.func_queue.put({'func': self.start ,'data': req.data 'axis': axis})
+        self.func_queue.put({'func': self.start, 'data': req.data, 'axis': axis})
         pass
 
     def regist_stop(self, req, axis):
-        self.func_queue.put({'func': self.stop ,'data': req.data 'axis': axis})
+        self.func_queue.put({'func': self.stop, 'data': req.data, 'axis': axis})
         pass
 
     def regist_set_speed(self, req, axis):
-        self.func_queue.put({'func': self.set_speed ,'data': req.data 'axis': axis})
+        self.func_queue.put({'func': self.set_speed, 'data': req.data, 'axis': axis})
         pass
 
     def regist_set_step(self, req, axis):
-        self.func_queue.put({'func': self.set_step ,'data': req.data 'axis': axis})
+        self.func_queue.put({'func': self.set_step, 'data': req.data, 'axis': axis})
         pass
 
     def regist_set_acc(self, req, axis):
-        self.func_queue.put({'func': self.set_acc ,'data': req.data 'axis': axis})
+        self.func_queue.put({'func': self.set_acc, 'data': req.data, 'axis': axis})
         pass
 
     def regist_set_dec(self, req, axis):
-        self.func_queue.put({'func': self.set_dec ,'data': req.data 'axis': axis})
+        self.func_queue.put({'func': self.set_dec, 'data': req.data, 'axis': axis})
         pass
 
     def regist_change_speed(self, req, axis):
-        self.func_queue.put({'func': self.change_speed ,'data': req.data 'axis': axis})
+        self.func_queue.put({'func': self.change_speed, 'data': req.data, 'axis': axis})
         pass
 
     def regist_change_step(self, req, axis):
-        self.func_queue.put({'func': self.change_step ,'data': req.data 'axis': axis})
+        self.func_queue.put({'func': self.change_step, 'data': req.data, 'axis': axis})
         pass
 
     #function
