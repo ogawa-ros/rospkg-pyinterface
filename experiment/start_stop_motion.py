@@ -60,7 +60,7 @@ conf = std_msgs.msg.Int64MultiArray()
 conf.data = [1,1,1,1]
 pub_outputdo.publish(conf)
 
-speed = 300000
+speed = 30000
 step = 1
 acc = 100
 dec = 100
