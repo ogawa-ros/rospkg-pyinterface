@@ -32,7 +32,7 @@ class pci7415_driver(object):
 
         #Subscriber&Publisher
         base = '/pyinterface/pci7415/rsw{rsw_id}'.format(**locals())
-        rospy.Subscriber(b+'/output_do', std_msgs.msg.Int64MultiArray, self.regist_output_do)
+        rospy.Subscriber(base+'/output_do', std_msgs.msg.Int64MultiArray, self.regist_output_do)
         for ax in self.use_axis:
             b = '{base}/{ax}/'.format(**locals())
             rospy.Subscriber(b+'output_do', std_msgs.msg.Int64MultiArray, self.regist_output_do, callback_args=ax)
