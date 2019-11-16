@@ -31,6 +31,7 @@ class pci7415_driver(object):
         #Subscriber&Publisher
         base = '/pyinterface/pci7415/rsw{rsw_id}'.format(**locals())
         rospy.Subscriber(base+'/output_do', std_msgs.msg.Int64MultiArray, self.regist_output_do)
+        self.pub_qsize = rospy.Publisher(base+'/fun_qsize', std_msgs.msg.Float64, queue_size=1)
         for ax in self.use_axis:
             b = '{base}/{ax}/'.format(**locals())
             rospy.Subscriber(b+'internal/start', std_msgs.msg.Int64, self.regist_start, callback_args=ax)
@@ -71,6 +72,7 @@ class pci7415_driver(object):
             t2 = time.time()
             self.pub_dt1.publish(t1-t0)
             self.pub_dt2.publish(t2-t1)
+            self.pub_qsize.publish(self.func_queue.qsize()))
             if not self.func_queue.empty():
                 f = self.func_queue.get()
                 f['func'](f['data'], f['axis'])
