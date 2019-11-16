@@ -17,7 +17,7 @@ class pci7415_driver(object):
         self.use_axis = ''.join([ax for ax in params])
 
         self.params = params
-        sef.mode = {ax: params[ax]['mode'] for ax in self.use_axis}
+        self.mode = {ax: params[ax]['mode'] for ax in self.use_axis}
         self.motion = {ax: params[ax]['motion'] for ax in self.use_axis}
 
         # initialize motion controller
