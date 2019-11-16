@@ -25,9 +25,7 @@ class pci7415_driver(object):
 
         # initialize motion controller
         self.mot = pyinterface_.open(7415, rsw_id)
-        for ax in self.use_axis:
-            print(params[ax]['pulse_conf'])
-            self.mot.set_pulse_out(ax, 'method', params[ax]['pulse_conf'])
+        [self.mot.set_pulse_out(ax, 'method', params[ax]['pulse_conf']) for ax in self.use_axis]
         self.mot.set_motion(self.use_axis, self.mode, self.motion)
 
         #Subscriber&Publisher
@@ -70,7 +68,7 @@ class pci7415_driver(object):
                 continue
             # 所要時間を測る
             t2 = time.time()
-            print('dt1: {.6f:0}, dt2: {.6f:1}'.format(t1-t0, t2-t1))
+            print('dt1: {0:.6f}, dt2: {1:.6f}'.format(t1-t0, t2-t1))
 
             if not self.func_queue.empty():
                 f = self.func_queue.get()
