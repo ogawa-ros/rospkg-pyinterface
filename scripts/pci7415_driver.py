@@ -134,6 +134,10 @@ class pci7415_driver(object):
         pass
 
     def set_speed(self, data, axis):
+        print(data)
+        print(type(data))
+        print(axis)
+        print(type(axis))
         self.motion[axis]['speed'] = data
         pass
 
