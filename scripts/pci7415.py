@@ -32,7 +32,7 @@ if __name__ == '__main__':
         params[ax] = {}
         params[ax]['mode'] = rospy.get_param('~{ax}_mode'.format(**locals()), default_mode)
         #p['do_conf'] = eval(rospy.get_param('~do_conf', default_do_conf))
-        params[ax]['pulse_conf'] = eval(rospy.get_param('~{ax}_pulse_conf'.format(**locals()), default_pulse_conf))
+        params[ax]['pulse_conf'] = [eval(rospy.get_param('~{ax}_pulse_conf'.format(**locals()), default_pulse_conf))]
 
         mp = {}
         mp['clock'] = rospy.get_param('~{ax}_clock'.format(**locals()), default_clock)
