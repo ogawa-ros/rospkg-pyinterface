@@ -33,7 +33,6 @@ class pci7415_driver(object):
         rospy.Subscriber(base+'/output_do', std_msgs.msg.Int64MultiArray, self.regist_output_do)
         for ax in self.use_axis:
             b = '{base}/{ax}/'.format(**locals())
-            rospy.Subscriber(b+'output_do', std_msgs.msg.Int64MultiArray, self.regist_output_do, callback_args=ax)
             rospy.Subscriber(b+'internal/start', std_msgs.msg.Int64, self.regist_start, callback_args=ax)
             rospy.Subscriber(b+'internal/stop', std_msgs.msg.Int64, self.regist_stop, callback_args=ax)
             rospy.Subscriber(b+'internal/set_speed', std_msgs.msg.Float64, self.regist_set_speed, callback_args=ax)
