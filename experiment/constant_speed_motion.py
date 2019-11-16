@@ -72,7 +72,7 @@ pub[use_axis]['set_dec'].publish(int(dec))
 pub[use_axis]['start'].publish(1)
 
 global rspeed
-while rspeed*300/(59+1) < float(speed):
+while rspeed< float(speed):
     time.sleep(1e-3)
     continue
 

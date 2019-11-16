@@ -72,14 +72,12 @@ pub[use_axis]['set_acc'].publish(int(acc))
 pub[use_axis]['set_dec'].publish(int(dec))
 pub[use_axis]['start'].publish(1)
 
-global rspeed
-while rspeed*300/(59+1) < float(speed):
-    time.sleep(1e-3)
-    continue
+time.sleep(2)
 
 pub[use_axis]['change_speed'].publish(float(change_speed))
 
-while rspeed*300/(59+1) == float(change_speed):
+global rspeed
+while rspeed == float(change_speed):
     time.sleep(1e-3)
     continue
 
