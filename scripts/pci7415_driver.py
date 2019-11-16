@@ -1,10 +1,13 @@
 #! /usr/bin/env python3
 
+import sys
 import time
 import queue
 import threading
 
 import rospy
+
+sys.path('/root/ros/src/pyinterface')
 import pyinterface
 
 import std_msgs.msg
