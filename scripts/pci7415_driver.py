@@ -44,6 +44,8 @@ class pci7415_driver(object):
             rospy.Subscriber(b+'internal/change_step', std_msgs.msg.Int64, self.regist_change_step, callback_args=ax)
             self.pub[ax+'_speed'] = rospy.Publisher(b+'speed', std_msgs.msg.Float64, queue_size=1)
             self.pub[ax+'_step'] = rospy.Publisher(b+'step', std_msgs.msg.Float64, queue_size=1)
+            self.pub_dt1 = rospy.Publisher(b+'internal/dt1', std_msgs.msg.Float64, queue_size=1)
+            self.pub_dt2 = rospy.Publisher(b+'internal/dt2', std_msgs.msg.Float64, queue_size=1)
             continue
 
         time.sleep(0.5)
@@ -69,7 +71,8 @@ class pci7415_driver(object):
             # 所要時間を測る
             t2 = time.time()
             print('dt1: {0:.6f}, dt2: {1:.6f}'.format(t1-t0, t2-t1))
-
+            self.pub_dt1.publish(dt1)
+            self.pub_dt2.publish(dt2)
             if not self.func_queue.empty():
                 f = self.func_queue.get()
                 f['func'](f['data'], f['axis'])
