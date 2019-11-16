@@ -47,7 +47,7 @@ class cpz7415v_controller(object):
         self.mot.initialize()
         self.mot.output_do(p['do_conf'])
         [self.mot.set_pulse_out(p['axis'], 'method', p['pulse_conf']) for p in params]
-        [self.mot.set_motion(p['axis'], p['mode'], p['motion']) for p in params]
+        [self.mot.set_motion(p['axis'], [p['mode']], p['motion']) for p in params]
         self.last_direction_dict = {p['axis']: 0 for p in params}
 
         # create publishers
