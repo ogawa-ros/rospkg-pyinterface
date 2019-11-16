@@ -121,8 +121,9 @@ class pci7415_driver(object):
 
     #function
     def oputput_do(self, data, axis):
-        slef.mot.output_do(data)
-
+        self.mot.output_do(data)
+        pass
+        
     def start(self, data, axis):
         self.mot.set_motion(axis=axis, mode=self.mode, motion=self.motion)
         self.mot.start_motion(axis=axis, start_mode='acc', move_mode=self.params[axis]['mode'])
