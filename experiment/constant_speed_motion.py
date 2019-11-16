@@ -8,9 +8,11 @@ import numpy
 import math
 import os
 import datetime
-sys.path.append("/home/exito/necst-core/scripts")
+sys.path.append("/root/ros/src/necst-core/scripts")
 import core_controller
 import rospy
+
+import std_msgs.msg
 
 rospy.init_node(name)
 
@@ -25,13 +27,24 @@ base = '/pyinterface/pci7415/rsw0'
 
 use_axis = input("which use axis ? = ")
 
-pub_outputdo =rospy.Publisher(base+'/output_do', std_msgs.msg.Int64MultiArray, self.regist_output_do)
+
+def read_speed(q):
+    global rspeed
+    rspeed = q.data
+    return
+
+def read_counter(q):
+    rstep = q.data
+    return
+
+
+pub_outputdo =rospy.Publisher(base+'/output_do', std_msgs.msg.Int64MultiArray, queue_size=1)
 for ax in use_axis:
     b = '{base}/{ax}/'.format(**locals())
     pub[ax] = {}
     pub[ax]['start'] = rospy.Publisher(b+'internal/start', std_msgs.msg.Int64, queue_size=1)
     pub[ax]['stop'] = rospy.Publisher(b+'internal/stop', std_msgs.msg.Int64, queue_size=1)
-    pub[ax]['set_speed'] = rospy.Publisher(b+'internal/set_speed', std_msgs.msg.Float6464, queue_size=1)
+    pub[ax]['set_speed'] = rospy.Publisher(b+'internal/set_speed', std_msgs.msg.Float64, queue_size=1)
     pub[ax]['set_step'] = rospy.Publisher(b+'internal/set_step', std_msgs.msg.Int64, queue_size=1)
     pub[ax]['set_acc'] = rospy.Publisher(b+'internal/set_acc', std_msgs.msg.Int64, queue_size=1)
     pub[ax]['set_dec'] = rospy.Publisher(b+'internal/set_dec', std_msgs.msg.Int64, queue_size=1)
@@ -42,33 +55,28 @@ for ax in use_axis:
 
     time.sleep(0.1)
 
-def read_speed(q):
-    rspeed = q.data
-    return
-
-def read_counter(q):
-    rstep = q.data
-    return
-
 logger.start(file_name)
-
-pub_outputdo.publish([1,1,1,1])
+conf = std_msgs.msg.Int64MultiArray()
+conf.data = [0,0,0,0]
+pub_outputdo.publish(conf)
 
 speed = input("speed = ")
 step = input("step = ")
 acc = input("acc =")
 dec = input("dec =")
 
-pub[use_axis]['set_speed'].publish(speed)
-pub[use_axis]['set_step'].publish(step)
-pub[use_axis]['set_acc'].publish(acc)
-pub[use_axis]['set_dec'].publish(dec)
+pub[use_axis]['set_speed'].publish(float(speed))
+pub[use_axis]['set_step'].publish(int(step))
+pub[use_axis]['set_acc'].publish(int(acc))
+pub[use_axis]['set_dec'].publish(int(dec))
 pub[use_axis]['start'].publish(1)
 
-while rspeed > speed:
+global rspeed
+while rspeed > float(speed):
     time.sleep(1e-3)
     continue
 
+time.sleep(3)
 pub[use_axis]['stop'].publish(1)
 
 logger.stop()
