@@ -9,7 +9,7 @@ default_name = 'pci7415'
 default_rsw_id = '0'
 default_do_conf = "[0, 0, 0, 0]"
 default_use_axis = 'xyzu'
-default_pulse_conf = "{'PULSE': 0, 'OUT': 0, 'DIR': 0, 'WAIT': 0, 'DUTY': 0}"
+default_pulse_conf = "{'PULSE': '0', 'OUT': '0', 'DIR': '0', 'WAIT': '0', 'DUTY': '0'}"
 default_mode = 'ptp'
 default_clock = 299
 default_acc_mode = 'acc_normal'
@@ -32,7 +32,7 @@ if __name__ == '__main__':
         params[ax] = {}
         params[ax]['mode'] = rospy.get_param('~{ax}_mode'.format(**locals()), default_mode)
         #p['do_conf'] = eval(rospy.get_param('~do_conf', default_do_conf))
-        params[ax]['pulse_conf'] = [eval(rospy.get_param('~{ax}_pulse_conf'.format(**locals()), default_pulse_conf))]
+        params[ax]['pulse_conf'] = eval(rospy.get_param('~{ax}_pulse_conf'.format(**locals()), default_pulse_conf))
 
         mp = {}
         mp['clock'] = rospy.get_param('~{ax}_clock'.format(**locals()), default_clock)
