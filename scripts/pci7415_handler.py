@@ -28,9 +28,9 @@ class pci7415_handler(object):
             b = '{base}/{ax}/'.format(**locals())
             self.pub[ax+'_stop'] = rospy.Publisher('/pyinterface'+b+'internal/stop', std_msgs.msg.Int64, queue_size=1)
             self.pub[ax+'_start'] = rospy.Publisher('/pyinterface'+b+'internal/start', std_msgs.msg.Int64, queue_size=1)
-            self.pub[ax+'_change_speed'] = rospy.Publisher('/pyinterface'+b+'internal/change_speed', std_msgs.msg.Int64, queue_size=1)
+            self.pub[ax+'_change_speed'] = rospy.Publisher('/pyinterface'+b+'internal/change_speed', std_msgs.msg.Float64, queue_size=1)
             self.pub[ax+'_change_step'] = rospy.Publisher('/pyinterface'+b+'internal/change_step', std_msgs.msg.Int64, queue_size=1)
-            self.pub[ax+'_set_speed'] = rospy.Publisher('/pyinterface'+b+'internal/set_speed', std_msgs.msg.Int64, queue_size=1)
+            self.pub[ax+'_set_speed'] = rospy.Publisher('/pyinterface'+b+'internal/set_speed', std_msgs.msg.Float64, queue_size=1)
             self.pub[ax+'_set_step'] = rospy.Publisher('/pyinterface'+b+'internal/set_step', std_msgs.msg.Int64, queue_size=1)
             continue
         self.pub['ouput_do'] = rospy.Publisher('/pyinterface/{base}/output_do'.format(**locals()), std_msgs.msg.Int64MultiArray, queue_size=1)
@@ -49,7 +49,7 @@ class pci7415_handler(object):
             ### future developing ###
 
     def set_speed(self, speed, ax):
-        if abs(speed) < self.low_speed[ax]:
+        if abs(speed.data) < self.low_speed[ax]:
             #pub stop
             self.pub[ax+'_stop'].publish(1)
             while self.current_speed[ax] != 0:
@@ -59,11 +59,11 @@ class pci7415_handler(object):
         if self.move_mode[ax] == 'ptp':
             if self.current_speed[ax] != 0:
                 #pub change_speed
-                self.pub[ax+'_change_speed'].publish(abs(speed))
+                self.pub[ax+'_change_speed'].publish(abs(speed.data))
                 pass
 
             else:
-                self.pub[ax+'_change_speed'].publish(abs(speed))
+                self.pub[ax+'_change_speed'].publish(abs(speed.data))
                 #pub start
                 self.pub[ax+'_start'].publish(1)
                 pass
@@ -71,7 +71,7 @@ class pci7415_handler(object):
         elif self.move_mode[ax] == 'jog':
             if (self.last_direction_dict[axis] * param > 0) & (self.current_speed[ax] != 0):
                 #pub change_speed
-                self.pub[ax+'_change_speed'].publish(abs(speed))
+                self.pub[ax+'_change_speed'].publish(abs(speed.data))
                 pass
             else:
                 #pub stop
@@ -86,7 +86,7 @@ class pci7415_handler(object):
                     self.pub[ax+'_set_step'].publish(-1)
                     self.last_direction_dict[axis] = -1
                     pass
-                self.pub[ax+'_set_speed'].publish(abs(speed))
+                self.pub[ax+'_set_speed'].publish(abs(speed.data))
                 #pub start
                 self.pub[ax+'_start'].publish(1)
                 pass
@@ -98,9 +98,9 @@ class pci7415_handler(object):
         if self.move_mode[ax] == 'ptp':
             if self.current_speed[ax] != 0:
                 #pub change_step
-                self.pub[ax+'_change_step'].publish(step)
+                self.pub[ax+'_change_step'].publish(step.data)
             else:
-                self.pub[ax+'_set_step'].publish(step)
+                self.pub[ax+'_set_step'].publish(step.data)
                 self.pub[ax+'_start_motion'].publish(1)
                 pass
 
@@ -112,16 +112,16 @@ class pci7415_handler(object):
 
     def set_do(self, do):
         _do = std_msgs.msg.Int64MultiArray()
-        _do.data = do
+        _do.data = do.data
         pub['output_do'].publish(_do)
         return
 
 
     def get_speed(self, speed, ax):
-        self.current_speed[axis] = speed
+        self.current_speed[axis] = speed.data
         return
 
 
     def get_step(self, step, ax):
-        self.current_step[axis] = speed
+        self.current_step[axis] = step.data
         return
