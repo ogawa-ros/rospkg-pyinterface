@@ -72,7 +72,7 @@ pub[use_axis]['set_acc'].publish(int(acc))
 pub[use_axis]['set_dec'].publish(int(dec))
 pub[use_axis]['start'].publish(1)
 
-time.sleep(2)
+time.sleep(4)
 
 pub[use_axis]['change_speed'].publish(float(change_speed))
 
