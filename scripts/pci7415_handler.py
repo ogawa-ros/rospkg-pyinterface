@@ -26,24 +26,23 @@ class pci7415_handler(object):
         self.pub = {}
         for ax in self.use_axis:
             b = '{base}/{ax}/'.format(**locals())
-            self.pub[ax+'_stop_motion'] = rospy.Publisher('/dev'+b+'internal/stop_motion', std_msgs.msg.Int64, queue_size=1)
-            self.pub[ax+'_start_motion'] = rospy.Publisher('/dev'+b+'internal/start_motion', std_msgs.msg.Int64, queue_size=1)
-            self.pub[ax+'_change_speed'] = rospy.Publisher('/dev'+b+'internal/change_speed', std_msgs.msg.Int64, queue_size=1)
-            self.pub[ax+'_change_step'] = rospy.Publisher('/dev'+b+'internal/change_step', std_msgs.msg.Int64, queue_size=1)
-            self.pub[ax+'_set_speed'] = rospy.Publisher('/dev'+b+'internal/set_speed', std_msgs.msg.Int64, queue_size=1)
-            self.pub[ax+'_set_step'] = rospy.Publisher('/dev'+b+'internal/set_step', std_msgs.msg.Int64, queue_size=1)
+            self.pub[ax+'_stop'] = rospy.Publisher('/pyinterface'+b+'internal/stop', std_msgs.msg.Int64, queue_size=1)
+            self.pub[ax+'_start'] = rospy.Publisher('/pyinterface'+b+'internal/start', std_msgs.msg.Int64, queue_size=1)
+            self.pub[ax+'_change_speed'] = rospy.Publisher('/pyinterface'+b+'internal/change_speed', std_msgs.msg.Int64, queue_size=1)
+            self.pub[ax+'_change_step'] = rospy.Publisher('/pyinterface'+b+'internal/change_step', std_msgs.msg.Int64, queue_size=1)
+            self.pub[ax+'_set_speed'] = rospy.Publisher('/pyinterface'+b+'internal/set_speed', std_msgs.msg.Int64, queue_size=1)
+            self.pub[ax+'_set_step'] = rospy.Publisher('/pyinterface'+b+'internal/set_step', std_msgs.msg.Int64, queue_size=1)
             continue
-        self.pub['ouput_do'] = rospy.Publisher('/dev/pci7415/internal/output_do', std_msgs.msg.Int64MultiArray, queue_size=1)
+        self.pub['ouput_do'] = rospy.Publisher('/pyinterface/{base}/output_do'.format(**locals()), std_msgs.msg.Int64MultiArray, queue_size=1)
 
         # create subscrivers
         for ax in self.use_axis:
             b = '{base}/{ax}/'.format(**locals())
-            #rospy.Subscriber('/dev'+b+'mode_cmd', std_msgs.msg.String, self.set_mode, callback_args=ax+'_mode')
-            rospy.Subscriber('/dev'+b+'step_cmd', std_msgs.msg.Int64, self.set_speed, callback_args=ax)
-            rospy.Subscriber('/dev'+b+'speed_cmd', std_msgs.msg.Int64, self.set_step, callback_args=ax)
+            rospy.Subscriber('/pyinterface'+b+'step_cmd', std_msgs.msg.Int64, self.set_speed, callback_args=ax)
+            rospy.Subscriber('/pyinterface'+b+'speed_cmd', std_msgs.msg.Int64, self.set_step, callback_args=ax)
 
-            rospy.Subscriber('/dev'+b+'internal/speed', std_msgs.msg.Int64, self.get_speed, callback_args=ax)
-            rospy.Subscriber('/dev'+b+'internal/step', std_msgs.msg.Int64, self.get_step, callback_args=ax)
+            rospy.Subscriber('/pyinterface'+b+'speed', std_msgs.msg.Int64, self.get_speed, callback_args=ax)
+            rospy.Subscriber('/pyinterface'+b+'step', std_msgs.msg.Int64, self.get_step, callback_args=ax)
             continue
 
         # create DIO pub/sub
@@ -52,7 +51,7 @@ class pci7415_handler(object):
     def set_speed(self, speed, ax):
         if abs(speed) < self.low_speed[ax]:
             #pub stop
-            self.pub[ax+'_stop_motion'].publish(1)
+            self.pub[ax+'_stop'].publish(1)
             while self.current_speed[ax] != 0:
                 time.sleep(10e-5)
             return
@@ -66,7 +65,7 @@ class pci7415_handler(object):
             else:
                 self.pub[ax+'_change_speed'].publish(abs(speed))
                 #pub start
-                self.pub[ax+'_start_motion'].publish(1)
+                self.pub[ax+'_start'].publish(1)
                 pass
 
         elif self.move_mode[ax] == 'jog':
@@ -76,7 +75,7 @@ class pci7415_handler(object):
                 pass
             else:
                 #pub stop
-                self.pub[ax+'_stop_motion'].publish(1)
+                self.pub[ax+'_stop'].publish(1)
                 while self.current_speed[ax] != 0:
                     time.sleep(10e-5)
 
@@ -89,7 +88,7 @@ class pci7415_handler(object):
                     pass
                 self.pub[ax+'_set_speed'].publish(abs(speed))
                 #pub start
-                self.pub[ax+'_start_motion'].publish(1)
+                self.pub[ax+'_start'].publish(1)
                 pass
             pass
         return
@@ -114,15 +113,15 @@ class pci7415_handler(object):
     def set_do(self, do):
         _do = std_msgs.msg.Int64MultiArray()
         _do.data = do
-
-        pass
+        pub['output_do'].publish(_do)
+        return
 
 
     def get_speed(self, speed, ax):
         self.current_speed[axis] = speed
-        pass
+        return
 
 
     def get_step(self, step, ax):
         self.current_step[axis] = speed
-        pass
+        return
