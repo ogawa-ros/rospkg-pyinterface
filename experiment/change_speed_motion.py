@@ -90,5 +90,5 @@ pub[use_axis]['change_speed'].publish(float(change_speed))
 time.sleep(5)
 
 pub[use_axis]['stop'].publish(1)
-
+time.sleep(0.1)
 logger.stop()
