@@ -57,7 +57,7 @@ for ax in use_axis:
 
 logger.start(file_name)
 conf = std_msgs.msg.Int64MultiArray()
-conf.data = [0,0,0,0]
+conf.data = [1,1,1,1]
 pub_outputdo.publish(conf)
 
 speed = input("speed = ")
@@ -72,7 +72,7 @@ pub[use_axis]['set_dec'].publish(int(dec))
 pub[use_axis]['start'].publish(1)
 
 global rspeed
-while rspeed > float(speed):
+while rspeed*300/(59+1) < float(speed):
     time.sleep(1e-3)
     continue
 
