@@ -7,7 +7,7 @@ import threading
 
 import rospy
 
-sys.path('/root/ros/src/pyinterface')
+sys.path.append('/root/ros/src/pyinterface')
 import pyinterface
 
 import std_msgs.msg
