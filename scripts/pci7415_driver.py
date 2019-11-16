@@ -7,6 +7,8 @@ import threading
 import rospy
 import pyinterface
 
+import std_msgs.msg
+
 class pci7415_driver(object):
 
     def __init__(self, rsw_id, params):
@@ -25,8 +27,10 @@ class pci7415_driver(object):
 
         #Subscriber&Publisher
         base = '/pyinterface/pci7415/rsw{rsw_id}'.format(**locals())
+        rospy.Subscriber(b+'/output_do', std_msgs.msg.Int64MultiArray, self.regist_output_do)
         for ax in self.use_axis:
             b = '{base}/{ax}/'.format(**locals())
+            rospy.Subscriber(b+'output_do', std_msgs.msg.Int64MultiArray, self.regist_output_do, callback_args=ax)
             rospy.Subscriber(b+'internal/start', std_msgs.msg.Int64, self.regist_start, callback_args=ax)
             rospy.Subscriber(b+'internal/stop', std_msgs.msg.Int64, self.regist_stop, callback_args=ax)
             rospy.Subscriber(b+'internal/set_speed', std_msgs.msg.Int64, self.regist_set_speed, callback_args=ax)
@@ -73,6 +77,10 @@ class pci7415_driver(object):
             continue
 
     #regist_function(callback)
+    def regist_output_do(self, req):
+        self.func_queue.put({'func': self.output_do ,'data': req.data 'axis': 0})
+        pass
+
     def regist_start(self, req, axis):
         self.func_queue.put({'func': self.start ,'data': req.data 'axis': axis})
         pass
@@ -106,36 +114,39 @@ class pci7415_driver(object):
         pass
 
     #function
-    def start(self, req, axis):
+    def oputput_do(self, data, axis):
+        slef.mot.output_do(data)
+
+    def start(self, data, axis):
         self.mot.set_motion(axis=axis, mode=self.mode, motion=self.motion)
         self.mot.start_motion(axis=axis, start_mode='acc', move_mode=self.params[axis]['mode'])
         pass
 
-    def stop(self, req, axis):
+    def stop(self, data, axis):
         self.mot.stop_motion(axis=axis, stop_mode='dec_stop')
         pass
 
-    def set_speed(self, req, axis):
-        self.motion[axis]['speed'] = req.data
+    def set_speed(self, data, axis):
+        self.motion[axis]['speed'] = data
         pass
 
-    def set_step(self, req, axis):
-        self.motion[axis]['step'] = req.data
+    def set_step(self, data, axis):
+        self.motion[axis]['step'] = data
         pass
 
-    def set_acc(self, req, axis):
-        self.params[axis]['acc'] = req.data
+    def set_acc(self, data, axis):
+        self.params[axis]['acc'] = data
         pass
 
-    def set_dec(self, req, axis):
-        self.params[axis]['dec'] = req.data
+    def set_dec(self, data, axis):
+        self.params[axis]['dec'] = data
         pass
 
-    def change_speed(self, req, axis):
-        self.mot.change_speed(axis=axis, mode='accdec_change', speed=[req.data])
+    def change_speed(self, data, axis):
+        self.mot.change_speed(axis=axis, mode='accdec_change', speed=[data])
         #self.params[axis]['motion'][axis]['speed'] = abs(req.data)
         pass
 
-    def change_step(self, req, axis):
-        self.mot.change_step(axis=axis, step=[req.data])
+    def change_step(self, data, axis):
+        self.mot.change_step(axis=axis, step=[data])
         pass
