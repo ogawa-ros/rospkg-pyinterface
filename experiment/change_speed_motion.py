@@ -26,7 +26,7 @@ pub = {}
 base = '/pyinterface/pci7415/rsw0'
 
 #use_axis = input("which use axis ? = ")
-use_axis = "x"
+use_axis = "y"
 
 def read_speed(q):
     global rspeed
@@ -63,13 +63,14 @@ pub_outputdo.publish(conf)
 #speed = input("speed = ")
 speed = 100000
 #step = input("step = ")
-step = 1
+step = -1
 #acc = input("acc =")
 acc = 50
 #dec = input("dec =")
 dec = 50
 #change_speed = input("change_speed = ")
-change_speed = 300000
+change_speed = 200000
+change_speed2 = 300000
 
 pub[use_axis]['set_speed'].publish(float(speed))
 pub[use_axis]['set_step'].publish(int(step))
@@ -88,7 +89,9 @@ pub[use_axis]['change_speed'].publish(float(change_speed))
     #continue
 
 time.sleep(5)
+pub[use_axis]['change_speed'].publish(float(change_speed2))
 
+time.sleep(5)
 pub[use_axis]['stop'].publish(1)
 time.sleep(0.1)
 logger.stop()
