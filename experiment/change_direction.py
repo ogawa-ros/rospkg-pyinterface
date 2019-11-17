@@ -61,27 +61,26 @@ conf = std_msgs.msg.Int64MultiArray()
 conf.data = [1,1,1,1]
 pub_outputdo.publish(conf)
 
-speed = 200000
+speed1 = 200000
+speed2 = -200000
 step1 = 1
 step2 = -1
 acc = 100
 dec = 100
 
-pub[use_axis]['set_speed'].publish(speed)
+#pub[use_axis]['set_speed'].publish(speed)
 pub[use_axis]['set_acc'].publish(acc)
 pub[use_axis]['set_dec'].publish(dec)
 
 for i in range(8):
-    pub[use_axis]['set_step'].publish(step1)
-    time.sleep(1e-3)
-    pub[use_axis]['start'].publish(1)
+    pub[use_axis]['start'].publish(speed1)
     time.sleep(5)
     pub[use_axis]['stop'].publish(1)
     time.sleep(5)
 
-    pub[use_axis]['set_step'].publish(step2)
-    time.sleep(1e-3)
-    pub[use_axis]['start'].publish(1)
+    #pub[use_axis]['set_step'].publish(step2)
+    #time.sleep(1e-3)
+    pub[use_axis]['start'].publish(speed2)
     time.sleep(5)
     pub[use_axis]['stop'].publish(1)
     time.sleep(5)
