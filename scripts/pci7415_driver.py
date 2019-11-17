@@ -34,7 +34,7 @@ class pci7415_driver(object):
         self.pub_qsize = rospy.Publisher(base+'/fun_qsize', std_msgs.msg.Float64, queue_size=1)
         for ax in self.use_axis:
             b = '{base}/{ax}/'.format(**locals())
-            rospy.Subscriber(b+'internal/start', std_msgs.msg.Int64, self.regist_start, callback_args=ax)
+            rospy.Subscriber(b+'internal/start', std_msgs.msg.Float64, self.regist_start, callback_args=ax)
             rospy.Subscriber(b+'internal/stop', std_msgs.msg.Int64, self.regist_stop, callback_args=ax)
             rospy.Subscriber(b+'internal/set_speed', std_msgs.msg.Float64, self.regist_set_speed, callback_args=ax)
             rospy.Subscriber(b+'internal/set_step', std_msgs.msg.Int64, self.regist_set_step, callback_args=ax)
@@ -126,6 +126,15 @@ class pci7415_driver(object):
         pass
 
     def start(self, data, axis):
+        if self.params[axis]['mode'] = 'jog':
+            if data > 0:
+                self.motion[axis]['step'] = 1
+            else:
+                self.motion[axis]['step'] = -1
+            self.motion[axis]['speed'] = abs(data)
+        elif self.params[axis]['mode'] = 'ptp':
+            self.motion[axis]['step'] = data
+            pass
         self.mot.set_motion(axis=axis, mode=self.mode, motion=self.motion)
         self.mot.start_motion(axis=axis, start_mode='acc', move_mode=self.params[axis]['mode'])
         pass
