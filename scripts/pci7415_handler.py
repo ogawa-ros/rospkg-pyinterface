@@ -83,7 +83,7 @@ class pci7415_handler(object):
                 #pub change_step
                 self.pub[ax+'_change_step'].publish(step.data)
             else:
-                speed_step = [abs(self.default_speed[ax], step)
+                speed_step = [abs(self.default_speed[ax], step)]
                 self.pub[ax+'_start_motion'].publish(speed_step)
                 pass
         else: pass
