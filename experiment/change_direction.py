@@ -42,7 +42,7 @@ pub_outputdo =rospy.Publisher(base+'/output_do', std_msgs.msg.Int64MultiArray, q
 for ax in use_axis:
     b = '{base}/{ax}/'.format(**locals())
     pub[ax] = {}
-    pub[ax]['start'] = rospy.Publisher(b+'internal/start', std_msgs.msg.Float64, queue_size=1)
+    pub[ax]['start'] = rospy.Publisher(b+'internal/start', std_msgs.msg.Float64MultiArray, queue_size=1)
     pub[ax]['stop'] = rospy.Publisher(b+'internal/stop', std_msgs.msg.Int64, queue_size=1)
     pub[ax]['set_speed'] = rospy.Publisher(b+'internal/set_speed', std_msgs.msg.Float64, queue_size=1)
     pub[ax]['set_step'] = rospy.Publisher(b+'internal/set_step', std_msgs.msg.Int64, queue_size=1)
@@ -61,26 +61,27 @@ conf = std_msgs.msg.Int64MultiArray()
 conf.data = [1,1,1,1]
 pub_outputdo.publish(conf)
 
-speed1 = 200000
-speed2 = -200000
+
+
+speed = 200000
 step1 = 1
 step2 = -1
-acc = 100
-dec = 100
-
 #pub[use_axis]['set_speed'].publish(speed)
-pub[use_axis]['set_acc'].publish(acc)
-pub[use_axis]['set_dec'].publish(dec)
+d1 = std_msgs.msg.Float64MultiArray()
+d1.data = [speed, step1]
+
+d2 = std_msgs.msg.Float64MultiArray()
+d2.data = [speed, step2]
 
 for i in range(8):
-    pub[use_axis]['start'].publish(speed1)
+    pub[use_axis]['start'].publish(d1)
     time.sleep(5)
     pub[use_axis]['stop'].publish(1)
     time.sleep(5)
 
     #pub[use_axis]['set_step'].publish(step2)
     #time.sleep(1e-3)
-    pub[use_axis]['start'].publish(speed2)
+    pub[use_axis]['start'].publish(d2)
     time.sleep(5)
     pub[use_axis]['stop'].publish(1)
     time.sleep(5)
