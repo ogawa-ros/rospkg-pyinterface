@@ -21,28 +21,28 @@ class pci7415_handler(object):
         self.move_mode = {ax: p['mode'] for ax, p in params.items()}
         self.low_speed = {ax: p['motion']['low_speed'] for ax, p in params.items()}
 
-        base = '/pci7415/rsw{rsw_id}'.format(**locals())
+        base = '/pyinterface/pci7415/rsw{rsw_id}'.format(**locals())
         # create publishers
         self.pub = {}
         for ax in self.use_axis:
             b = '{base}/{ax}/'.format(**locals())
-            self.pub[ax+'_stop'] = rospy.Publisher('/pyinterface'+b+'internal/stop', std_msgs.msg.Int64, queue_size=1)
-            self.pub[ax+'_start'] = rospy.Publisher('/pyinterface'+b+'internal/start', std_msgs.msg.Int64, queue_size=1)
-            self.pub[ax+'_change_speed'] = rospy.Publisher('/pyinterface'+b+'internal/change_speed', std_msgs.msg.Float64, queue_size=1)
-            self.pub[ax+'_change_step'] = rospy.Publisher('/pyinterface'+b+'internal/change_step', std_msgs.msg.Int64, queue_size=1)
-            self.pub[ax+'_set_speed'] = rospy.Publisher('/pyinterface'+b+'internal/set_speed', std_msgs.msg.Float64, queue_size=1)
-            self.pub[ax+'_set_step'] = rospy.Publisher('/pyinterface'+b+'internal/set_step', std_msgs.msg.Int64, queue_size=1)
+            self.pub[ax+'_stop'] = rospy.Publisher(b+'internal/stop', std_msgs.msg.Int64, queue_size=1)
+            self.pub[ax+'_start'] = rospy.Publisher(b+'internal/start', std_msgs.msg.Int64, queue_size=1)
+            self.pub[ax+'_change_speed'] = rospy.Publisher(b+'internal/change_speed', std_msgs.msg.Float64, queue_size=1)
+            self.pub[ax+'_change_step'] = rospy.Publisher(+b+'internal/change_step', std_msgs.msg.Int64, queue_size=1)
+            self.pub[ax+'_set_speed'] = rospy.Publisher(+b+'internal/set_speed', std_msgs.msg.Float64, queue_size=1)
+            self.pub[ax+'_set_step'] = rospy.Publisher(b+'internal/set_step', std_msgs.msg.Int64, queue_size=1)
             continue
-        self.pub['ouput_do'] = rospy.Publisher('/pyinterface/{base}/output_do'.format(**locals()), std_msgs.msg.Int64MultiArray, queue_size=1)
+        self.pub['ouput_do'] = rospy.Publisher('{base}/output_do'.format(**locals()), std_msgs.msg.Int64MultiArray, queue_size=1)
 
         # create subscrivers
         for ax in self.use_axis:
             b = '{base}/{ax}/'.format(**locals())
-            rospy.Subscriber('/pyinterface'+b+'step_cmd', std_msgs.msg.Int64, self.set_speed, callback_args=ax)
-            rospy.Subscriber('/pyinterface'+b+'speed_cmd', std_msgs.msg.Int64, self.set_step, callback_args=ax)
+            rospy.Subscriber(b+'step_cmd', std_msgs.msg.Int64, self.set_speed, callback_args=ax)
+            rospy.Subscriber(b+'speed_cmd', std_msgs.msg.Int64, self.set_step, callback_args=ax)
 
-            rospy.Subscriber('/pyinterface'+b+'speed', std_msgs.msg.Int64, self.get_speed, callback_args=ax)
-            rospy.Subscriber('/pyinterface'+b+'step', std_msgs.msg.Int64, self.get_step, callback_args=ax)
+            rospy.Subscriber(b+'speed', std_msgs.msg.Int64, self.get_speed, callback_args=ax)
+            rospy.Subscriber(b+'step', std_msgs.msg.Int64, self.get_step, callback_args=ax)
             continue
 
         # create DIO pub/sub
