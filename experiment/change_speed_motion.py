@@ -25,8 +25,7 @@ print(file_name)
 pub = {}
 base = '/pyinterface/pci7415/rsw0'
 
-#use_axis = input("which use axis ? = ")
-use_axis = "y"
+use_axis = "x"
 
 def read_speed(q):
     global rspeed
@@ -60,16 +59,11 @@ conf = std_msgs.msg.Int64MultiArray()
 conf.data = [1,1,1,1]
 pub_outputdo.publish(conf)
 
-#speed = input("speed = ")
 speed = 100000
-#step = input("step = ")
 step = -1
-#acc = input("acc =")
 acc = 50
-#dec = input("dec =")
 dec = 50
-#change_speed = input("change_speed = ")
-#change_speed = 200000
+change_speed = 200000
 #change_speed2 = 300000
 
 pub[use_axis]['set_speed'].publish(float(speed))
@@ -80,16 +74,8 @@ time.sleep(0.1)
 pub[use_axis]['start'].publish(1)
 
 time.sleep(5)
-
-#pub[use_axis]['change_speed'].publish(float(change_speed))
-
-#global rspeed
-#while rspeed != float(change_speed):
-    #time.sleep(1e-3)
-    #continue
-
-time.sleep(5)
-#pub[use_axis]['change_speed'].publish(float(change_speed2))
+pub[use_axis]['change_speed'].publish(change_speed)
+#pub[use_axis]['change_speed'].publish(change_speed2)
 
 time.sleep(5)
 pub[use_axis]['stop'].publish(1)
