@@ -69,7 +69,7 @@ acc = 50
 #dec = input("dec =")
 dec = 50
 #change_speed = input("change_speed = ")
-change_speed = 300000
+change_speed = 2zzs00000
 
 pub[use_axis]['set_speed'].publish(float(speed))
 pub[use_axis]['set_step'].publish(int(step))
