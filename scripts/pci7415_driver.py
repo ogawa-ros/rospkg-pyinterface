@@ -34,12 +34,8 @@ class pci7415_driver(object):
         self.pub_qsize = rospy.Publisher(base+'/fun_qsize', std_msgs.msg.Float64, queue_size=1)
         for ax in self.use_axis:
             b = '{base}/{ax}/'.format(**locals())
-            rospy.Subscriber(b+'internal/start', std_msgs.msg.Float64, self.regist_start, callback_args=ax)
+            rospy.Subscriber(b+'internal/start', std_msgs.msg.Float64MultiArray, self.regist_start, callback_args=ax)
             rospy.Subscriber(b+'internal/stop', std_msgs.msg.Int64, self.regist_stop, callback_args=ax)
-            rospy.Subscriber(b+'internal/set_speed', std_msgs.msg.Float64, self.regist_set_speed, callback_args=ax)
-            rospy.Subscriber(b+'internal/set_step', std_msgs.msg.Int64, self.regist_set_step, callback_args=ax)
-            rospy.Subscriber(b+'internal/set_acc', std_msgs.msg.Int64, self.regist_set_acc, callback_args=ax)
-            rospy.Subscriber(b+'internal/set_dec', std_msgs.msg.Int64, self.regist_set_dec, callback_args=ax)
             rospy.Subscriber(b+'internal/change_speed', std_msgs.msg.Float64, self.regist_change_speed, callback_args=ax)
             rospy.Subscriber(b+'internal/change_step', std_msgs.msg.Int64, self.regist_change_step, callback_args=ax)
             self.pub[ax+'_speed'] = rospy.Publisher(b+'speed', std_msgs.msg.Float64, queue_size=1)
@@ -96,22 +92,6 @@ class pci7415_driver(object):
         self.func_queue.put({'func': self.stop, 'data': req.data, 'axis': axis})
         pass
 
-    def regist_set_speed(self, req, axis):
-        self.func_queue.put({'func': self.set_speed, 'data': req.data, 'axis': axis})
-        pass
-
-    def regist_set_step(self, req, axis):
-        self.func_queue.put({'func': self.set_step, 'data': req.data, 'axis': axis})
-        pass
-
-    def regist_set_acc(self, req, axis):
-        self.func_queue.put({'func': self.set_acc, 'data': req.data, 'axis': axis})
-        pass
-
-    def regist_set_dec(self, req, axis):
-        self.func_queue.put({'func': self.set_dec, 'data': req.data, 'axis': axis})
-        pass
-
     def regist_change_speed(self, req, axis):
         self.func_queue.put({'func': self.change_speed, 'data': req.data, 'axis': axis})
         pass
@@ -126,37 +106,14 @@ class pci7415_driver(object):
         pass
 
     def start(self, data, axis):
-        if self.params[axis]['mode'] = 'jog':
-            if data > 0:
-                self.motion[axis]['step'] = 1
-            else:
-                self.motion[axis]['step'] = -1
-            self.motion[axis]['speed'] = abs(data)
-        elif self.params[axis]['mode'] = 'ptp':
-            self.motion[axis]['step'] = data
-            pass
+        self.params[axis]['speed'] = data[0]
+        self.params[axis]['step'] = data[1]
         self.mot.set_motion(axis=axis, mode=self.mode, motion=self.motion)
         self.mot.start_motion(axis=axis, start_mode='acc', move_mode=self.params[axis]['mode'])
         pass
 
     def stop(self, data, axis):
         self.mot.stop_motion(axis=axis, stop_mode='dec_stop')
-        pass
-
-    def set_speed(self, data, axis):
-        self.motion[axis]['speed'] = data
-        pass
-
-    def set_step(self, data, axis):
-        self.motion[axis]['step'] = data
-        pass
-
-    def set_acc(self, data, axis):
-        self.params[axis]['acc'] = data
-        pass
-
-    def set_dec(self, data, axis):
-        self.params[axis]['dec'] = data
         pass
 
     def change_speed(self, data, axis):
