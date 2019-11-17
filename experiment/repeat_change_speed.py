@@ -55,9 +55,9 @@ conf = std_msgs.msg.Int64MultiArray()
 conf.data = [1,1,1,1]
 pub_outputdo.publish(conf)
 
-speed = 50000
-step = 1
-change_speed = 300000
+speed = 300000
+step = -1
+change_speed = 50000
 #change_speed2 = 300000
 d1 = std_msgs.msg.Float64MultiArray()
 d1.data = [speed, step]
