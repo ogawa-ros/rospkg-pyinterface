@@ -69,7 +69,7 @@ class pci7415_handler(object):
                 else: step = -1
 
                 speed_step = [abs(speed.data), step]
-                self.last_direction[axis] = step
+                self.last_direction[ax] = step
                 #pub start
                 self.pub[ax+'_start'].publish(speed_step)
                 pass
@@ -98,10 +98,10 @@ class pci7415_handler(object):
 
 
     def get_speed(self, speed, ax):
-        self.current_speed[axis] = speed.data
+        self.current_speed[ax] = speed.data
         return
 
 
     def get_step(self, step, ax):
-        self.current_step[axis] = step.data
+        self.current_step[ax] = step.data
         return
