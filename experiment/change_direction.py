@@ -56,30 +56,34 @@ for ax in use_axis:
     time.sleep(0.1)
 
 logger.start(file_name)
+time.sleep(1)
 conf = std_msgs.msg.Int64MultiArray()
 conf.data = [1,1,1,1]
 pub_outputdo.publish(conf)
 
 speed = 200000
-step = -1
-change_step =1
+step1 = 1
+step2 = -1
 acc = 100
 dec = 100
 
 pub[use_axis]['set_speed'].publish(speed)
-pub[use_axis]['set_step'].publish(step)
 pub[use_axis]['set_acc'].publish(acc)
 pub[use_axis]['set_dec'].publish(dec)
 
-pub[use_axis]['start'].publish(1)
-time.sleep(5)
-pub[use_axis]['stop'].publish(1)
-time.sleep(2)
+for i in range(10):
+    pub[use_axis]['set_step'].publish(step1)
+    pub[use_axis]['start'].publish(1)
+    time.sleep(5)
+    pub[use_axis]['stop'].publish(1)
 
-pub[use_axis]['set_step'].publish(change_step)
+    time.sleep(5)
 
-pub[use_axis]['start'].publish(1)
-time.sleep(5)
-pub[use_axis]['stop'].publish(1)
+    pub[use_axis]['set_step'].publish(step2)
+    pub[use_axis]['start'].publish(1)
+    time.sleep(5)
+    pub[use_axis]['stop'].publish(1)
 
+    time.sleep(5)
+    
 logger.stop()

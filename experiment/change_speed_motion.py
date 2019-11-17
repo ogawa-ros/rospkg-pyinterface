@@ -69,8 +69,8 @@ acc = 50
 #dec = input("dec =")
 dec = 50
 #change_speed = input("change_speed = ")
-change_speed = 200000
-change_speed2 = 300000
+#change_speed = 200000
+#change_speed2 = 300000
 
 pub[use_axis]['set_speed'].publish(float(speed))
 pub[use_axis]['set_step'].publish(int(step))
@@ -81,7 +81,7 @@ pub[use_axis]['start'].publish(1)
 
 time.sleep(5)
 
-pub[use_axis]['change_speed'].publish(float(change_speed))
+#pub[use_axis]['change_speed'].publish(float(change_speed))
 
 #global rspeed
 #while rspeed != float(change_speed):
@@ -89,7 +89,7 @@ pub[use_axis]['change_speed'].publish(float(change_speed))
     #continue
 
 time.sleep(5)
-pub[use_axis]['change_speed'].publish(float(change_speed2))
+#pub[use_axis]['change_speed'].publish(float(change_speed2))
 
 time.sleep(5)
 pub[use_axis]['stop'].publish(1)
