@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-name = "change_speed_motion"
+name = "repeat_change_speed"
 
 import sys
 import time
