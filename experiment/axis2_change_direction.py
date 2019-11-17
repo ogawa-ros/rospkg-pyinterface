@@ -81,20 +81,20 @@ for i in range(5):
     pub['y']['start'].publish(yd1)
     time.sleep(4)
 
-    pub['x']['stop'].publish(1)
+    pub['x']['stop'].publish(0)
     time.sleep(1)
 
     pub['x']['start'].publish(xd2)
     time.sleep(4)
 
-    pub['y']['stop'].publish(1)
+    pub['y']['stop'].publish(0)
     time.sleep(1)
 
     pub['y']['start'].publish(yd2)
     time.sleep(5)
 
-    pub['x']['stop'].publish(1)
-    pub['y']['stop'].publish(1)
+    pub['x']['stop'].publish(0)
+    pub['y']['stop'].publish(0)
     time.sleep(1)
 
     continue
