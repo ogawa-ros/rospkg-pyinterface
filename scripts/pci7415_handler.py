@@ -47,8 +47,6 @@ class pci7415_handler(object):
 
 
     def set_speed(self, speed, ax):
-        print(ax)
-        print(speed)
         if abs(speed.data) < self.low_speed[ax]:
             #pub stop
             self.pub[ax+'_stop'].publish(1)
@@ -57,8 +55,7 @@ class pci7415_handler(object):
             return
 
         if self.move_mode[ax] == 'jog':
-            print('ok')
-            if (self.last_speed[ax] * param > 0) & (self.current_speed[ax] != 0):
+            if (self.last_direction[ax] * param > 0) & (self.current_speed[ax] != 0):
                 #pub change_speed
                 self.pub[ax+'_change_speed'].publish(abs(speed.data))
                 pass
