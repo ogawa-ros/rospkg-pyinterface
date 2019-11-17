@@ -71,8 +71,21 @@ pub[use_axis]['set_speed'].publish(speed)
 pub[use_axis]['set_acc'].publish(acc)
 pub[use_axis]['set_dec'].publish(dec)
 
-for i in range(10):
+for i in range(3):
     pub[use_axis]['set_step'].publish(step1)
+    pub[use_axis]['start'].publish(1)
+    time.sleep(5)
+    pub[use_axis]['stop'].publish(1)
+
+    time.sleep(5)
+
+    pub[use_axis]['set_step'].publish(step1)
+    pub[use_axis]['start'].publish(1)
+    time.sleep(5)
+    pub[use_axis]['stop'].publish(1)
+
+    time.sleep(5)
+    pub[use_axis]['set_step'].publish(step2)
     pub[use_axis]['start'].publish(1)
     time.sleep(5)
     pub[use_axis]['stop'].publish(1)
@@ -83,7 +96,6 @@ for i in range(10):
     pub[use_axis]['start'].publish(1)
     time.sleep(5)
     pub[use_axis]['stop'].publish(1)
+    continue
 
-    time.sleep(5)
-    
 logger.stop()
