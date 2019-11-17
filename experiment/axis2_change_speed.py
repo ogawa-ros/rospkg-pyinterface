@@ -78,13 +78,13 @@ pub['y']['start'].publish(yd1)
 time.sleep(2)
 
 for i in range(5):
-    pub['x']['change_speed'].publish(yspeed2)
+    pub['x']['change_speed'].publish(xspeed2)
     time.sleep(2)
 
     pub['y']['change_speed'].publish(yspeed2)
     time.sleep(2)
 
-    pub['x']['change_speed'].publish(yspeed1)
+    pub['x']['change_speed'].publish(xspeed1)
     time.sleep(2)
 
     pub['y']['change_speed'].publish(yspeed1)
