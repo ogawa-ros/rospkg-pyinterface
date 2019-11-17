@@ -61,8 +61,8 @@ pub_outputdo.publish(conf)
 
 xspeed = 200000
 yspeed = 5000
-xstep = 1
-ystep = 1
+xstep = -1
+ystep = -1
 #pub[use_axis]['set_speed'].publish(speed)
 xd = std_msgs.msg.Float64MultiArray()
 xd.data = [xspeed, xstep]
