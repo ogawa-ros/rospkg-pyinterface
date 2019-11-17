@@ -55,7 +55,7 @@ class pci7415_handler(object):
             return
 
         if self.move_mode[ax] == 'jog':
-            if (self.last_direction[ax] * int(speed) > 0) & (self.current_speed[ax] != 0):
+            if (self.last_direction[ax] * speed.data > 0) & (self.current_speed[ax] != 0):
                 #pub change_speed
                 self.pub[ax+'_change_speed'].publish(abs(speed.data))
                 pass
