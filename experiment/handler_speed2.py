@@ -45,12 +45,12 @@ cycle = 1
 max_speed = 300000
 sec = 10
 
-test_speed = numpy.sin(numpy.linspace(0, 2*cycle*math.pi, sec/0.1))*max_speed
-test_speed = numpy.cos(numpy.linspace(0, 2*cycle*math.pi, sec/0.1))*max_speed
+test_speed_el = numpy.sin(numpy.linspace(0, 2*cycle*math.pi, sec/0.1))*max_speed
+test_speed_az = numpy.cos(numpy.linspace(0, 2*cycle*math.pi, sec/0.1))*max_speed
 
-for i in test_speed:
+for i, j in zip(test_speed_az, test_speed_el):
     pub[use_axis[0]]['speed'].publish(i)
-    pub[use_axis[1]]['speed'].publish(i)
+    pub[use_axis[1]]['speed'].publish(j)
     time.sleep(0.1)
 
 pub[use_axis[0]]['speed'].publish(0)
