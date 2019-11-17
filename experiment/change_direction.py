@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-name = "change_direction.py"
+name = "change_direction"
 
 import sys
 import time
