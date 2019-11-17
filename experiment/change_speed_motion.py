@@ -26,7 +26,7 @@ pub = {}
 base = '/pyinterface/pci7415/rsw0'
 
 #use_axis = input("which use axis ? = ")
-use_axis = "x"
+use_axis = "y"
 
 def read_speed(q):
     global rspeed
