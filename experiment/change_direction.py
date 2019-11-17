@@ -44,10 +44,6 @@ for ax in use_axis:
     pub[ax] = {}
     pub[ax]['start'] = rospy.Publisher(b+'internal/start', std_msgs.msg.Float64MultiArray, queue_size=1)
     pub[ax]['stop'] = rospy.Publisher(b+'internal/stop', std_msgs.msg.Int64, queue_size=1)
-    pub[ax]['set_speed'] = rospy.Publisher(b+'internal/set_speed', std_msgs.msg.Float64, queue_size=1)
-    pub[ax]['set_step'] = rospy.Publisher(b+'internal/set_step', std_msgs.msg.Int64, queue_size=1)
-    pub[ax]['set_acc'] = rospy.Publisher(b+'internal/set_acc', std_msgs.msg.Int64, queue_size=1)
-    pub[ax]['set_dec'] = rospy.Publisher(b+'internal/set_dec', std_msgs.msg.Int64, queue_size=1)
     pub[ax]['change_speed'] = rospy.Publisher(b+'internal/change_speed', std_msgs.msg.Float64, queue_size=1)
     pub[ax]['change_step'] = rospy.Publisher(b+'internal/change_step', std_msgs.msg.Int64, queue_size=1)
     rospy.Subscriber(b+'speed', std_msgs.msg.Float64, read_speed, queue_size=1)
