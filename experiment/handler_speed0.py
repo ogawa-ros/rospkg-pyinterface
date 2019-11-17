@@ -32,9 +32,8 @@ for ax in use_axis:
     pub[ax] = {}
     pub[ax]['step'] = rospy.Publisher(b+'step_cmd', std_msgs.msg.Int64, queue_size=1)
     pub[ax]['speed'] = rospy.Publisher(b+'speed_cmd', std_msgs.msg.Float64, queue_size=1)
-pub_outputdo =rospy.Publisher(base+'/output_do', std_msgs.msg.Int64MultiArray, queue_size=1)
-
     time.sleep(0.1)
+pub_outputdo =rospy.Publisher(base+'/output_do', std_msgs.msg.Int64MultiArray, queue_size=1)
 
 logger.start(file_name)
 conf = std_msgs.msg.Int64MultiArray()
