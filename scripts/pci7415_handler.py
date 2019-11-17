@@ -65,7 +65,7 @@ class pci7415_handler(object):
                 while self.current_speed[ax] != 0:
                     time.sleep(10e-5)
 
-                if param > 0: step = +1
+                if speed.data > 0: step = +1
                 else: step = -1
 
                 speed_step = [abs(speed.data), step]
