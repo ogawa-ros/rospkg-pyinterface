@@ -47,6 +47,8 @@ class pci7415_handler(object):
 
 
     def set_speed(self, speed, ax):
+        print(ax)
+        print(speed)
         if abs(speed.data) < self.low_speed[ax]:
             #pub stop
             self.pub[ax+'_stop'].publish(1)
