@@ -44,6 +44,7 @@ class pci7415_handler(object):
             rospy.Subscriber(b+'speed', std_msgs.msg.Float64, self.get_speed, callback_args=ax)
             rospy.Subscriber(b+'step', std_msgs.msg.Int64, self.get_step, callback_args=ax)
             continue
+        rospy.Subscriver(b+'output_do_cmd', std_msgs.msg.Int64MultiArray, self.set_do)
 
 
     def set_speed(self, speed, ax):
