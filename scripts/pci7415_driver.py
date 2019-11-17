@@ -106,8 +106,8 @@ class pci7415_driver(object):
         pass
 
     def start(self, data, axis):
-        self.params[axis]['speed'] = data[0]
-        self.params[axis]['step'] = data[1]
+        self.motion[axis]['speed'] = data[0]
+        self.motion[axis]['step'] = data[1]
         self.mot.set_motion(axis=axis, mode=self.mode, motion=self.motion)
         self.mot.start_motion(axis=axis, start_mode='acc', move_mode=self.params[axis]['mode'])
         pass
