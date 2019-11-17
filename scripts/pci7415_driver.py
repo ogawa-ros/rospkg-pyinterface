@@ -79,7 +79,7 @@ class pci7415_driver(object):
             else:
                 pass
 
-            time.sleep(1e-4)
+            time.sleep(1e-3)
             # 要検討
             continue
 
