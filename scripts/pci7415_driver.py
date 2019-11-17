@@ -31,7 +31,7 @@ class pci7415_driver(object):
         #Subscriber&Publisher
         base = '/pyinterface/pci7415/rsw{rsw_id}'.format(**locals())
         rospy.Subscriber(base+'/output_do', std_msgs.msg.Int64MultiArray, self.regist_output_do)
-        self.pub_qsize = rospy.Publisher(base+'/fun_qsize', std_msgs.msg.Float64, queue_size=1)
+        #self.pub_qsize = rospy.Publisher(base+'/fun_qsize', std_msgs.msg.Float64, queue_size=1)
         for ax in self.use_axis:
             b = '{base}/{ax}/'.format(**locals())
             rospy.Subscriber(b+'internal/start', std_msgs.msg.Float64MultiArray, self.regist_start, callback_args=ax)
@@ -40,8 +40,8 @@ class pci7415_driver(object):
             rospy.Subscriber(b+'internal/change_step', std_msgs.msg.Int64, self.regist_change_step, callback_args=ax)
             self.pub[ax+'_speed'] = rospy.Publisher(b+'speed', std_msgs.msg.Float64, queue_size=1)
             self.pub[ax+'_step'] = rospy.Publisher(b+'step', std_msgs.msg.Int64, queue_size=1)
-            self.pub_dt1 = rospy.Publisher(b+'internal/dt1', std_msgs.msg.Float64, queue_size=1)
-            self.pub_dt2 = rospy.Publisher(b+'internal/dt2', std_msgs.msg.Float64, queue_size=1)
+            #self.pub_dt1 = rospy.Publisher(b+'internal/dt1', std_msgs.msg.Float64, queue_size=1)
+            #self.pub_dt2 = rospy.Publisher(b+'internal/dt2', std_msgs.msg.Float64, queue_size=1)
             continue
 
         time.sleep(0.5)
@@ -54,21 +54,21 @@ class pci7415_driver(object):
 
     def loop(self):
         while not rospy.is_shutdown():
-            t0 = time.time()
+            #t0 = time.time()
             speed = self.mot.read_speed(self.use_axis)
             step = self.mot.read_counter(self.use_axis, cnt_mode='counter')
 
-            t1 = time.time()
+            #t1 = time.time()
 
             for i, ax in enumerate(self.use_axis):
                 self.pub[ax+'_speed'].publish(speed[i])
                 self.pub[ax+'_step'].publish(step[i])
                 continue
             # 所要時間を測る
-            t2 = time.time()
-            self.pub_dt1.publish(t1-t0)
-            self.pub_dt2.publish(t2-t1)
-            self.pub_qsize.publish(self.func_queue.qsize())
+            #t2 = time.time()
+            #self.pub_dt1.publish(t1-t0)
+            #self.pub_dt2.publish(t2-t1)
+            #self.pub_qsize.publish(self.func_queue.qsize())
             if not self.func_queue.empty():
                 f = self.func_queue.get()
                 f['func'](f['data'], f['axis'])
