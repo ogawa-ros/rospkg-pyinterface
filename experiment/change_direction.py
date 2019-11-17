@@ -42,7 +42,7 @@ pub_outputdo =rospy.Publisher(base+'/output_do', std_msgs.msg.Int64MultiArray, q
 for ax in use_axis:
     b = '{base}/{ax}/'.format(**locals())
     pub[ax] = {}
-    pub[ax]['start'] = rospy.Publisher(b+'internal/start', std_msgs.msg.Int64, queue_size=1)
+    pub[ax]['start'] = rospy.Publisher(b+'internal/start', std_msgs.msg.Float64, queue_size=1)
     pub[ax]['stop'] = rospy.Publisher(b+'internal/stop', std_msgs.msg.Int64, queue_size=1)
     pub[ax]['set_speed'] = rospy.Publisher(b+'internal/set_speed', std_msgs.msg.Float64, queue_size=1)
     pub[ax]['set_step'] = rospy.Publisher(b+'internal/set_step', std_msgs.msg.Int64, queue_size=1)
