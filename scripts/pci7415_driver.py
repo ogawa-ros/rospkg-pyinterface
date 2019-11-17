@@ -39,7 +39,7 @@ class pci7415_driver(object):
             rospy.Subscriber(b+'internal/change_speed', std_msgs.msg.Float64, self.regist_change_speed, callback_args=ax)
             rospy.Subscriber(b+'internal/change_step', std_msgs.msg.Int64, self.regist_change_step, callback_args=ax)
             self.pub[ax+'_speed'] = rospy.Publisher(b+'speed', std_msgs.msg.Float64, queue_size=1)
-            self.pub[ax+'_step'] = rospy.Publisher(b+'step', std_msgs.msg.Float64, queue_size=1)
+            self.pub[ax+'_step'] = rospy.Publisher(b+'step', std_msgs.msg.Int64, queue_size=1)
             self.pub_dt1 = rospy.Publisher(b+'internal/dt1', std_msgs.msg.Float64, queue_size=1)
             self.pub_dt2 = rospy.Publisher(b+'internal/dt2', std_msgs.msg.Float64, queue_size=1)
             continue
