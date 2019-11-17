@@ -84,6 +84,18 @@ for i in range(3):
     pub[use_axis]['stop'].publish(1)
     time.sleep(5)
 
+    pub[use_axis]['set_step'].publish(step1)
+    pub[use_axis]['start'].publish(1)
+    time.sleep(5)
+    pub[use_axis]['stop'].publish(1)
+    time.sleep(5)
+
+    pub[use_axis]['set_step'].publish(step2)
+    pub[use_axis]['start'].publish(1)
+    time.sleep(5)
+    pub[use_axis]['stop'].publish(1)
+    time.sleep(5)
+
     pub[use_axis]['set_step'].publish(step2)
     pub[use_axis]['start'].publish(1)
     time.sleep(5)
