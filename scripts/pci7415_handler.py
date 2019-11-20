@@ -101,7 +101,7 @@ class pci7415_handler(object):
         self.do_status[do_num-1] = do.data
         _do = std_msgs.msg.Int64MultiArray()
         _do.data = self.do_status
-        pub['output_do'].publish(_do)
+        self.pub['output_do'].publish(_do)
         return
 
 
