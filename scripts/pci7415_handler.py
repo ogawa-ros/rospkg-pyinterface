@@ -55,6 +55,7 @@ class pci7415_handler(object):
             self.pub[ax+'_stop'].publish(1)
             while self.current_speed[ax] != 0:
                 time.sleep(10e-5)
+            self.last_direction[ax] = 0
             return
 
         if self.move_mode[ax] == 'jog':
@@ -62,6 +63,7 @@ class pci7415_handler(object):
                 #pub change_speed
                 self.pub[ax+'_change_speed'].publish(abs(speed.data))
                 pass
+
             else:
                 #pub stop
                 self.pub[ax+'_stop'].publish(1)
@@ -78,7 +80,10 @@ class pci7415_handler(object):
                 speed_step_array.data = speed_step
                 self.pub[ax+'_start'].publish(speed_step_array)
                 pass
-        else: pass
+            pass
+
+        else:
+            pass
         return
 
 
