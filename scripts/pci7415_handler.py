@@ -18,6 +18,7 @@ class pci7415_handler(object):
         self.current_speed = {ax: 0 for ax in self.use_axis}
         self.current_step = {ax: 0 for ax in self.use_axis}
         self.last_direction = {ax: 0 for ax in self.use_axis}
+        self.do_status = [0, 0, 0, 0]
 
         self.move_mode = {ax: p['mode'] for ax, p in params.items()}
         self.default_speed = {ax: p['motion']['speed'] for ax, p in params.items()}
@@ -44,7 +45,8 @@ class pci7415_handler(object):
             rospy.Subscriber(b+'speed', std_msgs.msg.Float64, self.get_speed, callback_args=ax)
             rospy.Subscriber(b+'step', std_msgs.msg.Int64, self.get_step, callback_args=ax)
             continue
-        rospy.Subscriver(b+'output_do_cmd', std_msgs.msg.Int64MultiArray, self.set_do)
+        for do_num in range(4):
+            rospy.Subscriber('{base}/output_do{}_cmd'.format(**locals(), do_num+1), std_msgs.msg.Int64, self.set_do, callback_args=do_num)
 
 
     def set_speed(self, speed, ax):
@@ -95,9 +97,10 @@ class pci7415_handler(object):
         return
 
 
-    def set_do(self, do):
+    def set_do(self, do, do_num):
+        self.do_status[do_num-1] = do.data
         _do = std_msgs.msg.Int64MultiArray()
-        _do.data = do.data
+        _do.data = self.do_status
         pub['output_do'].publish(_do)
         return
 
