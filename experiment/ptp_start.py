@@ -52,7 +52,7 @@ ustep = 10000
 ud = std_msgs.msg.Float64MultiArray()
 ud.data = [uspeed, ustep]
 
-pub['u']['start'].publish(xd)
+pub['u']['start'].publish(ud)
 time.sleep(5)
 #pub['u']['stop'].publish(1)
 time.sleep(5)
