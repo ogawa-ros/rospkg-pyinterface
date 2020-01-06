@@ -17,6 +17,7 @@ class pci7415_handler(object):
         self.use_axis = ''.join([ax for ax in params])
         self.current_speed = {ax: 0 for ax in self.use_axis}
         self.current_step = {ax: 0 for ax in self.use_axis}
+        self.current_moving = {ax: 0 for ax in self.use_axis}
         self.last_direction = {ax: 0 for ax in self.use_axis}
         self.do_status = [0, 0, 0, 0]
 
@@ -44,6 +45,7 @@ class pci7415_handler(object):
 
             rospy.Subscriber(b+'speed', std_msgs.msg.Float64, self.get_speed, callback_args=ax)
             rospy.Subscriber(b+'step', std_msgs.msg.Int64, self.get_step, callback_args=ax)
+            rospy.Subscriber(b+'moving', std_msgs.msg.Int64, self.get_step, callback_args=ax)
             continue
         for do_num in range(1,5):
             rospy.Subscriber('{}/output_do{}_cmd'.format(base, do_num), std_msgs.msg.Int64, self.set_do, callback_args=do_num)
@@ -53,13 +55,13 @@ class pci7415_handler(object):
         if abs(speed.data) < self.low_speed[ax]:
             #pub stop
             self.pub[ax+'_stop'].publish(1)
-            while self.current_speed[ax] != 0:
+            while self.current_moving[ax] != 0:
                 time.sleep(10e-5)
             self.last_direction[ax] = 0
             return
 
         if self.move_mode[ax] == 'jog':
-            if (self.last_direction[ax] * speed.data > 0) & (self.current_speed[ax] != 0):
+            if (self.last_direction[ax] * speed.data > 0) & (self.current_moving[ax] != 0):
                 #pub change_speed
                 self.pub[ax+'_change_speed'].publish(abs(speed.data))
                 pass
@@ -67,7 +69,7 @@ class pci7415_handler(object):
             else:
                 #pub stop
                 self.pub[ax+'_stop'].publish(1)
-                while self.current_speed[ax] != 0:
+                while self.current_moving[ax] != 0:
                     time.sleep(10e-5)
 
                 if speed.data > 0:
@@ -94,7 +96,7 @@ class pci7415_handler(object):
 
     def set_step(self, step, ax):
         if self.move_mode[ax] == 'ptp':
-            if self.current_speed[ax] != 0:
+            if self.current_moving[ax] != 0:
                 #pub change_step
                 self.pub[ax+'_change_step'].publish(step.data)
             else:
@@ -122,4 +124,9 @@ class pci7415_handler(object):
 
     def get_step(self, step, ax):
         self.current_step[ax] = step.data
+        return
+
+
+    def get_moving(self, moving, ax):
+        self.current_moving[ax] = moving.data
         return

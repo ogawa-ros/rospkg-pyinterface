@@ -40,6 +40,7 @@ class pci7415_driver(object):
             rospy.Subscriber(b+'internal/change_step', std_msgs.msg.Int64, self.regist_change_step, callback_args=ax)
             self.pub[ax+'_speed'] = rospy.Publisher(b+'speed', std_msgs.msg.Float64, queue_size=1)
             self.pub[ax+'_step'] = rospy.Publisher(b+'step', std_msgs.msg.Int64, queue_size=1)
+            self.pub[ax+'_moving'] = rospy.Publisher(b+'moving', std_msgs.msg.Int64, queue_size=1)
             #self.pub_dt1 = rospy.Publisher(b+'internal/dt1', std_msgs.msg.Float64, queue_size=1)
             #self.pub_dt2 = rospy.Publisher(b+'internal/dt2', std_msgs.msg.Float64, queue_size=1)
             continue
@@ -57,12 +58,15 @@ class pci7415_driver(object):
             #t0 = time.time()
             speed = self.mot.read_speed(self.use_axis)
             step = self.mot.read_counter(self.use_axis, cnt_mode='counter')
+            _moving = self.mot.driver.get_main_status(self.use_axis)
+            is_moving = [int(_moving[i][0]) for i in range(len(self.use_axis))]
 
             #t1 = time.time()
 
             for i, ax in enumerate(self.use_axis):
                 self.pub[ax+'_speed'].publish(speed[i])
                 self.pub[ax+'_step'].publish(step[i])
+                self.pub[ax+'_moving'].publish(is_moving[i])
                 continue
             # 所要時間を測る
             #t2 = time.time()
