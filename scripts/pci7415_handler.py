@@ -67,12 +67,6 @@ class pci7415_handler(object):
                 pass
 
             else:
-                self.last_direction[ax] = step
-                #pub stop
-                self.pub[ax+'_stop'].publish(1)
-                while self.current_moving[ax] != 0:
-                    time.sleep(10e-5)
-
                 if speed.data > 0:
                     step = +1
                     pass
@@ -80,6 +74,14 @@ class pci7415_handler(object):
                 else:
                     step = -1
                     pass
+
+                self.last_direction[ax] = step
+
+                #pub stop
+                self.pub[ax+'_stop'].publish(1)
+                while self.current_moving[ax] != 0:
+                    time.sleep(10e-5)
+
 
 
                 #pub start
