@@ -68,6 +68,9 @@ class pci7415_handler(object):
 
             else:
                 #pub stop
+                speed_step = [abs(speed.data), step]
+                self.last_direction[ax] = step
+
                 self.pub[ax+'_stop'].publish(1)
                 while self.current_moving[ax] != 0:
                     time.sleep(10e-5)
@@ -80,8 +83,7 @@ class pci7415_handler(object):
                     step = -1
                     pass
 
-                speed_step = [abs(speed.data), step]
-                self.last_direction[ax] = step
+
                 #pub start
                 speed_step_array = std_msgs.msg.Float64MultiArray()
                 speed_step_array.data = speed_step
