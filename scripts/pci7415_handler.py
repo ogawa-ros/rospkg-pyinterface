@@ -29,12 +29,12 @@ class pci7415_handler(object):
         self.pub = {}
         for ax in self.use_axis:
             b = '{base}/{ax}/'.format(**locals())
-            self.pub[ax+'_stop'] = rospy.Publisher(b+'internal/stop', std_msgs.msg.Int64, queue_size=10)
-            self.pub[ax+'_start'] = rospy.Publisher(b+'internal/start', std_msgs.msg.Float64MultiArray, queue_size=10)
-            self.pub[ax+'_change_speed'] = rospy.Publisher(b+'internal/change_speed', std_msgs.msg.Float64, queue_size=10)
-            self.pub[ax+'_change_step'] = rospy.Publisher(b+'internal/change_step', std_msgs.msg.Int64, queue_size=10)
+            self.pub[ax+'_stop'] = rospy.Publisher(b+'internal/stop', std_msgs.msg.Int64, queue_size=1)
+            self.pub[ax+'_start'] = rospy.Publisher(b+'internal/start', std_msgs.msg.Float64MultiArray, queue_size=1)
+            self.pub[ax+'_change_speed'] = rospy.Publisher(b+'internal/change_speed', std_msgs.msg.Float64, queue_size=1)
+            self.pub[ax+'_change_step'] = rospy.Publisher(b+'internal/change_step', std_msgs.msg.Int64, queue_size=1)
             continue
-        self.pub['output_do'] = rospy.Publisher('{base}/output_do'.format(**locals()), std_msgs.msg.Int64MultiArray, queue_size=10)
+        self.pub['output_do'] = rospy.Publisher('{base}/output_do'.format(**locals()), std_msgs.msg.Int64MultiArray, queue_size=1)
 
         # create subscrivers
         for ax in self.use_axis:
@@ -65,21 +65,21 @@ class pci7415_handler(object):
                 pass
 
             else:
-                #pub stop
-                self.pub[ax+'_stop'].publish(1)
-                while self.current_speed[ax] != 0:
-                    time.sleep(10e-5)
-
                 if speed.data > 0:
                     step = +1
                     pass
-
                 else:
                     step = -1
                     pass
 
                 speed_step = [abs(speed.data), step]
                 self.last_direction[ax] = step
+
+                #pub stop
+                self.pub[ax+'_stop'].publish(1)
+                while self.current_speed[ax] != 0:
+                    time.sleep(10e-5)
+
                 #pub start
                 speed_step_array = std_msgs.msg.Float64MultiArray()
                 speed_step_array.data = speed_step
