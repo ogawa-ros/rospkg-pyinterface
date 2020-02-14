@@ -67,11 +67,6 @@ class pci7415_handler(object):
                 pass
 
             else:
-                #pub stop
-                self.pub[ax+'_stop'].publish(1)
-                time.sleep(0.1)
-                while self.current_moving[ax] != 0:
-                    time.sleep(10e-5)
 
                 if speed.data > 0:
                     step = +1

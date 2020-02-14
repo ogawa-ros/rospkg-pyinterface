@@ -59,7 +59,7 @@ class pci7415_driver(object):
             speed = self.mot.read_speed(self.use_axis)
             step = self.mot.read_counter(self.use_axis, cnt_mode='counter')
             _moving = self.mot.driver.get_main_status(self.use_axis)
-            is_moving = [int(_moving[i][0]) for i in range(len(self.use_axis))]
+            self.is_moving = [int(_moving[i][0]) for i in range(len(self.use_axis))]
 
             #t1 = time.time()
 
@@ -110,9 +110,13 @@ class pci7415_driver(object):
         pass
 
     def start(self, data, axis):
+        self.mot.stop_motion(axis=axis, stop_mode='immediate_stop')
         self.motion[axis]['speed'] = data[0]
         self.motion[axis]['step'] = int(data[1])
         axis_mode = [self.mode[self.use_axis.find(axis)]]
+        while self.is_moving[self.use_axis.find(axis)] != 0:
+            time.sleep(10e-5)
+            continue
         self.mot.set_motion(axis=axis, mode=axis_mode, motion=self.motion)
         self.mot.start_motion(axis=axis, start_mode='const', move_mode=self.params[axis]['mode'])
         pass
