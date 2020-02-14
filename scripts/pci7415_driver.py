@@ -66,7 +66,7 @@ class pci7415_driver(object):
             for i, ax in enumerate(self.use_axis):
                 self.pub[ax+'_speed'].publish(speed[i])
                 self.pub[ax+'_step'].publish(step[i])
-                self.pub[ax+'_moving'].publish(is_moving[i])
+                self.pub[ax+'_moving'].publish(self.is_moving[i])
                 continue
             # 所要時間を測る
             #t2 = time.time()
