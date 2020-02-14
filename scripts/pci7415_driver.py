@@ -114,7 +114,7 @@ class pci7415_driver(object):
         self.motion[axis]['speed'] = data[0]
         self.motion[axis]['step'] = int(data[1])
         axis_mode = [self.mode[self.use_axis.find(axis)]]
-        while self.is_moving[self.use_axis.find(axis)] != 0:
+        while self.is_moving[self.use_axis.find(axis)] != 1:
             time.sleep(10e-5)
             continue
         self.mot.set_motion(axis=axis, mode=axis_mode, motion=self.motion)
