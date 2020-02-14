@@ -116,6 +116,8 @@ class pci7415_driver(object):
         while not rospy.is_shutdown():
             _moving = self.mot.driver.get_main_status(self.use_axis)
             self.is_moving = [int(_moving[i][0]) for i in range(len(self.use_axis))]
+            time.sleep(1e-5)
+            print(self.is_moving)
             continue
         pass
 

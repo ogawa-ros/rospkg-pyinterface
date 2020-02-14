@@ -83,6 +83,7 @@ class pci7415_handler(object):
                 speed_step_array = std_msgs.msg.Float64MultiArray()
                 speed_step_array.data = speed_step
                 self.pub[ax+'_start'].publish(speed_step_array)
+                time.sleep(0.01)
                 print(speed.data,ax,self.last_direction[ax])
                 pass
             pass
