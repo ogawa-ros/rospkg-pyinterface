@@ -92,6 +92,7 @@ class pci7415_handler(object):
 
         else:
             pass
+        print(self.last_direction)
         return
 
 
