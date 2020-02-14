@@ -70,6 +70,7 @@ class pci7415_handler(object):
                 #pub stop
                 self.pub[ax+'_stop'].publish(1)
                 while self.current_moving[ax] != 0:
+                    print(1)
                     time.sleep(10e-5)
 
                 if speed.data > 0:
