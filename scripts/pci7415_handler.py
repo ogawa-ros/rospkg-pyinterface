@@ -92,9 +92,8 @@ class pci7415_handler(object):
 
         else:
             pass
-        print(time.time())
-        print(self.last_direction)
-        print(speed.data)
+
+        print(speed.data,ax,self.last_direction[ax])
         return
 
 
