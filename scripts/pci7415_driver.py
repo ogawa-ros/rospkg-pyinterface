@@ -21,6 +21,7 @@ class pci7415_driver(object):
         self.params = params
         self.mode = [params[ax]['mode'] for ax in self.use_axis]
         self.motion = {ax: params[ax]['motion'] for ax in self.use_axis}
+        self.is_moving = [0 for i in range(len(self.use_axis))]
 
 
         # initialize motion controller
