@@ -80,9 +80,9 @@ class pci7415_driver(object):
             #self.pub_qsize.publish(self.func_queue.qsize())
             if not self.func_queue.empty():
                 f = self.func_queue.get()
-                self.pub[ax+'_func_before'].publish(f['func'].__name__)
+                self.pub[f['axis']+'_func_before'].publish(f['func'].__name__)
                 f['func'](f['data'], f['axis'])
-                self.pub[ax+'_func_after'].publish(f['func'].__name__)
+                self.pub[f['axis']+'_func_after'].publish(f['func'].__name__)
             else:
                 pass
 
