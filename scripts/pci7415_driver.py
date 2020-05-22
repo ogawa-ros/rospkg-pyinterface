@@ -43,6 +43,8 @@ class pci7415_driver(object):
             self.pub[ax+'_moving'] = rospy.Publisher(b+'moving', std_msgs.msg.Int64, queue_size=1)
             #self.pub_dt1 = rospy.Publisher(b+'internal/dt1', std_msgs.msg.Float64, queue_size=1)
             #self.pub_dt2 = rospy.Publisher(b+'internal/dt2', std_msgs.msg.Float64, queue_size=1)
+            self.pub[ax+'_func_before'] = rospy.Publisher(b+'func_before', std_msgs.msg.String, queue_size=1)
+            self.pub[ax+'_func_after'] = rospy.Publisher(b+'func_after', std_msgs.msg.String, queue_size=1)
             continue
 
         time.sleep(0.5)
@@ -75,7 +77,9 @@ class pci7415_driver(object):
             #self.pub_qsize.publish(self.func_queue.qsize())
             if not self.func_queue.empty():
                 f = self.func_queue.get()
+                self.pub[ax+'_func_before'].publish(f['func'].__name__)
                 f['func'](f['data'], f['axis'])
+                self.pub[ax+'_func_after'].publish(f['func'].__name__)
             else:
                 pass
 
