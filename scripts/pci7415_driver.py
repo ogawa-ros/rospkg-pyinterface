@@ -21,6 +21,7 @@ class pci7415_driver(object):
         self.params = params
         self.mode = [params[ax]['mode'] for ax in self.use_axis]
         self.motion = {ax: params[ax]['motion'] for ax in self.use_axis}
+        self.is_moving = [0 for i in range(len(self.use_axis))]
 
 
         # initialize motion controller
@@ -50,9 +51,13 @@ class pci7415_driver(object):
         time.sleep(0.5)
 
         # loop start
-        self.th = threading.Thread(target=self.loop)
+        self.th = threading.Thread(target=self.moving_flag)
         self.th.setDaemon(True)
         self.th.start()
+        self.th2 = threading.Thread(target=self.loop)
+        self.th2.setDaemon(True)
+        self.th2.start()
+
         return
 
     def loop(self):
@@ -60,15 +65,13 @@ class pci7415_driver(object):
             #t0 = time.time()
             speed = self.mot.read_speed(self.use_axis)
             step = self.mot.read_counter(self.use_axis, cnt_mode='counter')
-            _moving = self.mot.driver.get_main_status(self.use_axis)
-            is_moving = [int(_moving[i][0]) for i in range(len(self.use_axis))]
 
             #t1 = time.time()
 
             for i, ax in enumerate(self.use_axis):
                 self.pub[ax+'_speed'].publish(speed[i])
                 self.pub[ax+'_step'].publish(step[i])
-                self.pub[ax+'_moving'].publish(is_moving[i])
+                self.pub[ax+'_moving'].publish(self.is_moving[i])
                 continue
             # 所要時間を測る
             #t2 = time.time()
@@ -113,10 +116,24 @@ class pci7415_driver(object):
         self.mot.output_do(data)
         pass
 
+    def moving_flag(self):
+        while not rospy.is_shutdown():
+            _moving = self.mot.driver.get_main_status(self.use_axis)
+            self.is_moving = [int(_moving[i][0]) for i in range(len(self.use_axis))]
+            time.sleep(1e-5)
+            print(self.is_moving)
+            continue
+        pass
+
     def start(self, data, axis):
+        self.mot.stop_motion(axis=axis, stop_mode='immediate_stop')
         self.motion[axis]['speed'] = data[0]
         self.motion[axis]['step'] = int(data[1])
-        self.mot.set_motion(axis=axis, mode=self.mode, motion=self.motion)
+        axis_mode = [self.mode[self.use_axis.find(axis)]]
+        while self.is_moving[self.use_axis.find(axis)] != 0:
+            time.sleep(10e-5)
+            continue
+        self.mot.set_motion(axis=axis, mode=axis_mode, motion=self.motion)
         self.mot.start_motion(axis=axis, start_mode='const', move_mode=self.params[axis]['mode'])
         pass
 
