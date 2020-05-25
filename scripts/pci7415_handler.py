@@ -34,6 +34,7 @@ class pci7415_handler(object):
             self.pub[ax+'_start'] = rospy.Publisher(b+'internal/start', std_msgs.msg.Float64MultiArray, queue_size=1)
             self.pub[ax+'_change_speed'] = rospy.Publisher(b+'internal/change_speed', std_msgs.msg.Float64, queue_size=1)
             self.pub[ax+'_change_step'] = rospy.Publisher(b+'internal/change_step', std_msgs.msg.Int64, queue_size=1)
+            self.pub[ax+'_last_direction'] = rospy.Publisher(b+'last_direction', std_msgs.msg.Int64, queue_size=1)
             continue
         self.pub['output_do'] = rospy.Publisher('{base}/output_do'.format(**locals()), std_msgs.msg.Int64MultiArray, queue_size=1)
 
@@ -52,6 +53,7 @@ class pci7415_handler(object):
 
 
     def set_speed(self, speed, ax):
+        self.pub[ax+'_last_direction'].publish(self.last_direction[ax])
         if abs(speed.data) < self.low_speed[ax]:
             #pub stop
             self.pub[ax+'_stop'].publish(1)
