@@ -11,6 +11,21 @@ import pyinterface
 print(pyinterface.__version__)
 import std_msgs.msg
 
+default_name = 'pci7415'
+default_rsw_id = '0'
+default_do_conf = "[0, 0, 0, 0]"
+default_use_axis = 'xyzu'
+default_pulse_conf = "{'PULSE': '0', 'OUT': '0', 'DIR': '0', 'WAIT': '0', 'DUTY': '0'}"
+default_mode = 'ptp'
+default_clock = 299
+default_acc_mode = 'acc_normal'
+default_low_speed = 200
+default_speed = 10000
+default_acc = 1000
+default_dec = 1000
+default_step = 0
+
+
 class pci7415(object):
     def __init__(self,rsw_id, params):
         self.params = params
@@ -178,20 +193,6 @@ class pci7415(object):
     def change_step(self, data, axis):
         self.mot.change_step(axis=axis, step=[data])
         pass
-
-# default_name = 'pci7415'
-# default_rsw_id = '0'
-# default_do_conf = "[0, 0, 0, 0]"
-# default_use_axis = 'xyzu'
-# default_pulse_conf = "{'PULSE': '0', 'OUT': '0', 'DIR': '0', 'WAIT': '0', 'DUTY': '0'}"
-# default_mode = 'ptp'
-# default_clock = 299
-# default_acc_mode = 'acc_normal'
-# default_low_speed = 200
-# default_speed = 10000
-# default_acc = 1000
-# default_dec = 1000
-# default_step = 0
 
 if __name__ == '__main__':
     name = rospy.get_param('~node_name'.format(**locals()), default_name)
