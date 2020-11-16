@@ -5,8 +5,8 @@ node_name = 'pci7415_driver'
 import sys
 import time
 import queue
-import rclpy
-from functools import partial
+import rospy
+import threading
 import pyinterface
 print(pyinterface.__version__)
 import std_msgs.msg
