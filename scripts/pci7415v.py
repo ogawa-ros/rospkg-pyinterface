@@ -213,13 +213,13 @@ if __name__ == '__main__':
         params[ax]['pulse_conf'] = [eval(rospy.get_param('~{ax}_pulse_conf'.format(**locals()), default_pulse_conf))]
 
         mp = {}
-            mp['clock'] = rospy.get_param('~{ax}_clock'.format(**locals()), default_clock)
-            mp['acc_mode'] = rospy.get_param('~{ax}_acc_mode'.format(**locals()), default_acc_mode)
-            mp['low_speed'] = rospy.get_param('~{ax}_low_speed'.format(**locals()), default_low_speed)
-            mp['speed'] = rospy.get_param('~{ax}_speed'.format(**locals()), default_speed)
-            mp['acc'] = rospy.get_param('~{ax}_acc'.format(**locals()), default_acc)
-            mp['dec'] = rospy.get_param('~{ax}_dec'.format(**locals()), default_dec)
-            mp['step'] = rospy.get_param('~{ax}_step'.format(**locals()), default_step)
+        mp['clock'] = rospy.get_param('~{ax}_clock'.format(**locals()), default_clock)
+        mp['acc_mode'] = rospy.get_param('~{ax}_acc_mode'.format(**locals()), default_acc_mode)
+        mp['low_speed'] = rospy.get_param('~{ax}_low_speed'.format(**locals()), default_low_speed)
+        mp['speed'] = rospy.get_param('~{ax}_speed'.format(**locals()), default_speed)
+        mp['acc'] = rospy.get_param('~{ax}_acc'.format(**locals()), default_acc)
+        mp['dec'] = rospy.get_param('~{ax}_dec'.format(**locals()), default_dec)
+        mp['step'] = rospy.get_param('~{ax}_step'.format(**locals()), default_step)
 
         params[ax]['motion'] = mp
         continue
