@@ -52,7 +52,7 @@ class pci7415(object):
 
 
         self.pub = {}
-        base = '/pyinterface/pci7415/rsw{self.rsw_id}'.format(**locals())
+        base = '/pyinterface/pci7415/rsw{rsw_id}'.format(**locals())
         for ax in self.use_axis:
             b = '{base}/{ax}/'.format(**locals())
             #create publish
