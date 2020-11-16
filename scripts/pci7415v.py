@@ -1,3 +1,5 @@
+#! /usr/bin/env python3
+
 node_name = 'pci7415_driver'
 
 import sys
