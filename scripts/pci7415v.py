@@ -227,4 +227,4 @@ if __name__ == '__main__':
 
     handler = pci7415(rsw_id, params)
 
-    rospu.spin()
+    rospy.spin()
