@@ -1,0 +1,24 @@
+
+<launch>
+
+  <node pkg="rospkg-pyinterface" name="pci7415" type="pci7415.py" required="true" output="screen">
+    <param name="~rsw_id" value="1" />
+    <param name="~node_name" value="pci7415" />
+    <param name="~do_conf" value="[1, 1, 1, 1]" />
+
+    <param name="~use_axis" value="u" />
+
+    <param name="~u_pulse_conf" value="{'PULSE': 1, 'OUT': 1, 'DIR': 1, 'WAIT': 0, 'DUTY': 0}" />
+    <param name="~u_mode" value="ptp" />
+    <param name="~u_clock" value="299" />
+    <param name="~u_acc_mode" value="acc_normal" />
+    <param name="~u_low_speed" value="10" />
+    <param name="~u_speed" value="2000" />
+    <param name="~u_acc" value="50" />
+    <param name="~u_dec" value="50" />
+    <param name="~u_step" value="1" />
+
+  </node>
+
+</launch>
+
